@@ -45,4 +45,4 @@ endif(NOT APPLE)
 
 # ------------------------------------------------------------------
 # Ausführbare Programme
-add_executable (knapsack main.cpp getWalltime.h getWalltime.cpp)
+add_executable (knapsack main/Main.cpp main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp io/KnapSackReader.h io/KnapSackReader.cpp)
