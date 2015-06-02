@@ -1,0 +1,34 @@
+# --------------------------------------------------------------------------
+# $File: //depot/MathPack/CMakeDoxygen.txt $
+# $Revision: #5 $
+# $Date: 2012/06/12 $
+# --------------------------------------------------------------------------
+# Optionen für die HTML-Dokumentation mit Hilfe von doxygen
+
+# Automatic documentation with doxygen
+# An- und abschaltbar machen
+option(MAKE_DOCS "Dokumentation mit doxygen" OFF)
+
+if(MAKE_DOCS)
+# Check if doxygen is installed
+find_package(Doxygen)
+if(DOXYGEN_FOUND STREQUAL "NO")
+	message(FATAL_ERROR "Doxygen not found!")
+endif(DOXYGEN_FOUND STREQUAL "NO")
+
+# prepare doxygen configuration
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile ${CMAKE_CURRENT_BINARY_DIR})
+
+# header.html kopieren (Umlaute in doxygen!)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/header.html ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+
+# add doxygen as target
+add_custom_target(DOC ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile #)
+	    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+# clean up doc on "make clean"
+set_property(DIRECTORY APPEND PROPERTY
+	     ADDITIONAL_MAKE_CLEAN_FILES doc)
+
+# Automatic documentation with doxygen: Ende
+endif(MAKE_DOCS)
