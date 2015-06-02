@@ -1,11 +1,11 @@
 #include "KnapSack.h"
 
-KnapSack::KnapSack(float _capacity, int _maxNumPerItem, int _numOfItems, KnapSackItem* _items)
+KnapSack::KnapSack(float _capacity, int _maxNumPerItem, int _numOfItems)
 {
 	setCapacity(_capacity);
 	setMaxNumPerItem(_maxNumPerItem);
 	setNumOfItems(_numOfItems);
-	setItems(_items);
+	setItems(new KnapSackItem[_numOfItems]);
 }
 
 KnapSack::~KnapSack()

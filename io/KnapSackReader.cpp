@@ -26,20 +26,22 @@ KnapSack* KnapSackReader::readKnapSackFrom(const char* fileName){
 	//read first line: capacity, MaxNumPerItem and numOfItems
 	std::getline(input, strLine);
 	std::cout << "constraints: " << strLine << '\n';
-	float capacity = std::atof(strLine.substr(INDEX_START_CAPACITY, STRLENGTH_CAPACITY).c_str());
-	int maxNumPerItem = std::atoi(strLine.substr(INDEX_START_MAXNUM, STRLENGTH_MAXNUM).c_str());
+	const float capacity = std::atof(strLine.substr(INDEX_START_CAPACITY, STRLENGTH_CAPACITY).c_str());
+	const int maxNumPerItem = std::atoi(strLine.substr(INDEX_START_MAXNUM, STRLENGTH_MAXNUM).c_str());
 	const int numOfItems = std::atoi(strLine.substr(INDEX_START_NUMOFITEMS, STRLENGTH_NUMOFITEMS).c_str());
 
-	//read items
-	KnapSackItem* items = new KnapSackItem[numOfItems];
+	KnapSack* knapSack = new KnapSack(capacity, maxNumPerItem, numOfItems);
+	KnapSackItem* items = knapSack->getItems();
+
+	//read / populate items
 	int i = 0;
 	while (std::getline(input, strLine)) {
 		std::cout << "item: " << strLine << '\n';
 
 		// Read name, weight and worth
 		std::string* name = new std::string(strLine.substr(INDEX_START_ITEMNAME, STRLENGTH_ITEMNAME));
-		float weight = std::atof(strLine.substr(INDEX_START_WEIGHT, STRLENGTH_WEIGHT).c_str());
-		float worth = std::atof(strLine.substr(INDEX_START_WORTH, STRLENGTH_WORTH).c_str());
+		const float weight = std::atof(strLine.substr(INDEX_START_WEIGHT, STRLENGTH_WEIGHT).c_str());
+		const float worth = std::atof(strLine.substr(INDEX_START_WORTH, STRLENGTH_WORTH).c_str());
 
 		// Add item
 		items[i].name = name;
@@ -47,7 +49,6 @@ KnapSack* KnapSackReader::readKnapSackFrom(const char* fileName){
 		items[i].worth = worth;
 		i++;
 	}
-	
-	KnapSack* knapSack = new KnapSack(capacity, maxNumPerItem, numOfItems, items);
+
 	return knapSack;
 }

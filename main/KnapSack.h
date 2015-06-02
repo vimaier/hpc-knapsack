@@ -27,7 +27,7 @@ private:
 	void setItems(KnapSackItem* _items);
 
 public:
-	KnapSack(float _capacity, int _maxNumPerItem, int _numOfItems, KnapSackItem* _items);
+	KnapSack(float _capacity, int _maxNumPerItem, int _numOfItems);
 
 	int getCapacity();
 	int getMaxNumPerItem();
