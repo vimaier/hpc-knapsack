@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 
-#include "getWalltime.h"
+#include "GetWalltime.h"
 
 // Implementierung
  std::chrono::time_point<std::chrono::high_resolution_clock> getWalltime()
