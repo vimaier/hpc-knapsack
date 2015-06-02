@@ -1,9 +1,10 @@
-#include <iostream>
+#include "../io/KnapSackReader.h"
 using namespace std;
 
-int main(int argc, char* argv[]){
-	cout << "Hello World!" << endl;
+static const char* KNAPSACK_INPUT_FILE = "../res/KnapSackItems.txt";
 
-	string s = "asd";
-	cout << sizeof(s) << endl;
+int main(int argc, char* argv[]){
+	KnapSack myKnapSack = KnapSackReader::readKnapSackFrom(KNAPSACK_INPUT_FILE);
+
+	cout << myKnapSack << endl;
 }

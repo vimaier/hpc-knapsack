@@ -1,5 +1,4 @@
 #include "../main/KnapSack.h"
-#include <iostream>
 #include <fstream>
 #include <string>
 
@@ -23,5 +22,5 @@ private:
 
 	KnapSackReader();
 public:
-	static KnapSack* readKnapSackFrom(const char* fileName);
+	static KnapSack readKnapSackFrom(const char* fileName);
 };

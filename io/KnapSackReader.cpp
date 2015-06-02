@@ -17,7 +17,10 @@
 *	Itemnames are always 13 characters long
 */
 
-KnapSack* KnapSackReader::readKnapSackFrom(const char* fileName){
+KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
+
+	std::cout << "**************************" << std::endl;
+	std::cout << "reading " << fileName << " ... " << std::endl;
 
 	//allocate objects on stack by auto calling constructors ifstream(filename) and string()
 	std::ifstream input(fileName);
@@ -26,12 +29,12 @@ KnapSack* KnapSackReader::readKnapSackFrom(const char* fileName){
 	//read first line: capacity, MaxNumPerItem and numOfItems
 	std::getline(input, strLine);
 	std::cout << "constraints: " << strLine << '\n';
-	const float capacity = std::atof(strLine.substr(INDEX_START_CAPACITY, STRLENGTH_CAPACITY).c_str());
+	const double capacity = std::atof(strLine.substr(INDEX_START_CAPACITY, STRLENGTH_CAPACITY).c_str());
 	const int maxNumPerItem = std::atoi(strLine.substr(INDEX_START_MAXNUM, STRLENGTH_MAXNUM).c_str());
 	const int numOfItems = std::atoi(strLine.substr(INDEX_START_NUMOFITEMS, STRLENGTH_NUMOFITEMS).c_str());
 
-	KnapSack* knapSack = new KnapSack(capacity, maxNumPerItem, numOfItems);
-	KnapSackItem* items = knapSack->getItems();
+	KnapSack knapSack(capacity, maxNumPerItem, numOfItems);
+	KnapSackItem* items = knapSack.getItems();
 
 	//read / populate items
 	int i = 0;
@@ -40,8 +43,8 @@ KnapSack* KnapSackReader::readKnapSackFrom(const char* fileName){
 
 		// Read name, weight and worth
 		std::string* name = new std::string(strLine.substr(INDEX_START_ITEMNAME, STRLENGTH_ITEMNAME));
-		const float weight = std::atof(strLine.substr(INDEX_START_WEIGHT, STRLENGTH_WEIGHT).c_str());
-		const float worth = std::atof(strLine.substr(INDEX_START_WORTH, STRLENGTH_WORTH).c_str());
+		const double weight = std::atof(strLine.substr(INDEX_START_WEIGHT, STRLENGTH_WEIGHT).c_str());
+		const double worth = std::atof(strLine.substr(INDEX_START_WORTH, STRLENGTH_WORTH).c_str());
 
 		// Add item
 		items[i].name = name;
@@ -49,6 +52,9 @@ KnapSack* KnapSackReader::readKnapSackFrom(const char* fileName){
 		items[i].worth = worth;
 		i++;
 	}
+
+	std::cout << "reading complete" << std::endl;
+	std::cout << "**************************" << std::endl;
 
 	return knapSack;
 }
