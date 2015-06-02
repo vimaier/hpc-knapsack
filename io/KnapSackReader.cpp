@@ -29,9 +29,10 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 	//read first line: capacity, MaxNumPerItem and numOfItems
 	std::getline(input, strLine);
 	std::cout << "constraints: " << strLine << '\n';
-	const double capacity = std::atof(strLine.substr(INDEX_START_CAPACITY, STRLENGTH_CAPACITY).c_str());
-	const int maxNumPerItem = std::atoi(strLine.substr(INDEX_START_MAXNUM, STRLENGTH_MAXNUM).c_str());
-	const int numOfItems = std::atoi(strLine.substr(INDEX_START_NUMOFITEMS, STRLENGTH_NUMOFITEMS).c_str());
+	std::vector<std::string> firstLine = split(strLine, ' ');
+	const double capacity = std::atof(firstLine[0].c_str());
+	const int maxNumPerItem = std::atoi(firstLine[1].c_str());
+	const int numOfItems = std::atoi(firstLine[2].c_str());
 
 	KnapSack knapSack(capacity, maxNumPerItem, numOfItems);
 	KnapSackItem* items = knapSack.getItems();
@@ -42,9 +43,11 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 		std::cout << "item: " << strLine << '\n';
 
 		// Read name, weight and worth
-		std::string* name = new std::string(strLine.substr(INDEX_START_ITEMNAME, STRLENGTH_ITEMNAME));
-		const double weight = std::atof(strLine.substr(INDEX_START_WEIGHT, STRLENGTH_WEIGHT).c_str());
-		const double worth = std::atof(strLine.substr(INDEX_START_WORTH, STRLENGTH_WORTH).c_str());
+		std::string* name = new std::string(strLine.substr(0, STRLENGTH_ITEMNAME));
+		std::string valueString = strLine.substr(STRLENGTH_ITEMNAME + 1);
+		std::vector<std::string> values = split(valueString, ' ');
+		const double weight = std::atof(values[0].c_str());
+		const double worth = std::atof(values[1].c_str());
 
 		// Add item
 		items[i].name = name;
@@ -57,4 +60,16 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 	std::cout << "**************************" << std::endl;
 
 	return knapSack;
+}
+
+std::vector<std::string> split(std::string str, char delimiter) {
+	std::vector<std::string> internal;
+	std::stringstream ss(str);
+	std::string tok;
+
+	while (std::getline(ss, tok, delimiter)) {
+		internal.push_back(tok);
+	}
+
+	return internal;
 }
