@@ -29,7 +29,7 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 	//read first line: capacity, MaxNumPerItem and numOfItems
 	std::getline(input, strLine);
 	std::cout << "constraints: " << strLine << '\n';
-	std::vector<std::string> firstLine = split(strLine, ' ');
+	std::vector<std::string> firstLine = StringUtils::split(strLine, ' ');
 	const double capacity = std::atof(firstLine[0].c_str());
 	const int maxNumPerItem = std::atoi(firstLine[1].c_str());
 	const int numOfItems = std::atoi(firstLine[2].c_str());
@@ -46,7 +46,7 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 		std::string* name = new std::string(strLine.substr(0, STRLENGTH_ITEMNAME));
 		StringUtils::trim(*name);
 		std::string valueString = strLine.substr(STRLENGTH_ITEMNAME + 1);
-		std::vector<std::string> values = split(valueString, ' ');
+		std::vector<std::string> values = StringUtils::split(valueString, ' ');
 		const double weight = std::atof(values[0].c_str());
 		const double worth = std::atof(values[1].c_str());
 
@@ -63,14 +63,3 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 	return knapSack;
 }
 
-std::vector<std::string> split(std::string str, char delimiter) {
-	std::vector<std::string> internal;
-	std::stringstream ss(str);
-	std::string tok;
-
-	while (std::getline(ss, tok, delimiter)) {
-		internal.push_back(tok);
-	}
-
-	return internal;
-}

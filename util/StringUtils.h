@@ -13,6 +13,8 @@
 #include <functional>
 #include <cctype>
 #include <locale>
+#include <vector>
+#include <sstream>
 
 class StringUtils {
 public:
@@ -31,6 +33,9 @@ public:
 	static inline std::string& trim(std::string &s) {
 		return ltrim(rtrim(s));
 	}
+
+
+	static std::vector<std::string> split(std::string str, char delimiter);
 
 };
 

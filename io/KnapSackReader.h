@@ -3,8 +3,6 @@
 #include <cstdlib>
 #include <fstream>
 #include <string>
-#include <vector>
-#include <sstream>
 
 class KnapSackReader{
 private:
@@ -16,6 +14,3 @@ public:
 	static KnapSack readKnapSackFrom(const char* fileName);
 	
 };
-
-std::vector<std::string> split(std::string str, char delimiter);
-

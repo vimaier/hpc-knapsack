@@ -47,14 +47,14 @@ endif(NOT APPLE)
 
 # ------------------------------------------------------------------
 # Ausführbare Programme
-add_executable (knapsack main/Main.cpp main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp io/KnapSackReader.h io/KnapSackReader.cpp)
+add_executable (knapsack main/Main.cpp main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/StringUtils.h util/StringUtils.cpp)
 
 # Tests
-add_executable (readerTest  test/readerTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/MyMath.cpp util/MyMath.h)
+add_executable (readerTest  test/readerTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/MyMath.cpp util/MyMath.h  util/StringUtils.h util/StringUtils.cpp)
 add_test (NAME readerTest COMMAND readerTest)
 
-add_executable (writerTest  test/writerTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackWriter.h io/KnapSackWriter.cpp util/MyMath.cpp util/MyMath.h)
+add_executable (writerTest  test/writerTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackWriter.h io/KnapSackWriter.cpp util/MyMath.cpp util/MyMath.h  util/StringUtils.h util/StringUtils.cpp)
 add_test (NAME writerTest COMMAND writerTest)
 
-add_executable (knapsackTest  test/knapsackTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/MyMath.cpp util/MyMath.h)
+add_executable (knapsackTest  test/knapsackTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/MyMath.cpp util/MyMath.h  util/StringUtils.h util/StringUtils.cpp)
 add_test (NAME knapsackTest COMMAND knapsackTest)
