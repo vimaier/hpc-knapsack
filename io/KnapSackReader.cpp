@@ -44,6 +44,7 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 
 		// Read name, weight and worth
 		std::string* name = new std::string(strLine.substr(0, STRLENGTH_ITEMNAME));
+		StringUtils::trim(*name);
 		std::string valueString = strLine.substr(STRLENGTH_ITEMNAME + 1);
 		std::vector<std::string> values = split(valueString, ' ');
 		const double weight = std::atof(values[0].c_str());

@@ -24,16 +24,16 @@ bool itemsAreEqual(const KnapSackItem* a, const KnapSackItem& b) {
 	return a->name->compare(*(b.name)) == 0 && MyMath::almostEqual(a->weight, b.weight) && MyMath::almostEqual(a->worth, b.worth);
 }
 
-std::string* ITEM__NAME_1 = new std::string("XXL blue Ox  ");
+std::string* ITEM__NAME_1 = new std::string("XXL blue Ox");
 const KnapSackItem TEST_ITEM_1 = {ITEM__NAME_1, 2.0, 2.0};
 
-std::string* ITEM__NAME_2 = new std::string("gray mouse   ");
+std::string* ITEM__NAME_2 = new std::string("gray mouse");
 const KnapSackItem TEST_ITEM_2 = {ITEM__NAME_2, 1.0, 2.0};
 
 std::string* ITEM__NAME_3 = new std::string("big green box");
 const KnapSackItem TEST_ITEM_3 = {ITEM__NAME_3, 12.0, 4.0};
 
-std::string* ITEM__NAME_4 = new std::string("yellow daisy ");
+std::string* ITEM__NAME_4 = new std::string("yellow daisy");
 const KnapSackItem TEST_ITEM_4 = {ITEM__NAME_4, 4.0, 10.0};
 
 std::string* ITEM__NAME_5 = new std::string("salmon mousse");
