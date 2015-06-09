@@ -1,0 +1,6 @@
+15.0 4 5
+XXL blue Ox   02.0 2.00
+gray mouse    01.0 2.00
+big green box 12.0 4.00
+yellow daisy  04.0 10.00
+salmon mousse 01.0 1.00

@@ -1,4 +1,5 @@
 #include "../io/KnapSackReader.h"
+#include "KnapSack.h"
 using namespace std;
 
 static const char* KNAPSACK_INPUT_FILE = "../res/KnapSackItems.txt";

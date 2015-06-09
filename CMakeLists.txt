@@ -50,11 +50,11 @@ endif(NOT APPLE)
 add_executable (knapsack main/Main.cpp main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp io/KnapSackReader.h io/KnapSackReader.cpp)
 
 # Tests
-add_executable (readerTest  test/readerTest.cpp)
+add_executable (readerTest  test/readerTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/MyMath.cpp util/MyMath.h)
 add_test (NAME readerTest COMMAND readerTest)
 
-add_executable (writerTest  test/writerTest.cpp)
+add_executable (writerTest  test/writerTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/MyMath.cpp util/MyMath.h)
 add_test (NAME writerTest COMMAND writerTest)
 
-add_executable (knapsackTest  test/knapsackTest.cpp)
+add_executable (knapsackTest  test/knapsackTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/MyMath.cpp util/MyMath.h)
 add_test (NAME knapsackTest COMMAND knapsackTest)

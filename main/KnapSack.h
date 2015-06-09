@@ -1,3 +1,7 @@
+#ifndef MAIN_KNAPSACK_H_
+#define MAIN_KNAPSACK_H_
+
+
 #include <iostream>
 
 struct KnapSackItem{
@@ -39,3 +43,5 @@ public:
 };
 
 std::ostream& operator<<(std::ostream &strm, const KnapSack &v);
+
+#endif /* MAIN_KNAPSACK_H_ */
