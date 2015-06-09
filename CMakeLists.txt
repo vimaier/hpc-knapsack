@@ -8,6 +8,8 @@ project (Knapsack)
 # Optionen für Doxygen
 include(CMakeDoxygen.txt)
 
+enable_testing()
+
 # C++11-Support im Intel-Compiler aktivieren
 if(UNIX)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -46,3 +48,13 @@ endif(NOT APPLE)
 # ------------------------------------------------------------------
 # Ausführbare Programme
 add_executable (knapsack main/Main.cpp main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp io/KnapSackReader.h io/KnapSackReader.cpp)
+
+# Tests
+add_executable (readerTest  test/readerTest.cpp)
+add_test (NAME readerTest COMMAND readerTest)
+
+add_executable (writerTest  test/writerTest.cpp)
+add_test (NAME writerTest COMMAND writerTest)
+
+add_executable (knapsackTest  test/knapsackTest.cpp)
+add_test (NAME knapsackTest COMMAND knapsackTest)
