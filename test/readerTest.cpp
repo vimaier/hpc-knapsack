@@ -1,8 +1,8 @@
 #include <cstdio>
 
-#include "../io/KnapSackReader.h"
-#include "../main/KnapSack.h"
-#include "../util/MyMath.h"
+#include "util/io/KnapSackReader.h"
+#include "main/KnapSack.h"
+#include "util/MyMath.h"
 
 /**
  * Tests the reading of the input.

@@ -1,5 +1,5 @@
-#include "../main/KnapSack.h"
-#include "../util/StringUtils.h"
+#include "main/KnapSack.h"
+#include "util/StringUtils.h"
 #include <cstdlib>
 #include <fstream>
 #include <string>

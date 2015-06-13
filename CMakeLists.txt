@@ -5,6 +5,8 @@
 cmake_minimum_required (VERSION 3.0)
 project (Knapsack)
 
+include_directories ("${PROJECT_SOURCE_DIR}")
+
 # Optionen für Doxygen
 include(CMakeDoxygen.txt)
 
@@ -47,7 +49,7 @@ endif(NOT APPLE)
 
 # ------------------------------------------------------------------
 # Ausführbare Programme
-add_library (knapsack main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp io/KnapSackReader.h io/KnapSackReader.cpp io/KnapSackWriter.h io/KnapSackWriter.cpp util/StringUtils.h util/StringUtils.cpp util/MyMath.cpp util/MyMath.h)
+add_library (knapsack main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp util/io/KnapSackReader.h util/io/KnapSackReader.cpp util/io/KnapSackWriter.h util/io/KnapSackWriter.cpp util/StringUtils.h util/StringUtils.cpp util/MyMath.cpp util/MyMath.h)
 
 add_executable (knapsackStarter main/Main.cpp)
 target_link_libraries (knapsackStarter knapsack)

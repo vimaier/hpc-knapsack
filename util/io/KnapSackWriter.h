@@ -13,7 +13,7 @@
 #include <fstream>
 #include <assert.h>
 
-#include "../main/KnapSack.h"
+#include "main/KnapSack.h"
 
 class KnapSackWriter {
 public:

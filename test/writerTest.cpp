@@ -4,9 +4,9 @@
 #include <string>
 #include <sstream>
 
-#include "../io/KnapSackWriter.h"
-#include "../main/KnapSack.h"
-#include "../util/MyMath.h"
+#include "util/io/KnapSackWriter.h"
+#include "main/KnapSack.h"
+#include "util/MyMath.h"
 
 /**
  * Tests the writing of a knapsack object.
