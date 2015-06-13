@@ -40,6 +40,14 @@ public:
 	KnapSackSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions=1);
 	virtual ~KnapSackSolver();
 
+
+	/**
+	 * Starts solve() and measures the time.
+	 */
+	void start();
+
+protected:
+
 	/**
 	 * Can be used to transform the standard data format (see class Knapsack) in a
 	 * specific format for the algorithm.
@@ -58,14 +66,15 @@ public:
 	virtual void solve() = 0;
 
 	/**
-	 * Starts solve() and measures the time.
-	 */
-	void start();
-
-	/**
 	 * The data on which the derived classes can operate. The knapSack should not be changed.
 	 */
 	KnapSack knapSack;
+
+	/**
+	 * This variable contains all items which will be written to the solution. It can be filled
+	 * during solve() or in tearDown
+	 */
+	std::vector<KnapSackItem> itemsOfSolution;
 
 private:
 	void initKnapSack();
@@ -78,7 +87,6 @@ private:
 	const std::string outputFilename;
 	int numberOfExecutions;
 
-	std::vector<KnapSackItem> itemsOfSolution;
 };
 
 #endif /* MAIN_KNAPSACKSOLVER_H_ */
