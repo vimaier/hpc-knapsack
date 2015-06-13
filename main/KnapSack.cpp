@@ -8,9 +8,33 @@ KnapSack::KnapSack(double _capacity, int _maxNumPerItem, int _numOfItems)
 	setItems(new KnapSackItem[_numOfItems]);
 }
 
+KnapSack::KnapSack(const KnapSack& other)
+	: capacity(other.capacity),
+	  maxNumPerItem(other.maxNumPerItem),
+	  numOfItems(other.numOfItems),
+	  items(new KnapSackItem[other.numOfItems]){
+
+	for(int i=0; i < numOfItems ;++i) {
+		items[i].name = new std::string(other.items[i].name->c_str());
+		items[i].weight = other.items[i].weight;
+		items[i].worth = other.items[i].worth;
+	}
+}
+
 KnapSack::~KnapSack()
 {
+	for(int i=0; i < numOfItems ;++i) {
+		delete items[i].name;
+		items[i].name = 0;
+	}
 	delete[] items;
+}
+
+KnapSack& KnapSack::operator =(KnapSack other) {
+
+	swap(*this, other);
+	return *this;
+
 }
 
 //***************************GETTERS********************************//
@@ -36,3 +60,13 @@ std::ostream& operator<<(std::ostream &strm, const KnapSack &v) {
 
 	return strm;
 }
+
+void swap(KnapSack& first, KnapSack& second) {
+
+	std::swap(first.capacity, second.capacity);
+	std::swap(first.maxNumPerItem, second.maxNumPerItem);
+	std::swap(first.numOfItems, second.numOfItems);
+	std::swap(first.items, second.items);
+
+}
+

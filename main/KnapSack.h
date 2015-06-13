@@ -1,19 +1,15 @@
 #ifndef MAIN_KNAPSACK_H_
 #define MAIN_KNAPSACK_H_
 
-
+#include <utility>
 #include <iostream>
 
 struct KnapSackItem{
+
 	// using string pointer because of memory reasons. uses less than string itself.
 	std::string* name;
 	double weight;
 	double worth;
-
-	~KnapSackItem()
-	{
-		delete name;
-	}
 };
 
 class KnapSack{
@@ -32,7 +28,12 @@ private:
 
 public:
 	KnapSack(double _capacity, int _maxNumPerItem, int _numOfItems);
+	KnapSack(const KnapSack& other);
 	~KnapSack();
+
+	friend void swap(KnapSack& first, KnapSack& second);
+
+	KnapSack& operator=(KnapSack other);
 
 	double getCapacity() const;
 	int getMaxNumPerItem() const;
@@ -43,5 +44,6 @@ public:
 };
 
 std::ostream& operator<<(std::ostream &strm, const KnapSack &v);
+void swap(KnapSack& first, KnapSack& second);
 
 #endif /* MAIN_KNAPSACK_H_ */
