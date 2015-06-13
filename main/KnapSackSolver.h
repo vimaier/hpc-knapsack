@@ -11,10 +11,12 @@
 #include <string>
 #include <vector>
 #include <assert.h>
+#include <chrono>
 
 #include "main/KnapSack.h"
 #include "util/io/KnapSackReader.h"
 #include "util/io/KnapSackWriter.h"
+#include "util/GetWalltime.h"
 
 /**
  * The KnapSackSolver is the main class for solving the knapsack problem.
@@ -48,12 +50,17 @@ public:
 	 * Can be used to clean something up or to transform a specific format to our
 	 * standard format (see class KnapSack).
 	 */
-	virtual void setTearDown();
+	virtual void tearDown();
 
 	/**
 	 * Abstract function to solve the knapsack problem. This function will be time measured.
 	 */
 	virtual void solve() = 0;
+
+	/**
+	 * Starts solve() and measures the time.
+	 */
+	void start();
 
 	/**
 	 * The data on which the derived classes can operate. The knapSack should not be changed.
@@ -64,6 +71,7 @@ private:
 	void initKnapSack();
 	void readInput();
 	void writeSolution() const;
+	void executeOneRun();
 
 
 	const std::string inputFilename;

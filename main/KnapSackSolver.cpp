@@ -30,6 +30,31 @@ void KnapSackSolver::readInput() {
 	knapSack = KnapSackReader::readKnapSackFrom(inputFilename.c_str());
 }
 
+void KnapSackSolver::start() {
+	for (int i=0; i < numberOfExecutions ;++i) {
+		executeOneRun();
+	}
+}
+
+void KnapSackSolver::executeOneRun() {
+	setUp();
+
+	std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+	const int n = 10000,
+	            r = 1000;
+	const double flopsPerCalc = 2.0;
+	start = getWalltime();
+
+	solve();
+
+	end = getWalltime();
+	printWalltimeInSeconds(start, end);
+
+	printGFLOPs( static_cast<double>(r) * static_cast<double>( n ), flopsPerCalc, elapsedSeconds( start, end ) );
+
+	tearDown();
+}
+
 void KnapSackSolver::writeSolution() const {
 	KnapSackItem* items = knapSack.getItems();
 
@@ -76,6 +101,6 @@ void KnapSackSolver::setUp() {
 	// Nothing to do in default implementation
 }
 
-void KnapSackSolver::setTearDown() {
+void KnapSackSolver::tearDown() {
 	// Nothing to do in default implementation
 }
