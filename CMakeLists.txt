@@ -55,14 +55,14 @@ add_executable (knapsackStarter main/Main.cpp)
 target_link_libraries (knapsackStarter knapsack)
 
 # Tests
-add_executable (readerTest  test/readerTest.cpp)
+add_executable (readerTest  test/ReaderTest.cpp)
 target_link_libraries (readerTest knapsack)
 add_test (NAME readerTest COMMAND readerTest)
 
-add_executable (writerTest  test/writerTest.cpp)
+add_executable (writerTest  test/WriterTest.cpp)
 target_link_libraries (writerTest knapsack)
 add_test (NAME writerTest COMMAND writerTest)
 
-add_executable (knapsackTest  test/knapsackTest.cpp)
-target_link_libraries (knapsackTest knapsack)
-add_test (NAME knapsackTest COMMAND knapsackTest)
+add_executable (knapSackSolverTest  test/KnapSackSolverTest.cpp)
+target_link_libraries (knapSackSolverTest knapsack)
+add_test (NAME knapSackSolverTest COMMAND knapSackSolverTest)
