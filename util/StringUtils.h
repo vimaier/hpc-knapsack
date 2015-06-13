@@ -1,10 +1,3 @@
-/*
- * StringUtils.h
- *
- *  Created on: Jun 9, 2015
- *      Author: vimaier
- */
-
 #ifndef UTIL_STRINGUTILS_H_
 #define UTIL_STRINGUTILS_H_
 

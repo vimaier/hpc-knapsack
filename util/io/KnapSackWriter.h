@@ -1,10 +1,3 @@
-/*
- * KnapSackWriter.h
- *
- *  Created on: Jun 9, 2015
- *      Author: vimaier
- */
-
 #ifndef IO_KNAPSACKWRITER_H_
 #define IO_KNAPSACKWRITER_H_
 
