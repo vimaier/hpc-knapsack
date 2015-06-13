@@ -10,6 +10,10 @@ struct KnapSackItem{
 	std::string* name;
 	double weight;
 	double worth;
+
+	bool operator==(const KnapSackItem& rhs){
+		return weight == rhs.weight && worth == rhs.worth && *name == *(rhs.name);
+	}
 };
 
 class KnapSack{

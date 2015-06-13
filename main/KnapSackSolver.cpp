@@ -31,7 +31,44 @@ void KnapSackSolver::readInput() {
 }
 
 void KnapSackSolver::writeSolution() const {
-	// TODO Auto-generated stub
+	KnapSackItem* items = knapSack.getItems();
+
+	// Determine the amount of distinct knapSackItems
+	std::vector<KnapSackItem> distinctItems;
+	for(int i=0; i < knapSack.getNumOfItems() ;++i) {
+		// Check if item is already in distinctItems
+		bool itemIsNotAlreadyIncluded = true;
+		for(int j=0; j < distinctItems.size() ;++j) {
+			if (items[i] == distinctItems[j]) {
+				itemIsNotAlreadyIncluded = false;
+				break;
+			}
+		}
+		if (itemIsNotAlreadyIncluded) {
+			distinctItems.insert(distinctItems.end(), items[i]);
+		}
+	}
+
+	// Create the file
+	KnapSackWriter writer(outputFilename, distinctItems.size(), knapSack.getCapacity());
+
+	for(int i=0; i < distinctItems.size() ;++i) {
+		KnapSackItem& currItem = distinctItems[i];
+
+		// Count number of exemplars
+		int counter = 0;
+		for (int j=0; j < knapSack.getNumOfItems() ;++j) {
+			if (currItem == items[j])
+				counter++;
+		}
+		assert(counter != 0);
+
+		writer.addItem(&currItem, counter);
+	}
+
+	if ( ! writer.writeToFile()) {
+		std::printf("Could not write to file.");
+	}
 
 }
 

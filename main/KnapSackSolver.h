@@ -9,8 +9,12 @@
 #define MAIN_KNAPSACKSOLVER_H_
 
 #include <string>
+#include <vector>
+#include <assert.h>
 
 #include "main/KnapSack.h"
+#include "util/io/KnapSackReader.h"
+#include "util/io/KnapSackWriter.h"
 
 /**
  * The KnapSackSolver is the main class for solving the knapsack problem.
@@ -65,6 +69,8 @@ private:
 	const std::string inputFilename;
 	const std::string outputFilename;
 	int numberOfExecutions;
+
+	std::vector<KnapSackItem> itemsOfSolution;
 };
 
 #endif /* MAIN_KNAPSACKSOLVER_H_ */
