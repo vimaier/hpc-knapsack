@@ -47,14 +47,20 @@ endif(NOT APPLE)
 
 # ------------------------------------------------------------------
 # Ausführbare Programme
-add_executable (knapsack main/Main.cpp main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/StringUtils.h util/StringUtils.cpp)
+add_library (knapsack main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp io/KnapSackReader.h io/KnapSackReader.cpp io/KnapSackWriter.h io/KnapSackWriter.cpp util/StringUtils.h util/StringUtils.cpp util/MyMath.cpp util/MyMath.h)
+
+add_executable (knapsackStarter main/Main.cpp)
+target_link_libraries (knapsackStarter knapsack)
 
 # Tests
-add_executable (readerTest  test/readerTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/MyMath.cpp util/MyMath.h  util/StringUtils.h util/StringUtils.cpp)
+add_executable (readerTest  test/readerTest.cpp)
+target_link_libraries (readerTest knapsack)
 add_test (NAME readerTest COMMAND readerTest)
 
-add_executable (writerTest  test/writerTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackWriter.h io/KnapSackWriter.cpp util/MyMath.cpp util/MyMath.h  util/StringUtils.h util/StringUtils.cpp)
+add_executable (writerTest  test/writerTest.cpp)
+target_link_libraries (writerTest knapsack)
 add_test (NAME writerTest COMMAND writerTest)
 
-add_executable (knapsackTest  test/knapsackTest.cpp main/KnapSack.h main/KnapSack.cpp io/KnapSackReader.h io/KnapSackReader.cpp util/MyMath.cpp util/MyMath.h  util/StringUtils.h util/StringUtils.cpp)
+add_executable (knapsackTest  test/knapsackTest.cpp)
+target_link_libraries (knapsackTest knapsack)
 add_test (NAME knapsackTest COMMAND knapsackTest)
