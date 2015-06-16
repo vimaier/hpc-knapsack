@@ -41,11 +41,13 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 	//read / populate items
 	int i = 0;
 	while (std::getline(input, strLine)) {
+		if (strLine.length() < STRLENGTH_ITEMNAME)
+			continue; // Probably an empty line
 		std::cout << "item: " << strLine << '\n';
 
 		// Read name, weight and worth
-		std::string* name = new std::string(strLine.substr(0, STRLENGTH_ITEMNAME));
-		StringUtils::trim(*name);
+		std::string name(strLine.substr(0, STRLENGTH_ITEMNAME));
+		StringUtils::trim(name);
 		std::string valueString = strLine.substr(STRLENGTH_ITEMNAME + 1);
 		valueString = StringUtils::trim(valueString);
 		std::vector<std::string> values = StringUtils::split(valueString, ' ');
@@ -54,7 +56,7 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 
 		// Add item x times, where x is the number of possible instances per item
 		for (int j = 0; j < numOfInstancesPerItem; j++){
-			items[i].name = name;
+			items[i].name = new std::string(name);
 			items[i].weight = weight;
 			items[i].worth = worth;
 			i++;
