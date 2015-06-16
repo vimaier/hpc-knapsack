@@ -13,6 +13,7 @@ bool itemsAreEqual(const KnapSackItem* a, const KnapSackItem& b) {
 	return a->name->compare(*(b.name)) == 0 && MyMath::almostEqual(a->weight, b.weight) && MyMath::almostEqual(a->worth, b.worth);
 }
 
+
 bool isInTestItems(const KnapSackItem* item) {
 	if (	itemsAreEqual(item, TEST_ITEM_1) ||
 			itemsAreEqual(item, TEST_ITEM_2) ||
@@ -30,19 +31,19 @@ int testReadingInputFile() {
 	KnapSack myKnapSack = KnapSackReader::readKnapSackFrom(KNAPSACK_INPUT_FILE);
 
 	if (! MyMath::almostEqual(15.0, myKnapSack.getCapacity())) {
-		std::fprintf(stderr, "Wrong read capacity %f, should be 15.0", myKnapSack.getCapacity());
+		std::fprintf(stderr, "Wrong read capacity %f, should be 15.0\n", myKnapSack.getCapacity());
 		return -1;
 	}
 
 	if (myKnapSack.getNumOfItems() != 5*4) {
-		std::fprintf(stderr, "Wrong read numOfItems %d, should be 5", myKnapSack.getNumOfItems());
+		std::fprintf(stderr, "Wrong read numOfItems %d, should be 5\n", myKnapSack.getNumOfItems());
 		return -3;
 	}
 
 	for (int i=0; i < myKnapSack.getNumOfItems() ;++i) {
 		KnapSackItem* item = &(myKnapSack.getItems()[i]);
 		if ( ! isInTestItems(item) ) {
-			std::fprintf(stderr, "Item(%s, %f, %f) is not in the test items.", item->name->c_str(), item->weight, item->worth);
+			std::fprintf(stderr, "Item(%s, %f, %f) is not in the test items.\n", item->name->c_str(), item->weight, item->worth);
 			return -4;
 		}
 	}
@@ -55,19 +56,19 @@ int testReadingInputFileFirstExample() {
 	KnapSack myKnapSack = KnapSackReader::readKnapSackFrom(KNAPSACK_INPUT_FILE_FIRST_EXAMPLE);
 
 	if (! MyMath::almostEqual(15.0, myKnapSack.getCapacity())) {
-		std::fprintf(stderr, "Wrong read capacity %f, should be 15.0", myKnapSack.getCapacity());
+		std::fprintf(stderr, "Wrong read capacity %f, should be 15.0\n", myKnapSack.getCapacity());
 		return -1;
 	}
 
 	if (myKnapSack.getNumOfItems() != 5*4) {
-		std::fprintf(stderr, "Wrong read numOfItems %d, should be 5", myKnapSack.getNumOfItems());
+		std::fprintf(stderr, "Wrong read numOfItems %d, should be 5\n", myKnapSack.getNumOfItems());
 		return -3;
 	}
 
 	for (int i=0; i < myKnapSack.getNumOfItems() ;++i) {
 		KnapSackItem* item = &(myKnapSack.getItems()[i]);
 		if ( ! isInTestItems(item) ) {
-			std::fprintf(stderr, "Item(%s, %f, %f) is not in the test items.", item->name->c_str(), item->weight, item->worth);
+			std::fprintf(stderr, "Item(%s, %f, %f) is not in the test items.\n", item->name->c_str(), item->weight, item->worth);
 			return -4;
 		}
 	}
@@ -80,12 +81,12 @@ int testReadingInputFileSecondExample() {
 	KnapSack myKnapSack = KnapSackReader::readKnapSackFrom(KNAPSACK_INPUT_FILE_SECOND_EXAMPLE);
 
 	if (! MyMath::almostEqual(15.0, myKnapSack.getCapacity())) {
-		std::fprintf(stderr, "Wrong read capacity %f, should be 15.0", myKnapSack.getCapacity());
+		std::fprintf(stderr, "Wrong read capacity %f, should be 15.0\n", myKnapSack.getCapacity());
 		return -1;
 	}
 
 	if (myKnapSack.getNumOfItems() != 6*1) {
-		std::fprintf(stderr, "Wrong read numOfItems %d, should be 6", myKnapSack.getNumOfItems());
+		std::fprintf(stderr, "Wrong read numOfItems %d, should be 6\n", myKnapSack.getNumOfItems());
 		return -3;
 	}
 
@@ -98,7 +99,7 @@ int testReadingInputFileSecondExample() {
 					itemsAreEqual(item, TEST_ITEM_4) ||
 					itemsAreEqual(item, TEST_ITEM_5) ||
 					itemsAreEqual(item, TEST_ITEM_6)) ) {
-			std::fprintf(stderr, "Item(%s, %f, %f) is not in the test items.", item->name->c_str(), item->weight, item->worth);
+			std::fprintf(stderr, "Item(%s, %f, %f) is not in the test items.\n", item->name->c_str(), item->weight, item->worth);
 			return -4;
 		}
 	}
@@ -111,12 +112,12 @@ int testReadingInputFileThirdExample() {
 	KnapSack myKnapSack = KnapSackReader::readKnapSackFrom(KNAPSACK_INPUT_FILE_THIRD_EXAMPLE);
 
 	if (! MyMath::almostEqual(645.0, myKnapSack.getCapacity())) {
-		std::fprintf(stderr, "Wrong read capacity %f, should be 645.0", myKnapSack.getCapacity());
+		std::fprintf(stderr, "Wrong read capacity %f, should be 645.0\n", myKnapSack.getCapacity());
 		return -1;
 	}
 
 	if (myKnapSack.getNumOfItems() != 8*7) {
-		std::fprintf(stderr, "Wrong read numOfItems %d, should be 8", myKnapSack.getNumOfItems());
+		std::fprintf(stderr, "Wrong read numOfItems %d, should be 8\n", myKnapSack.getNumOfItems());
 		return -3;
 	}
 
@@ -131,7 +132,7 @@ int testReadingInputFileThirdExample() {
 					itemsAreEqual(item, TEST_ITEM_SECHS) ||
 					itemsAreEqual(item, TEST_ITEM_SIEBEN) ||
 					itemsAreEqual(item, TEST_ITEM_ACHT)) ) {
-			std::fprintf(stderr, "Item(%s, %f, %f) is not in the test items.", item->name->c_str(), item->weight, item->worth);
+			std::fprintf(stderr, "Item(%s, %f, %f) is not in the test items.\n", item->name->c_str(), item->weight, item->worth);
 			return -4;
 		}
 	}
