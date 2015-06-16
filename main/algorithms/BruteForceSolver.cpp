@@ -1,7 +1,7 @@
 #include "main/algorithms/BruteForceSolver.h"
 #include <cmath>
 
-BruteForceSolver::BruteForceSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions = 1)
+BruteForceSolver::BruteForceSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
 : KnapSackSolver(inputFilename, outputFilename, nrOfExecutions), currentCombination(knapSack.getNumOfItems()), bestCombination(), numOfCombinations(pow(2, knapSack.getNumOfItems()))
 {
 	
@@ -41,7 +41,7 @@ void BruteForceSolver::solve() {
 		double tmpWorth = 0;
 
 		//change the current bit combination (e.g. going from 000 to 001 or from 001 to 010 and so on ...)
-		int j = numOfItems;
+		int j = numOfItems-1;
 		while (currentCombination[j] != 0 && j > 0){
 			currentCombination[j] = 0;
 			j--;

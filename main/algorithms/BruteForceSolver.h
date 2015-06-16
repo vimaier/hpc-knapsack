@@ -23,7 +23,7 @@ protected:
 
 	void tearDown();
 
-	void solve() = 0;
+	void solve();
 		
 private:
 
