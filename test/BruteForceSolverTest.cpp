@@ -3,6 +3,7 @@
  */
 
 #include "main/algorithms/BruteForceSolver.h"
+#include "util/TestUtils.h"
 
 const char* KNAPSACK_INPUT_FILE = "../res/KnapSackItemsForUnittest.txt";
 /* Content of text file
@@ -22,56 +23,19 @@ salmon mousse 01.0 1.00
  * overall 15 weight and 36 worth
 */
 
-const char* KNAPSACK_OUTPUT_FILE = "outputForTesting.txt";
+const char* TEST_OUTPUT_FILE = "outputForTesting.txt";
 
 /**/
-const std::string ASSUMED_CONTENT = "Kapazität;15.0\ngray mouse;3\nyellow daisy;3\nGesamtgewicht;15.0\nGesamtwert;36.00";
+const std::string ASSUMED_CONTENT[] {"Kapazität;15.0", "yellow daisy;3", "gray mouse;3", "Gesamtgewicht;15.0", "Gesamtwert;36.00"};
+const int ASSUMED_CONTENT_LENGTH = 5;
 
 
 int testBruteForceSolver() {
-	BruteForceSolver* solver = new BruteForceSolver(KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	BruteForceSolver* solver = new BruteForceSolver(KNAPSACK_INPUT_FILE, TEST_OUTPUT_FILE);
 
 	solver->start();
 
-	// Read file
-	std::ifstream ifile;
-	std::string str;
-	ifile.open(KNAPSACK_OUTPUT_FILE, std::ios::binary);
-	if ( ! ifile.is_open()) {
-		std::fprintf(stderr, "Could not open written file.");
-		return -1;
-	}
-
-	int length;
-	char * buffer;
-
-		  // get length of file:
-	ifile.seekg (0, std::ios::end);
-	length = ifile.tellg();
-	ifile.seekg (0, std::ios::beg);
-
-	// allocate memory:
-	buffer = new char [length];
-
-	// read data as a block:
-	ifile.read (buffer,length);
-
-	ifile.close();
-
-	std::string readStr(buffer,length);
-
-	delete[] buffer;
-
-	// Compare with assumed String
-	if (ASSUMED_CONTENT.compare(readStr)==0) {
-		// Delete file again
-		//std::remove(KNAPSACK_OUTPUT_FILE);
-		return 0;
-	}
-	else {
-		std::fprintf(stderr, "Mismatch between written and assumed file content\nAssumed:\n%s\n\nActual:\n%s\n", ASSUMED_CONTENT.c_str(), readStr.c_str());
-		return -2;
-	}
+	return TestUtils::checkOutput(ASSUMED_CONTENT, ASSUMED_CONTENT_LENGTH, TEST_OUTPUT_FILE);
 }
 
 int main(int argc, char* argv[]){

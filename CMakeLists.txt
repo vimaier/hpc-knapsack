@@ -59,14 +59,14 @@ add_executable (readerTest  test/ReaderTest.cpp test/TestData.h)
 target_link_libraries (readerTest knapsack)
 add_test (NAME readerTest COMMAND readerTest)
 
-add_executable (writerTest  test/WriterTest.cpp)
+add_executable (writerTest  test/WriterTest.cpp util/TestUtils.h)
 target_link_libraries (writerTest knapsack)
 add_test (NAME writerTest COMMAND writerTest)
 
-add_executable (knapSackSolverTest  test/KnapSackSolverTest.cpp)
+add_executable (knapSackSolverTest  test/KnapSackSolverTest.cpp util/TestUtils.h)
 target_link_libraries (knapSackSolverTest knapsack)
 add_test (NAME knapSackSolverTest COMMAND knapSackSolverTest)
 
-add_executable (bruteForceSolverTest  test/BruteForceSolverTest.cpp)
+add_executable (bruteForceSolverTest  test/BruteForceSolverTest.cpp util/TestUtils.h)
 target_link_libraries (bruteForceSolverTest knapsack)
 add_test (NAME bruteForceSolverTest COMMAND bruteForceSolverTest)
