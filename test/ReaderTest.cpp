@@ -34,12 +34,7 @@ int testReadingInputFile() {
 		return -1;
 	}
 
-	if (myKnapSack.getMaxNumPerItem() != 4) {
-		std::fprintf(stderr, "Wrong read exemplarsPerItem %d, should be 4", myKnapSack.getMaxNumPerItem());
-		return -2;
-	}
-
-	if (myKnapSack.getNumOfItems() != 5) {
+	if (myKnapSack.getNumOfItems() != 5*4) {
 		std::fprintf(stderr, "Wrong read numOfItems %d, should be 5", myKnapSack.getNumOfItems());
 		return -3;
 	}
@@ -64,12 +59,7 @@ int testReadingInputFileFirstExample() {
 		return -1;
 	}
 
-	if (myKnapSack.getMaxNumPerItem() != 4) {
-		std::fprintf(stderr, "Wrong read exemplarsPerItem %d, should be 4", myKnapSack.getMaxNumPerItem());
-		return -2;
-	}
-
-	if (myKnapSack.getNumOfItems() != 5) {
+	if (myKnapSack.getNumOfItems() != 5*4) {
 		std::fprintf(stderr, "Wrong read numOfItems %d, should be 5", myKnapSack.getNumOfItems());
 		return -3;
 	}
@@ -94,12 +84,7 @@ int testReadingInputFileSecondExample() {
 		return -1;
 	}
 
-	if (myKnapSack.getMaxNumPerItem() != 1) {
-		std::fprintf(stderr, "Wrong read exemplarsPerItem %d, should be 1", myKnapSack.getMaxNumPerItem());
-		return -2;
-	}
-
-	if (myKnapSack.getNumOfItems() != 6) {
+	if (myKnapSack.getNumOfItems() != 6*1) {
 		std::fprintf(stderr, "Wrong read numOfItems %d, should be 6", myKnapSack.getNumOfItems());
 		return -3;
 	}
@@ -130,12 +115,7 @@ int testReadingInputFileThirdExample() {
 		return -1;
 	}
 
-	if (myKnapSack.getMaxNumPerItem() != 7) {
-		std::fprintf(stderr, "Wrong read exemplarsPerItem %d, should be 7", myKnapSack.getMaxNumPerItem());
-		return -2;
-	}
-
-	if (myKnapSack.getNumOfItems() != 8) {
+	if (myKnapSack.getNumOfItems() != 8*7) {
 		std::fprintf(stderr, "Wrong read numOfItems %d, should be 8", myKnapSack.getNumOfItems());
 		return -3;
 	}
