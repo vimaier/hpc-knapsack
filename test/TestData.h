@@ -4,7 +4,7 @@
 static const char* KNAPSACK_INPUT_FILE = "../hpc-knapsack/res/KnapSackItemsForUnittest.txt";
 /* Content of text file
 15.0 4 5
-XXL blue Ox   02.0 2.00
+XXL blue 0x   02.0 2.00
 gray mouse    01.0 2.00
 big green box 12.0 4.00
 yellow daisy  04.0 10.00
@@ -12,7 +12,7 @@ salmon mousse 01.0 1.00
 
  */
 
-std::string* ITEM__NAME_1 = new std::string("XXL blue Ox");
+std::string* ITEM__NAME_1 = new std::string("XXL blue 0x");
 const KnapSackItem TEST_ITEM_1 = {ITEM__NAME_1, 2.0, 2.0};
 
 std::string* ITEM__NAME_2 = new std::string("gray mouse");
