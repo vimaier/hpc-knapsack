@@ -49,7 +49,7 @@ endif(NOT APPLE)
 
 # ------------------------------------------------------------------
 # Ausführbare Programme
-add_library (knapsack main/KnapSackSolver.h main/KnapSackSolver.cpp main/KnapSack.h main/KnapSack.cpp util/GetWalltime.h util/GetWalltime.cpp util/io/KnapSackReader.h util/io/KnapSackReader.cpp util/io/KnapSackWriter.h util/io/KnapSackWriter.cpp util/StringUtils.h util/StringUtils.cpp util/MyMath.cpp util/MyMath.h)
+add_library (knapsack main/KnapSackSolver.h main/KnapSackSolver.cpp main/KnapSack.h main/KnapSack.cpp main/algorithms/BruteForceSolver.cpp util/GetWalltime.h util/GetWalltime.cpp util/io/KnapSackReader.h util/io/KnapSackReader.cpp util/io/KnapSackWriter.h util/io/KnapSackWriter.cpp util/StringUtils.h util/StringUtils.cpp util/MyMath.cpp util/MyMath.h)
 
 add_executable (knapsackStarter main/Main.cpp)
 target_link_libraries (knapsackStarter knapsack)
