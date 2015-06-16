@@ -31,10 +31,11 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 	std::cout << "constraints: " << strLine << '\n';
 	std::vector<std::string> firstLine = StringUtils::split(strLine, ' ');
 	const double capacity = std::atof(firstLine[0].c_str());
-	const int maxNumPerItem = std::atoi(firstLine[1].c_str());
+	const int numOfInstancesPerItem = std::atoi(firstLine[1].c_str());
 	const int numOfItems = std::atoi(firstLine[2].c_str());
 
-	KnapSack knapSack(capacity, maxNumPerItem, numOfItems);
+	const int totalNumOfItems = numOfInstancesPerItem * numOfItems;
+	KnapSack knapSack(capacity, totalNumOfItems);
 	KnapSackItem* items = knapSack.getItems();
 
 	//read / populate items
@@ -50,11 +51,13 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 		const double weight = std::atof(values[0].c_str());
 		const double worth = std::atof(values[1].c_str());
 
-		// Add item
-		items[i].name = name;
-		items[i].weight = weight;
-		items[i].worth = worth;
-		i++;
+		// Add item x times, where x is the number of possible instances per item
+		for (int j = 0; j < numOfInstancesPerItem; j++){
+			items[i].name = name;
+			items[i].weight = weight;
+			items[i].worth = worth;
+			i++;
+		}
 	}
 
 	std::cout << "reading complete" << std::endl;

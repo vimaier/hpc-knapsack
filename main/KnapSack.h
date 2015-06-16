@@ -20,18 +20,16 @@ class KnapSack{
 
 private:
 	double capacity;
-	int maxNumPerItem;
 	int numOfItems;
 	KnapSackItem* items;
 	KnapSack();
 
 	void setCapacity(double _capacity);
-	void setMaxNumPerItem(int _maxNumPerItem);
 	void setNumOfItems(int _numOfItems);
 	void setItems(KnapSackItem* _items);
 
 public:
-	KnapSack(double _capacity, int _maxNumPerItem, int _numOfItems);
+	KnapSack(double _capacity, int _numOfItems);
 	KnapSack(const KnapSack& other);
 	~KnapSack();
 
@@ -40,7 +38,6 @@ public:
 	KnapSack& operator=(KnapSack other);
 
 	double getCapacity() const;
-	int getMaxNumPerItem() const;
 	int getNumOfItems() const;
 	KnapSackItem* getItems() const;
 

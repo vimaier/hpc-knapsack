@@ -8,7 +8,7 @@
 #include "KnapSackSolver.h"
 
 KnapSackSolver::KnapSackSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
-: knapSack(0,0,0),
+: knapSack(0,0),
   inputFilename(inputFilename),
   outputFilename(outputFilename),
   numberOfExecutions(nrOfExecutions),
