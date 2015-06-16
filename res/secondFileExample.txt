@@ -1,0 +1,7 @@
+15.0 1 6
+XXL blue Ox           2.0 2.0
+gray mouse            1.0 2.0
+big green box        12.0 4.0
+yellow daisy           4.0 10.0
+salmon mousse    1.0 1.0
+9780596521530  1.54 44.99

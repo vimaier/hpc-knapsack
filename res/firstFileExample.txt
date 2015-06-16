@@ -1,0 +1,7 @@
+15.0 4 5
+XXL blue 0x                  2.0 2.0
+gray mouse                    1.0 2.0
+big green box                 12.0 4.0
+yellow daisy                   4.0 10.0
+salmon mousse                 1.0 1.0
+ 
