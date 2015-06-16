@@ -27,28 +27,31 @@ void KnapSackWriter::addItem(const KnapSackItem* item, int exemplarsOfThisItem) 
 	items[currPointerToFreeSpot].worth = item->worth;
 	exemplarsOfItems[currPointerToFreeSpot] = exemplarsOfThisItem;
 
-	weight += item->weight;
-	worth += item->worth;
+	
+	weight += item->weight * exemplarsOfThisItem;
+	worth += item->worth * exemplarsOfThisItem;
 
 	currPointerToFreeSpot++;
 }
 
 bool KnapSackWriter::writeToFile() {
-	std::ofstream outFile;
-	outFile.open (filename.c_str());
+	FILE* fp;
+	fp = fopen(filename.c_str(), "w");
 
-	if ( ! outFile.is_open())
+	if (fp == NULL)
 		return false;
 
-	outFile << "Kapazität;" << capacityOfKnapSack << "\n";
+	fprintf(fp, "Kapazität;%.1f\n", capacityOfKnapSack);
+	
 
 	for (int i=0; i < nrOfDistinctItems ;++i) {
-		outFile << items[i].name << ";" << exemplarsOfItems[i] << "\n";
+		fprintf(fp, "%s;%d\n", items[i].name->c_str(), exemplarsOfItems[i]);
 	}
 
-	outFile << "Gesamtgewicht;" << weight << "\n";
-	outFile << "Gesamtwert;" << worth;
-	outFile.close();
+	fprintf(fp, "Gesamtgewicht;%.1f\n", weight);
+	fprintf(fp, "Gesamtwert;%.2f", worth);
+
+	fclose(fp);
 
 	return true;
 }

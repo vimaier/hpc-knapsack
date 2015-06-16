@@ -7,6 +7,7 @@
 #include "util/io/KnapSackWriter.h"
 #include "main/KnapSack.h"
 #include "util/MyMath.h"
+#include "util/StringUtils.h"
 
 /**
  * Tests the writing of a knapsack object.
@@ -14,8 +15,8 @@
 
 
 const char* KNAPSACK_OUTPUT_FILE = "outputForTesting.txt";
-const std::string ASSUMED_CONTENT = "Kapazität;15.0\nyellow daisy;3\ngray mouse;3\nGesamtgewicht;15.0\nGesamtwert;36.00";
-
+const int ASSUMED_CONTENT_LENGTH = 5;
+const std::string ASSUMED_CONTENT[] { "Kapazität;15.0", "yellow daisy;3", "gray mouse;3", "Gesamtgewicht;15.0", "Gesamtwert;36.00" };
 
 std::string* ITEM__NAME_1 = new std::string("yellow daisy");
 const KnapSackItem TEST_ITEM_1 = {ITEM__NAME_1, 4.0, 10.0};
@@ -38,42 +39,34 @@ int testReading() {
 	}
 
 	// Read file again
-	std::ifstream ifile;
-	std::string str;
-	ifile.open(KNAPSACK_OUTPUT_FILE, std::ios::binary);
-	if ( ! ifile.is_open()) {
-		std::printf("Could not open written file.");
-		return -2;
+	std::ifstream ifile(KNAPSACK_OUTPUT_FILE);
+	std::string strLine;
+
+	//compare line for line
+	int i = 0;
+	bool matches = true;
+	std::string wholeText;
+	while (std::getline(ifile, strLine) && i<ASSUMED_CONTENT_LENGTH) {
+		wholeText += strLine;
+		if (ASSUMED_CONTENT[i].compare(strLine) != 0){
+			std::printf("Mismatch \n'%s' (assumed) \nvs \n'%s' (read)\n", ASSUMED_CONTENT[i].c_str(), strLine.c_str());
+			matches = false;
+			break;
+		}
+		i++;
 	}
 
-	int length;
-	char * buffer;
-
-	      // get length of file:
-	ifile.seekg (0, std::ios::end);
-	length = ifile.tellg();
-	ifile.seekg (0, std::ios::beg);
-
-	// allocate memory:
-	buffer = new char [length];
-
-	// read data as a block:
-	ifile.read (buffer,length);
-
-	ifile.close();
-
-	std::string readStr(buffer,length);
-
-	delete[] buffer;
-
-	// Compare with assumed String
-    if (ASSUMED_CONTENT.compare(readStr)) {
+    if (matches) {
     	// Delete file again
     	std::remove(KNAPSACK_OUTPUT_FILE);
     	return 0;
     }
     else {
-    	std::printf("Mismatch between written and assumed file content\nAssumed:\n%s\n\nActual:\n%s\n", ASSUMED_CONTENT.c_str(), readStr.c_str());
+		std::string assumedText;
+		for (int i = 0; i < ASSUMED_CONTENT_LENGTH; i++){
+			assumedText += ASSUMED_CONTENT[i];
+		}
+		std::printf("Mismatch between written and assumed file content\nAssumed:\n%s\n\nActual:\n%s\n", assumedText.c_str(), wholeText.c_str());
 		return -3;
     }
 }

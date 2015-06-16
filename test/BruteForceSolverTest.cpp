@@ -63,9 +63,9 @@ int testBruteForceSolver() {
 	delete[] buffer;
 
 	// Compare with assumed String
-	if (ASSUMED_CONTENT.compare(readStr)) {
+	if (ASSUMED_CONTENT.compare(readStr)==0) {
 		// Delete file again
-		std::remove(KNAPSACK_OUTPUT_FILE);
+		//std::remove(KNAPSACK_OUTPUT_FILE);
 		return 0;
 	}
 	else {

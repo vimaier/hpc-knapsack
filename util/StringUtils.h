@@ -27,6 +27,12 @@ public:
 		return ltrim(rtrim(s));
 	}
 
+	// removes all spaces from the given string
+	static inline std::string& removeAllSpaces(std::string &s) {
+		std::string::iterator end_pos = std::remove(s.begin(), s.end(), ' ');
+		s.erase(end_pos, s.end());
+		return s;
+	}
 
 	static std::vector<std::string> split(std::string str, char delimiter);
 

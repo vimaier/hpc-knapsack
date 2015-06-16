@@ -22,7 +22,7 @@ public:
 	}
 };
 
-const char* KNAPSACK_INPUT_FILE = "../hpc-knapsack/res/KnapSackItemsForUnittest.txt";
+const char* KNAPSACK_INPUT_FILE = "../res/KnapSackItemsForUnittest.txt";
 /* Content of text file
 15.0 4 5
 XXL blue Ox   02.0 2.00
@@ -72,7 +72,7 @@ int testKnapSackSolver() {
 	delete[] buffer;
 
 	// Compare with assumed String
-	if (ASSUMED_CONTENT.compare(readStr)) {
+	if (ASSUMED_CONTENT.compare(readStr)==0) {
 		// Delete file again
 		std::remove(KNAPSACK_OUTPUT_FILE);
 		return 0;
