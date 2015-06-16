@@ -55,7 +55,7 @@ add_executable (knapsackStarter main/Main.cpp)
 target_link_libraries (knapsackStarter knapsack)
 
 # Tests
-add_executable (readerTest  test/ReaderTest.cpp)
+add_executable (readerTest  test/ReaderTest.cpp test/TestData.h)
 target_link_libraries (readerTest knapsack)
 add_test (NAME readerTest COMMAND readerTest)
 
