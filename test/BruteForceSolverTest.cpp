@@ -26,7 +26,7 @@ salmon mousse 01.0 1.00
 const char* TEST_OUTPUT_FILE = "outputForTesting.txt";
 
 /**/
-const std::string ASSUMED_CONTENT[] {"Kapazität;15.0", "yellow daisy;3", "gray mouse;3", "Gesamtgewicht;15.0", "Gesamtwert;36.00"};
+const std::string ASSUMED_CONTENT[] {"Kapazität;15.0", "gray mouse;3", "yellow daisy;3", "Gesamtgewicht;15.0", "Gesamtwert;36.00"};
 const int ASSUMED_CONTENT_LENGTH = 5;
 
 

@@ -58,21 +58,20 @@ void KnapSackSolver::executeOneRun() {
 }
 
 void KnapSackSolver::writeSolution() const {
-	KnapSackItem* items = knapSack.getItems();
 
 	// Determine the amount of distinct knapSackItems
 	std::vector<KnapSackItem> distinctItems;
-	for(int i=0; i < knapSack.getNumOfItems() ;++i) {
+	for(int i=0; i < itemsOfSolution.size() ;++i) {
 		// Check if item is already in distinctItems
 		bool itemIsNotAlreadyIncluded = true;
 		for(int j=0; j < distinctItems.size() ;++j) {
-			if (items[i] == distinctItems[j]) {
+			if (distinctItems[j] == itemsOfSolution[i]) {
 				itemIsNotAlreadyIncluded = false;
 				break;
 			}
 		}
 		if (itemIsNotAlreadyIncluded) {
-			distinctItems.insert(distinctItems.end(), items[i]);
+			distinctItems.insert(distinctItems.end(), itemsOfSolution[i]);
 		}
 	}
 
@@ -84,8 +83,8 @@ void KnapSackSolver::writeSolution() const {
 
 		// Count number of exemplars
 		int counter = 0;
-		for (int j=0; j < knapSack.getNumOfItems() ;++j) {
-			if (currItem == items[j])
+		for (int j = 0; j < itemsOfSolution.size(); ++j) {
+			if (currItem == itemsOfSolution[j])
 				counter++;
 		}
 		assert(counter != 0);
