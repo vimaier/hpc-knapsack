@@ -43,11 +43,15 @@ void KnapSackSolver::executeOneRun() {
 	const int n = 10000,
 	            r = 1000;
 	const double flopsPerCalc = 2.0;
+
+	printf("started solving ...\n");
+
 	start = getWalltime();
 
 	solve();
 
 	end = getWalltime();
+
 	printWalltimeInSeconds(start, end);
 
 	printGFLOPs( static_cast<double>(r) * static_cast<double>( n ), flopsPerCalc, elapsedSeconds( start, end ) );
