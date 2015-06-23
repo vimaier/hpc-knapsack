@@ -1,4 +1,5 @@
 #include "main/algorithms/BruteForceSolver.h"
+#include "main/algorithms/FeasibleBruteForceSolver.h"
 using namespace std;
 
 static const char* FIRST_KNAPSACK_INPUT_FILE = "../res/firstFileExample.txt";
@@ -8,7 +9,12 @@ static const char* KNAPSACK_OUTPUT_FILE = "knapSackOut.txt";
 
 int main(int argc, char* argv[]){
 
-	BruteForceSolver* solver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	BruteForceSolver* bfsolver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	bfsolver->start();
+	delete bfsolver;
 
-	solver->start();
+	FeasibleBruteForceSolver* fbfsolver = new FeasibleBruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	fbfsolver->start();
+	delete fbfsolver;
+	
 }
