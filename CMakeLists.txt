@@ -84,3 +84,7 @@ add_test (NAME knapSackSolverTest COMMAND knapSackSolverTest)
 add_executable (bruteForceSolverTest  test/BruteForceSolverTest.cpp util/TestUtils.h)
 target_link_libraries (bruteForceSolverTest knapsack)
 add_test (NAME bruteForceSolverTest COMMAND bruteForceSolverTest)
+
+add_executable (nemhauserUllmannSolverTest  test/NemhauserUllmannSolverTest.cpp util/TestUtils.h)
+target_link_libraries (nemhauserUllmannSolverTest knapsack)
+add_test (NAME nemhauserUllmannSolverTest COMMAND nemhauserUllmannSolverTest)
