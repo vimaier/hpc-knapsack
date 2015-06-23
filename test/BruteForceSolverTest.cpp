@@ -5,7 +5,7 @@
 #include "main/algorithms/BruteForceSolver.h"
 #include "util/TestUtils.h"
 
-const char* KNAPSACK_INPUT_FILE = "../res/KnapSackItemsForUnittest.txt";
+const char* KNAPSACK_INPUT_FILE = "res/KnapSackItemsForUnittest.txt";
 /* Content of text file
 15.0 4 5
 XXL blue Ox   02.0 2.00
