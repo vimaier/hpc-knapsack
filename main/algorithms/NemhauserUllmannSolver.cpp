@@ -58,6 +58,25 @@ void copyItems(std::vector<KnapSackItem*>* from, std::vector<KnapSackItem*>* to)
 	}
 }
 
+/**
+ * Checks whether a better point than 'ptToCheck' exists in 'list'. 'counter' is the number
+ * of points in 'list'.
+ * A better point means a point which is located in the upper left quarter, so a point with
+ * lower weight but higher worth.
+ */
+bool noBetterPointExists(PlotPoint* ptToCheck, PlotPoint* list, int counter) {
+
+	for (int i=0; i < counter ;++i) {
+		if(list[i].weight > ptToCheck->weight)
+			break;  // This is a sorted list (by weights) thus we do not need to check further items
+		if(list[i].worth > ptToCheck->worth)
+			// Here we have a point with lower weight but bigger worth
+			return false;
+	}
+
+	return true;
+}
+
 void NemhauserUllmannSolver::solve() {
 	KnapSackItem* items = knapSack.getItems();
 	const int numOfItems = knapSack.getNumOfItems();
@@ -86,17 +105,97 @@ void NemhauserUllmannSolver::solve() {
 			LPrime_i[j].weight = L_i[j].weight + currentItem->weight;
 
 			// Copy items and add currentItem
-			copyItems( L_i[j].containingItems, LPrime_i[j].containingItems);
+			copyItems(L_i[j].containingItems, LPrime_i[j].containingItems);
 			LPrime_i[j].containingItems->insert(LPrime_i[j].containingItems->end(), currentItem);
 
 			cLPrime_i++;
 		}
 
-		// Merge L_i and L'_i: Take only the points which have no points in the upper left quarter
+		// Merge L_i and L'_i into L_{i+1}: Take only the points which have no points in the upper left quarter
 		// within the other list.
 
+		// Pointers point to the PltPoint which has to be processed next
+		// Note, unlike cL* which is a counter ptr* points to the last element.
+		int ptrL_i = 0;
+		int ptrLPrime_i = 0;
+
+		while (true) {
+			// Basic idea: L_i and L'_i are sorted lists. It is sorted by ascending weights.
+			// Know we copy elements into L_{i+1} that way that these elements will also be
+			// sorted.
+
+			// Catch special cases in which one of the lists is completely copied. Then we have to
+			// copy the other list and we are done. This occurs as soon as one list is processed.
+			if(ptrLPrime_i >= cLPrime_i) {
+				// No elements in L'_i left. Copy remaining elements of L_i and leave the while(true)-loop
+				while (ptrL_i < cL_i) {
+					if (noBetterPointExists(&(L_i[ptrL_i]), LPrime_i, cLPrime_i))
+						if (copyPlotPointIfItFitsIntoKnapsack(&(L_i[ptrL_i]), &(L_ip1[cL_ip1])))
+							cL_ip1++;
+
+					ptrL_i++;
+				}
+				break;
+			}
+			if(ptrL_i >= cL_i) {
+				// No elements in L_i left. Copy remaining elements of L'_i and leave the while(true)-loop
+				while (ptrLPrime_i < cLPrime_i) {
+					if (noBetterPointExists(&(LPrime_i[ptrLPrime_i]), L_i, cL_i))
+						if (copyPlotPointIfItFitsIntoKnapsack(&(LPrime_i[ptrLPrime_i]), &(L_ip1[cL_ip1])))
+							cL_ip1++;
+
+					ptrLPrime_i++;
+				}
+				break;
+			}
+
+			// Copy the element only we have not a better point in the other list
+			// Note, through the construction of a list, say L_i, we cannot have 'better' points in this list.
+			// A 'better' point can only occur in the other list, L'_i.
+
+			// Choose the smallest element of L_i and L'_i
+			PlotPoint* smallestWeightPoint;
+			if (L_i[ptrL_i].weight < LPrime_i[ptrLPrime_i].weight) {
+				smallestWeightPoint = &(L_i[ptrL_i]);
+				ptrL_i++;
+				if (noBetterPointExists(smallestWeightPoint, LPrime_i, cLPrime_i))
+					continue; // No need to copy this point
+			} else {
+				smallestWeightPoint = &(LPrime_i[ptrLPrime_i]);
+				ptrLPrime_i++;
+				if (noBetterPointExists(smallestWeightPoint, L_i, cL_i))
+					continue; // No need to copy this point
+			}
+
+			if (copyPlotPointIfItFitsIntoKnapsack(smallestWeightPoint, &(L_ip1[cL_ip1])))
+				cL_ip1++;
+		}
+
+		// Switch the roles f the lists
+		PlotPoint* tempList = L_i;
+		L_i = L_ip1;
+		cL_i = cL_ip1;
+		L_ip1 = tempList;
+		cL_ip1 = 0;  // 'Resets' the lists
 
 	} // END Adding KnapSackItems
+
+	// The optimal solution is the last point in L_i
+	// Just copy the list of items
+	std::vector<KnapSackItem*>* listOfBestItems = L_i[cL_i - 1].containingItems;
+	for(std::vector<KnapSackItem*>::iterator it = listOfBestItems->begin(); it != listOfBestItems->end(); ++it) {
+		itemsOfSolution.insert(itemsOfSolution.end(), *(*it));
+	}
+
 }
 
+bool NemhauserUllmannSolver::copyPlotPointIfItFitsIntoKnapsack(PlotPoint* from, PlotPoint* to) {
+	if (from->weight > knapSack.getCapacity())
+		return false;
+	to->worth = from->worth;
+	to->weight = from->weight;
 
+	copyItems(from->containingItems, to->containingItems);
+
+	return true;
+}

@@ -41,6 +41,12 @@ private:
 
 	void initPlotPointLists();
 	void deletePlotPointLists();
+	/**
+	 * Copies PlotPoint 'from' to 'to' only if 'from's weight does not exceed the maximal allowed weight
+	 * of our knapsack.
+	 * Returns true if the item was actually copied, otherwise false.
+	 */
+	bool copyPlotPointIfItFitsIntoKnapsack(PlotPoint* from, PlotPoint* to);
 
 	/*
 	 * The PlotPoint lists represent the lists L_i, L'_i and L_{i+i}.
