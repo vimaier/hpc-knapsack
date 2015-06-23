@@ -1,5 +1,5 @@
 #include "main/algorithms/BruteForceSolver.h"
-#include "main/algorithms/FeasibleBruteForceSolver.h"
+#include "main/algorithms/DynamicProgrammingSolver.h"
 using namespace std;
 
 static const char* FIRST_KNAPSACK_INPUT_FILE = "res/firstFileExample.txt";
@@ -13,8 +13,10 @@ int main(int argc, char* argv[]){
 	bfsolver->start();
 	delete bfsolver;
 
-	FeasibleBruteForceSolver* fbfsolver = new FeasibleBruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
-	fbfsolver->start();
-	delete fbfsolver;
+	/*
+	DynamicProgrammingSolver* dpsolver = new DynamicProgrammingSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	dpsolver->start();
+	delete dpsolver;
+	*/
 	
 }
