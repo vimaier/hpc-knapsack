@@ -47,10 +47,13 @@ if(NOT APPLE)
     set(CMAKE_USE_RELATIVE_PATHS TRUE CACHE STRING "Relative Pfade" FORCE)
 endif(NOT APPLE)
 
+# Benötigte Dateien nach build kopieren
+file(COPY res DESTINATION ${CMAKE_BINARY_DIR})
+
 # ------------------------------------------------------------------
 # Ausführbare Programme
 add_library (knapsack
-	main/KnapSackSolver.h main/KnapSackSolver.cp
+	main/KnapSackSolver.h main/KnapSackSolver.cpp
 	main/KnapSack.h main/KnapSack.cpp
 	main/algorithms/BruteForceSolver.h main/algorithms/BruteForceSolver.cpp
 	main/algorithms/NemhauserUllmannSolver.h main/algorithms/NemhauserUllmannSolver.cpp

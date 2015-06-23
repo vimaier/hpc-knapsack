@@ -21,7 +21,7 @@ void NemhauserUllmannSolver::initPlotPointLists() {
 
 	list0 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
 	list1 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
-	list1 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
+	list2 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
 	counter0= 0;
 	counter1= 0;
 	counter2= 0;
