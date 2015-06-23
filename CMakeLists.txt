@@ -57,7 +57,6 @@ add_library (knapsack
 	main/KnapSack.h main/KnapSack.cpp
 	main/algorithms/BruteForceSolver.h main/algorithms/BruteForceSolver.cpp
 	main/algorithms/NemhauserUllmannSolver.h main/algorithms/NemhauserUllmannSolver.cpp
-	main/algorithms/FeasibleBruteForceSolver.h main/algorithms/FeasibleBruteForceSolver.cpp
 	util/GetWalltime.h util/GetWalltime.cpp
 	util/io/KnapSackReader.h util/io/KnapSackReader.cpp
 	util/io/KnapSackWriter.h util/io/KnapSackWriter.cpp
