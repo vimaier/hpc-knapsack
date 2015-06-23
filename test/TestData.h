@@ -1,7 +1,7 @@
 #ifndef TEST_DATA_H_
 #define TEST_DATA_H_
 
-static const char* KNAPSACK_INPUT_FILE = "../res/KnapSackItemsForUnittest.txt";
+static const char* KNAPSACK_INPUT_FILE = "res/KnapSackItemsForUnittest.txt";
 /* Content of text file
 15.0 4 5
 XXL blue 0x   02.0 2.00
@@ -30,7 +30,7 @@ const KnapSackItem TEST_ITEM_5 = {ITEM__NAME_5, 1.0, 1.0};
 
 // First example file
 
-static const char* KNAPSACK_INPUT_FILE_FIRST_EXAMPLE = "../res/firstFileExample.txt";
+static const char* KNAPSACK_INPUT_FILE_FIRST_EXAMPLE = "res/firstFileExample.txt";
 /* Content of text file. Same as above but with more whitespace.
 15.0 4 5
 XXL blue 0x                  2.0 2.0
@@ -45,7 +45,7 @@ salmon mousse                 1.0 1.0
 
 // Second example file
 
-static const char* KNAPSACK_INPUT_FILE_SECOND_EXAMPLE = "../res/secondFileExample.txt";
+static const char* KNAPSACK_INPUT_FILE_SECOND_EXAMPLE = "res/secondFileExample.txt";
 /* Content of text file
 15.0 1 6
 XXL blue Ox           2.0 2.0
@@ -63,7 +63,7 @@ const KnapSackItem TEST_ITEM_6 = {ITEM__NAME_6, 1.54, 44.99};
 
 // Third example file
 
-static const char* KNAPSACK_INPUT_FILE_THIRD_EXAMPLE = "../res/thirdFileExample.txt";
+static const char* KNAPSACK_INPUT_FILE_THIRD_EXAMPLE = "res/thirdFileExample.txt";
 /* Content of text file
 645.0 7 8
 EINS                      153.0 232.0

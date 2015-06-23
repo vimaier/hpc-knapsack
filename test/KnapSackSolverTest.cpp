@@ -6,6 +6,7 @@
 
 #include "main/KnapSackSolver.h"
 #include "util/TestUtils.h"
+#include "test/TestData.h"
 
 class SolverImpl: public KnapSackSolver {
 public:
@@ -22,17 +23,6 @@ public:
 		}
 	}
 };
-
-const char* KNAPSACK_INPUT_FILE = "../res/KnapSackItemsForUnittest.txt";
-/* Content of text file
-15.0 4 5
-XXL blue Ox   02.0 2.00
-gray mouse    01.0 2.00
-big green box 12.0 4.00
-yellow daisy  04.0 10.00
-salmon mousse 01.0 1.00
-
- */
 
 const char* TEST_OUTPUT_FILE = "outputForTesting.txt";
 const std::string ASSUMED_CONTENT[] {"Kapazität;15.0", "XXL blue 0x;4", "gray mouse;4", "big green box;4", "yellow daisy;4", "salmon mousse;4", "Gesamtgewicht;80.0", "Gesamtwert;76.00"};

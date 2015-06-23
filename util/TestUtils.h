@@ -16,7 +16,7 @@ public:
 		while (std::getline(ifile, strLine) && i<ASSUMED_CONTENT_LENGTH) {
 			wholeText += strLine;
 			if (ASSUMED_CONTENT[i].compare(strLine) != 0){
-				std::printf("Mismatch \n'%s' (assumed) \nvs \n'%s' (read)\n", ASSUMED_CONTENT[i].c_str(), strLine.c_str());
+				std::fprintf(stderr, "Mismatch \n'%s' (assumed) \nvs \n'%s' (read)\n", ASSUMED_CONTENT[i].c_str(), strLine.c_str());
 				matches = false;
 				break;
 			}
@@ -33,7 +33,7 @@ public:
 			for (int i = 0; i < ASSUMED_CONTENT_LENGTH; i++){
 				assumedText += ASSUMED_CONTENT[i];
 			}
-			std::printf("Mismatch between written and assumed file content\nAssumed:\n%s\n\nActual:\n%s\n", assumedText.c_str(), wholeText.c_str());
+			std::fprintf(stderr, "Mismatch between written and assumed file content\nAssumed:\n%s\n\nActual:\n%s\n", assumedText.c_str(), wholeText.c_str());
 			return -1;
 		}
 	}

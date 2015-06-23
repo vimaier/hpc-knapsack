@@ -47,9 +47,23 @@ if(NOT APPLE)
     set(CMAKE_USE_RELATIVE_PATHS TRUE CACHE STRING "Relative Pfade" FORCE)
 endif(NOT APPLE)
 
+# Benötigte Dateien nach build kopieren
+file(COPY res DESTINATION ${CMAKE_BINARY_DIR})
+
 # ------------------------------------------------------------------
 # Ausführbare Programme
-add_library (knapsack main/KnapSackSolver.h main/KnapSackSolver.cpp main/KnapSack.h main/KnapSack.cpp main/algorithms/BruteForceSolver.h main/algorithms/BruteForceSolver.cpp main/algorithms/FeasibleBruteForceSolver.h main/algorithms/FeasibleBruteForceSolver.cpp util/GetWalltime.h util/GetWalltime.cpp util/io/KnapSackReader.h util/io/KnapSackReader.cpp util/io/KnapSackWriter.h util/io/KnapSackWriter.cpp util/StringUtils.h util/StringUtils.cpp util/MyMath.cpp util/MyMath.h)
+add_library (knapsack
+	main/KnapSackSolver.h main/KnapSackSolver.cpp
+	main/KnapSack.h main/KnapSack.cpp
+	main/algorithms/BruteForceSolver.h main/algorithms/BruteForceSolver.cpp
+	main/algorithms/NemhauserUllmannSolver.h main/algorithms/NemhauserUllmannSolver.cpp
+	main/algorithms/FeasibleBruteForceSolver.h main/algorithms/FeasibleBruteForceSolver.cpp
+	util/GetWalltime.h util/GetWalltime.cpp
+	util/io/KnapSackReader.h util/io/KnapSackReader.cpp
+	util/io/KnapSackWriter.h util/io/KnapSackWriter.cpp
+	util/StringUtils.h util/StringUtils.cpp
+	util/MyMath.h util/MyMath.cpp
+)
 
 add_executable (knapsackStarter main/Main.cpp)
 target_link_libraries (knapsackStarter knapsack)
@@ -70,3 +84,7 @@ add_test (NAME knapSackSolverTest COMMAND knapSackSolverTest)
 add_executable (bruteForceSolverTest  test/BruteForceSolverTest.cpp util/TestUtils.h)
 target_link_libraries (bruteForceSolverTest knapsack)
 add_test (NAME bruteForceSolverTest COMMAND bruteForceSolverTest)
+
+add_executable (nemhauserUllmannSolverTest  test/NemhauserUllmannSolverTest.cpp util/TestUtils.h)
+target_link_libraries (nemhauserUllmannSolverTest knapsack)
+add_test (NAME nemhauserUllmannSolverTest COMMAND nemhauserUllmannSolverTest)

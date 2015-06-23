@@ -31,8 +31,8 @@ const std::string ASSUMED_CONTENT[] {"Kapazität;15.0", "gray mouse;3", "yellow 
 const int ASSUMED_CONTENT_LENGTH = 5;
 
 
-int testBruteForceSolver() {
-	BruteForceSolver* solver = new BruteForceSolver(KNAPSACK_INPUT_FILE, TEST_OUTPUT_FILE);
+int testNemhauserUllmannSolver() {
+	NemhauserUllmannSolver* solver = new NemhauserUllmannSolver(KNAPSACK_INPUT_FILE, TEST_OUTPUT_FILE);
 
 	solver->start();
 
@@ -40,5 +40,5 @@ int testBruteForceSolver() {
 }
 
 int main(int argc, char* argv[]){
-	return testBruteForceSolver();
+	return testNemhauserUllmannSolver();
 }
