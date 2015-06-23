@@ -49,32 +49,22 @@ void NemhauserUllmannSolver::deletePlotPointLists() {
 }
 
 /**
- * Copies 'size' elements from list 'from' to 'to'. Only references will be copied.
- */
-void copyItems(std::vector<KnapSackItem*>* from, std::vector<KnapSackItem*>* to) {
-	to->clear();
-	for(std::vector<KnapSackItem*>::iterator it = to->begin(); it != to->end(); ++it) {
-		to->insert(to->end(), *it);
-	}
-}
-
-/**
  * Checks whether a better point than 'ptToCheck' exists in 'list'. 'counter' is the number
  * of points in 'list'.
  * A better point means a point which is located in the upper left quarter, so a point with
  * lower weight but higher worth.
  */
-bool noBetterPointExists(PlotPoint* ptToCheck, PlotPoint* list, int counter) {
+bool betterPointExists(PlotPoint* ptToCheck, PlotPoint* list, int counter) {
 
 	for (int i=0; i < counter ;++i) {
 		if(list[i].weight > ptToCheck->weight)
 			break;  // This is a sorted list (by weights) thus we do not need to check further items
 		if(list[i].worth > ptToCheck->worth)
 			// Here we have a point with lower weight but bigger worth
-			return false;
+			return true;
 	}
 
-	return true;
+	return false;
 }
 
 void NemhauserUllmannSolver::solve() {
@@ -94,6 +84,7 @@ void NemhauserUllmannSolver::solve() {
 	L_i[cL_i].weight = 0;
 	cL_i++;
 
+
 	// Adding KnapSackItems
 	for(int i=0; i < numOfItems ;++i) {
 
@@ -104,11 +95,13 @@ void NemhauserUllmannSolver::solve() {
 			LPrime_i[j].worth = L_i[j].worth + currentItem->worth;
 			LPrime_i[j].weight = L_i[j].weight + currentItem->weight;
 
-			// Copy items and add currentItem
-			copyItems(L_i[j].containingItems, LPrime_i[j].containingItems);
+			// Copy items and ...
+			*(LPrime_i[j].containingItems) = *(L_i[j].containingItems);
+			// ... add currentItem
 			LPrime_i[j].containingItems->insert(LPrime_i[j].containingItems->end(), currentItem);
 
 			cLPrime_i++;
+
 		}
 
 		// Merge L_i and L'_i into L_{i+1}: Take only the points which have no points in the upper left quarter
@@ -129,7 +122,7 @@ void NemhauserUllmannSolver::solve() {
 			if(ptrLPrime_i >= cLPrime_i) {
 				// No elements in L'_i left. Copy remaining elements of L_i and leave the while(true)-loop
 				while (ptrL_i < cL_i) {
-					if (noBetterPointExists(&(L_i[ptrL_i]), LPrime_i, cLPrime_i))
+					if (! betterPointExists(&(L_i[ptrL_i]), LPrime_i, cLPrime_i))
 						if (copyPlotPointIfItFitsIntoKnapsack(&(L_i[ptrL_i]), &(L_ip1[cL_ip1])))
 							cL_ip1++;
 
@@ -140,7 +133,7 @@ void NemhauserUllmannSolver::solve() {
 			if(ptrL_i >= cL_i) {
 				// No elements in L_i left. Copy remaining elements of L'_i and leave the while(true)-loop
 				while (ptrLPrime_i < cLPrime_i) {
-					if (noBetterPointExists(&(LPrime_i[ptrLPrime_i]), L_i, cL_i))
+					if (! betterPointExists(&(LPrime_i[ptrLPrime_i]), L_i, cL_i))
 						if (copyPlotPointIfItFitsIntoKnapsack(&(LPrime_i[ptrLPrime_i]), &(L_ip1[cL_ip1])))
 							cL_ip1++;
 
@@ -158,12 +151,12 @@ void NemhauserUllmannSolver::solve() {
 			if (L_i[ptrL_i].weight < LPrime_i[ptrLPrime_i].weight) {
 				smallestWeightPoint = &(L_i[ptrL_i]);
 				ptrL_i++;
-				if (noBetterPointExists(smallestWeightPoint, LPrime_i, cLPrime_i))
+				if (betterPointExists(smallestWeightPoint, LPrime_i, cLPrime_i))
 					continue; // No need to copy this point
 			} else {
 				smallestWeightPoint = &(LPrime_i[ptrLPrime_i]);
 				ptrLPrime_i++;
-				if (noBetterPointExists(smallestWeightPoint, L_i, cL_i))
+				if (betterPointExists(smallestWeightPoint, L_i, cL_i))
 					continue; // No need to copy this point
 			}
 
@@ -177,12 +170,14 @@ void NemhauserUllmannSolver::solve() {
 		cL_i = cL_ip1;
 		L_ip1 = tempList;
 		cL_ip1 = 0;  // 'Resets' the lists
+		cLPrime_i = 0;
 
 	} // END Adding KnapSackItems
 
 	// The optimal solution is the last point in L_i
-	// Just copy the list of items
 	std::vector<KnapSackItem*>* listOfBestItems = L_i[cL_i - 1].containingItems;
+
+	// Just copy the list of items
 	for(std::vector<KnapSackItem*>::iterator it = listOfBestItems->begin(); it != listOfBestItems->end(); ++it) {
 		itemsOfSolution.insert(itemsOfSolution.end(), *(*it));
 	}
@@ -195,7 +190,7 @@ bool NemhauserUllmannSolver::copyPlotPointIfItFitsIntoKnapsack(PlotPoint* from, 
 	to->worth = from->worth;
 	to->weight = from->weight;
 
-	copyItems(from->containingItems, to->containingItems);
+	*(to->containingItems) = *(from->containingItems);
 
 	return true;
 }
