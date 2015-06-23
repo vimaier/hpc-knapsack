@@ -3,9 +3,10 @@
  */
 
 #include "main/algorithms/BruteForceSolver.h"
+#include "main/algorithms/NemhauserUllmannSolver.h"
 #include "util/TestUtils.h"
+#include "test/TestData.h"
 
-const char* KNAPSACK_INPUT_FILE = "res/KnapSackItemsForUnittest.txt";
 /* Content of text file
 15.0 4 5
 XXL blue Ox   02.0 2.00
