@@ -62,6 +62,8 @@ private:
 	PlotPoint* list2;
 	int counter2;
 
+	const double knapsackCapacity;
+
 };
 
 #endif /* MAIN_ALGORITHMS_NEMHAUSERULLMANNSOLVER_H_ */

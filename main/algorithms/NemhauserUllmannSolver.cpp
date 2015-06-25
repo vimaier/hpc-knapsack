@@ -8,7 +8,8 @@ NemhauserUllmannSolver::NemhauserUllmannSolver(std::string inputFilename, std::s
   list1(NULL),
   counter1(0),
   list2(NULL),
-  counter2(0)
+  counter2(0),
+  knapsackCapacity(knapSack.getCapacity())
 {
 	
 }
@@ -16,7 +17,7 @@ NemhauserUllmannSolver::NemhauserUllmannSolver(std::string inputFilename, std::s
 void NemhauserUllmannSolver::setUp() {
 	initPlotPointLists();
 }
-int ESTIMATED_MAX_NUMBER_OF_POINTS = 1000;
+int ESTIMATED_MAX_NUMBER_OF_POINTS = 100000;
 void NemhauserUllmannSolver::initPlotPointLists() {
 
 	list0 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
@@ -70,7 +71,7 @@ bool betterPointExists(PlotPoint* ptToCheck, PlotPoint* list, int counter) {
 void NemhauserUllmannSolver::solve() {
 	KnapSackItem* items = knapSack.getItems();
 	const int numOfItems = knapSack.getNumOfItems();
-	const double maxWeight = knapSack.getCapacity();
+	const double maxWeight = knapsackCapacity;
 
 	PlotPoint* L_i = list0;
 	int cL_i = 0;
@@ -185,7 +186,7 @@ void NemhauserUllmannSolver::solve() {
 }
 
 bool NemhauserUllmannSolver::copyPlotPointIfItFitsIntoKnapsack(PlotPoint* from, PlotPoint* to) {
-	if (from->weight > knapSack.getCapacity())
+	if (from->weight > knapsackCapacity)
 		return false;
 	to->worth = from->worth;
 	to->weight = from->weight;
