@@ -29,6 +29,8 @@ int testBruteForceSolver() {
 
 	solver->start();
 
+	delete solver;
+
 	return TestUtils::checkOutput(ASSUMED_CONTENT_FILE_1, ASSUMED_CONTENT_LINES_FILE_1, TEST_OUTPUT_FILE);
 }
 

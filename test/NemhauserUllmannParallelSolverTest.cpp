@@ -30,6 +30,8 @@ int testNemhauserUllmannParallelSolver(const char* inputFile, const char* output
 
 	solver->start();
 
+	delete solver;
+
 	return TestUtils::checkOutput(assumedContent, assumedContentLength, outputFile);
 }
 

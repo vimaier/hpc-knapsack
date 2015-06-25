@@ -32,6 +32,8 @@ int testKnapSackSolver() {
 
 	solver->start();
 
+	delete solver;
+
 	return TestUtils::checkOutput(ASSUMED_CONTENT_SOLVER, ASSUMED_CONTENT_LINES_SOLVER, TEST_OUTPUT_FILE);
 }
 

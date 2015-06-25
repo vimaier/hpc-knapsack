@@ -29,6 +29,8 @@ int testNemhauserUllmannSolver(const char* inputFile, const char* outputFile, co
 
 	solver->start();
 
+	delete solver;
+
 	return TestUtils::checkOutput(assumedContent, assumedContentLength, outputFile);
 }
 
