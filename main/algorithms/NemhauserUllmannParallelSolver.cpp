@@ -49,13 +49,14 @@ void NemhauserUllmannParallelSolver::deletePlotPointLists() {
 	delete[] list2; list2 = NULL;
 }
 
+
 /**
  * Checks whether a better point than 'ptToCheck' exists in 'list'. 'counter' is the number
  * of points in 'list'.
  * A better point means a point which is located in the upper left quarter, so a point with
  * lower weight but higher worth.
  */
-bool betterPointExists(PlotPoint* ptToCheck, PlotPoint* list, int counter) {
+bool betterPointExists(const PlotPoint* ptToCheck, const PlotPoint* list, const int counter) {
 
 	for (int i=0; i < counter ;++i) {
 		if(list[i].weight > ptToCheck->weight)
@@ -66,6 +67,36 @@ bool betterPointExists(PlotPoint* ptToCheck, PlotPoint* list, int counter) {
 	}
 
 	return false;
+}
+
+const double NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS = -1.0;
+
+/**
+ * Find PlotPoints which are not pareto-optimal and 'mark' them. Marking means here set the
+ * worth to a negative value. Not pareto-optimal points are points which have other points in
+ * their the upper left quarter, so points with lower weights but higher worths.
+ *
+ * Note, for the points from L_i we only need to check for better points in the list L'_i since
+ * all points in the list are pareto-optimal. The same holds for points from L'_i accordingly.
+ *
+ * @param list1
+ * @param ctr1		The number of elements in list1
+ * @param list1
+ * @param ctr2		The number of elements in list2
+ */
+void markAllNonOptimalPoints(PlotPoint* list1, const int ctr1, PlotPoint* list2, const int ctr2) {
+
+	assert(list1 != NULL && ctr1 > 0 && list2 != NULL && ctr2 > 0 );
+
+	for (int i=0; i < ctr1 ;++i) {
+		if (betterPointExists(&(list1[i]), list2, ctr2))
+			list1[i].worth = NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
+	}
+
+	for (int i=0; i < ctr2;++i) {
+		if (betterPointExists(&(list2[i]), list1, ctr1))
+			list2[i].worth = NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
+	}
 }
 
 void NemhauserUllmannParallelSolver::solve() {
@@ -104,8 +135,9 @@ void NemhauserUllmannParallelSolver::solve() {
 
 		}
 
-		// Merge L_i and L'_i into L_{i+1}: Take only the points which have no points in the upper left quarter
-		// within the other list.
+		markAllNonOptimalPoints(L_i, cL_i, LPrime_i, cLPrime_i);
+
+		// Merge L_i and L'_i into L_{i+1}: Take only the points which are pareto-optimal.
 
 		// Pointers point to the PltPoint which has to be processed next
 		// Note, unlike cL* which is a counter ptr* points to the last element.
@@ -122,7 +154,7 @@ void NemhauserUllmannParallelSolver::solve() {
 			if(ptrLPrime_i >= cLPrime_i) {
 				// No elements in L'_i left. Copy remaining elements of L_i and leave the while(true)-loop
 				while (ptrL_i < cL_i) {
-					if (! betterPointExists(&(L_i[ptrL_i]), LPrime_i, cLPrime_i))
+					if (L_i[ptrL_i].worth >= 0)  // Then L_i[ptrL_i] is a pareto-optimal point
 						if (copyPlotPointIfItFitsIntoKnapsack(&(L_i[ptrL_i]), &(L_ip1[cL_ip1])))
 							cL_ip1++;
 
@@ -133,7 +165,7 @@ void NemhauserUllmannParallelSolver::solve() {
 			if(ptrL_i >= cL_i) {
 				// No elements in L_i left. Copy remaining elements of L'_i and leave the while(true)-loop
 				while (ptrLPrime_i < cLPrime_i) {
-					if (! betterPointExists(&(LPrime_i[ptrLPrime_i]), L_i, cL_i))
+					if (LPrime_i[ptrLPrime_i].worth >= 0)  // Then LPrime_i[ptrLPrime_i] is a pareto-optimal point
 						if (copyPlotPointIfItFitsIntoKnapsack(&(LPrime_i[ptrLPrime_i]), &(L_ip1[cL_ip1])))
 							cL_ip1++;
 
@@ -151,13 +183,13 @@ void NemhauserUllmannParallelSolver::solve() {
 			if (L_i[ptrL_i].weight < LPrime_i[ptrLPrime_i].weight) {
 				smallestWeightPoint = &(L_i[ptrL_i]);
 				ptrL_i++;
-				if (betterPointExists(smallestWeightPoint, LPrime_i, cLPrime_i))
-					continue; // No need to copy this point
+				if (smallestWeightPoint->worth < 0)
+					continue; // No need to copy this non pareto-optimal point
 			} else {
 				smallestWeightPoint = &(LPrime_i[ptrLPrime_i]);
 				ptrLPrime_i++;
-				if (betterPointExists(smallestWeightPoint, L_i, cL_i))
-					continue; // No need to copy this point
+				if (smallestWeightPoint->worth < 0)
+					continue; // No need to copy this non pareto-optimal point
 			}
 
 			if (copyPlotPointIfItFitsIntoKnapsack(smallestWeightPoint, &(L_ip1[cL_ip1])))
