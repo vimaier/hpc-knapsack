@@ -48,7 +48,7 @@ bool KnapSackWriter::writeToFile() {
 		fprintf(fp, "%s;%d\n", items[i].name->c_str(), exemplarsOfItems[i]);
 	}
 
-	fprintf(fp, "Gesamtgewicht;%.1f\n", weight);
+	fprintf(fp, "Gesamtgewicht;%.2f\n", weight);
 	fprintf(fp, "Gesamtwert;%.2f", worth);
 
 	fclose(fp);

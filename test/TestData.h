@@ -42,6 +42,10 @@ salmon mousse                 1.0 1.0
 
 //  The items are the same as in KnAPSACK_INPUT_FILE
 
+// Output
+const std::string ASSUMED_CONTENT_FILE_1[] {"Kapazität;15.0", "gray mouse;3", "yellow daisy;3", "Gesamtgewicht;15.00", "Gesamtwert;36.00"};
+const int ASSUMED_CONTENT_LINES_FILE_1 = 5;
+
 
 // Second example file
 
@@ -59,6 +63,10 @@ salmon mousse    1.0 1.0
 // Only one new item in this file.
 std::string* ITEM__NAME_6 = new std::string("9780596521530");
 const KnapSackItem TEST_ITEM_6 = {ITEM__NAME_6, 1.54, 44.99};
+
+// Output
+const std::string ASSUMED_CONTENT_FILE_2[] {"Kapazität;15.0", "XXL blue 0x;1", "gray mouse;1", "yellow daisy;1", "salmon mousse;1", "9780596521530;1", "Gesamtgewicht;9.54", "Gesamtwert;59.99"};
+const int ASSUMED_CONTENT_LINES_FILE_2 = 8;
 
 
 // Third example file
@@ -100,5 +108,7 @@ const KnapSackItem TEST_ITEM_SIEBEN = {ITEM__SIEBEN, 148.0, 48.0};
 std::string* ITEM__ACHT = new std::string("ACHT");
 const KnapSackItem TEST_ITEM_ACHT = {ITEM__ACHT, 249.0, 38.0};
 
+
+const char* TEST_OUTPUT_FILE = "outputForTesting.txt";
 
 #endif /* TEST_DATA_H_ */

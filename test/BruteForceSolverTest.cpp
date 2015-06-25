@@ -24,19 +24,13 @@ salmon mousse 01.0 1.00
  * overall 15 weight and 36 worth
 */
 
-const char* TEST_OUTPUT_FILE = "outputForTesting.txt";
-
-/**/
-const std::string ASSUMED_CONTENT[] {"Kapazität;15.0", "gray mouse;3", "yellow daisy;3", "Gesamtgewicht;15.0", "Gesamtwert;36.00"};
-const int ASSUMED_CONTENT_LENGTH = 5;
-
 
 int testBruteForceSolver() {
 	BruteForceSolver* solver = new BruteForceSolver(KNAPSACK_INPUT_FILE, TEST_OUTPUT_FILE);
 
 	solver->start();
 
-	return TestUtils::checkOutput(ASSUMED_CONTENT, ASSUMED_CONTENT_LENGTH, TEST_OUTPUT_FILE);
+	return TestUtils::checkOutput(ASSUMED_CONTENT_FILE_1, ASSUMED_CONTENT_LINES_FILE_1, TEST_OUTPUT_FILE);
 }
 
 int main(int argc, char* argv[]){

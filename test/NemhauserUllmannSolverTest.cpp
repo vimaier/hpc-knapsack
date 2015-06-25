@@ -24,21 +24,31 @@ salmon mousse 01.0 1.00
  * overall 15 weight and 36 worth
 */
 
-const char* TEST_OUTPUT_FILE = "outputForTesting.txt";
+
 
 /**/
 const std::string ASSUMED_CONTENT[] {"Kapazität;15.0", "gray mouse;3", "yellow daisy;3", "Gesamtgewicht;15.0", "Gesamtwert;36.00"};
 const int ASSUMED_CONTENT_LENGTH = 5;
 
 
-int testNemhauserUllmannSolver() {
-	NemhauserUllmannSolver* solver = new NemhauserUllmannSolver(KNAPSACK_INPUT_FILE, TEST_OUTPUT_FILE);
+int testNemhauserUllmannSolver(const char* inputFile, const char* outputFile, const std::string* assumedContent, int assumedContentLength) {
+	NemhauserUllmannSolver* solver = new NemhauserUllmannSolver(inputFile, outputFile);
 
 	solver->start();
 
-	return TestUtils::checkOutput(ASSUMED_CONTENT, ASSUMED_CONTENT_LENGTH, TEST_OUTPUT_FILE);
+	return TestUtils::checkOutput(assumedContent, assumedContentLength, outputFile);
 }
 
 int main(int argc, char* argv[]){
-	return testNemhauserUllmannSolver();
+	int returnCode = testNemhauserUllmannSolver(KNAPSACK_INPUT_FILE_FIRST_EXAMPLE, TEST_OUTPUT_FILE,
+												ASSUMED_CONTENT_FILE_1, ASSUMED_CONTENT_LINES_FILE_1);
+	if (0 != returnCode)
+		return 1;
+
+	returnCode = testNemhauserUllmannSolver(KNAPSACK_INPUT_FILE_SECOND_EXAMPLE, TEST_OUTPUT_FILE,
+												ASSUMED_CONTENT_FILE_2, ASSUMED_CONTENT_LINES_FILE_2);
+	if (0 != returnCode)
+		return 2;
+
+	return returnCode;
 }
