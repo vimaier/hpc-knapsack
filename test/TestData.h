@@ -108,6 +108,10 @@ const KnapSackItem TEST_ITEM_SIEBEN = {ITEM__SIEBEN, 148.0, 48.0};
 std::string* ITEM__ACHT = new std::string("ACHT");
 const KnapSackItem TEST_ITEM_ACHT = {ITEM__ACHT, 249.0, 38.0};
 
+// Output
+const std::string ASSUMED_CONTENT_FILE_3[] {"Kapazität;645.0", "EINS;4", "Gesamtgewicht;612.00", "Gesamtwert;928.00"};
+const int ASSUMED_CONTENT_LINES_FILE_3 = 4;
+
 
 const char* TEST_OUTPUT_FILE = "outputForTesting.txt";
 

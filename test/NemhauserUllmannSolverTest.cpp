@@ -50,5 +50,10 @@ int main(int argc, char* argv[]){
 	if (0 != returnCode)
 		return 2;
 
+	returnCode = testNemhauserUllmannSolver(KNAPSACK_INPUT_FILE_THIRD_EXAMPLE, TEST_OUTPUT_FILE,
+												ASSUMED_CONTENT_FILE_3, ASSUMED_CONTENT_LINES_FILE_3);
+	if (0 != returnCode)
+		return 2;
+
 	return returnCode;
 }
