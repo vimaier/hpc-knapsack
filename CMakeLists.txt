@@ -7,6 +7,10 @@ project (Knapsack)
 
 include_directories ("${PROJECT_SOURCE_DIR}")
 
+# OpenMP
+find_package ( OpenMP REQUIRED )
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+
 # Optionen für Doxygen
 include(CMakeDoxygen.txt)
 
