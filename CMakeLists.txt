@@ -112,3 +112,7 @@ add_test (NAME bruteForceSolverTest COMMAND bruteForceSolverTest)
 add_executable (nemhauserUllmannSolverTest  test/NemhauserUllmannSolverTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (nemhauserUllmannSolverTest knapsack)
 add_test (NAME nemhauserUllmannSolverTest COMMAND nemhauserUllmannSolverTest)
+
+add_executable (nemhauserUllmannParallelSolverTest  test/NemhauserUllmannParallelSolverTest.cpp util/TestUtils.h test/TestData.h)
+target_link_libraries (nemhauserUllmannParallelSolverTest knapsack)
+add_test (NAME nemhauserUllmannParallelSolverTest COMMAND nemhauserUllmannParallelSolverTest)

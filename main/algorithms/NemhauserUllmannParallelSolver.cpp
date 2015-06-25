@@ -1,7 +1,7 @@
-#include "main/algorithms/NemhauserUllmannSolver.h"
+#include "main/algorithms/NemhauserUllmannParallelSolver.h"
 #include <cmath>
 
-NemhauserUllmannSolver::NemhauserUllmannSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
+NemhauserUllmannParallelSolver::NemhauserUllmannParallelSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
 : KnapSackSolver(inputFilename, outputFilename, nrOfExecutions),
   list0(NULL),
   counter0(0),
@@ -14,11 +14,11 @@ NemhauserUllmannSolver::NemhauserUllmannSolver(std::string inputFilename, std::s
 	
 }
 
-void NemhauserUllmannSolver::setUp() {
+void NemhauserUllmannParallelSolver::setUp() {
 	initPlotPointLists();
 }
 int ESTIMATED_MAX_NUMBER_OF_POINTS = 100000;
-void NemhauserUllmannSolver::initPlotPointLists() {
+void NemhauserUllmannParallelSolver::initPlotPointLists() {
 
 	list0 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
 	list1 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
@@ -34,10 +34,10 @@ void NemhauserUllmannSolver::initPlotPointLists() {
 	}
 }
 
-void NemhauserUllmannSolver::tearDown() {
+void NemhauserUllmannParallelSolver::tearDown() {
 	deletePlotPointLists();
 }
-void NemhauserUllmannSolver::deletePlotPointLists() {
+void NemhauserUllmannParallelSolver::deletePlotPointLists() {
 	for (int i=0; i < ESTIMATED_MAX_NUMBER_OF_POINTS ;++i) {
 		delete list0[i].containingItems;
 		delete list1[i].containingItems;
@@ -68,7 +68,7 @@ bool betterPointExists(PlotPoint* ptToCheck, PlotPoint* list, int counter) {
 	return false;
 }
 
-void NemhauserUllmannSolver::solve() {
+void NemhauserUllmannParallelSolver::solve() {
 	KnapSackItem* items = knapSack.getItems();
 	const int numOfItems = knapSack.getNumOfItems();
 	const double maxWeight = knapsackCapacity;
@@ -85,17 +85,8 @@ void NemhauserUllmannSolver::solve() {
 	L_i[cL_i].weight = 0;
 	cL_i++;
 
-	//TODO: remove:
-	std::printf("size struct %d\n", sizeof(PlotPoint));
-	std::printf("\tsize double %d\n", sizeof(double));
-	std::printf("\tsize double %d\n", sizeof(double));
-	std::printf("\tsize std::vector<KnapSackItem*>* %d\n", sizeof(std::vector<KnapSackItem*>*));
-
 	// Adding KnapSackItems
 	for(int i=0; i < numOfItems ;++i) {
-
-		//TODO: remove:
-		std::printf("cL_i %d\n", cL_i);
 
 		KnapSackItem* currentItem = &(items[i]);
 
@@ -193,7 +184,7 @@ void NemhauserUllmannSolver::solve() {
 
 }
 
-bool NemhauserUllmannSolver::copyPlotPointIfItFitsIntoKnapsack(PlotPoint* from, PlotPoint* to) {
+bool NemhauserUllmannParallelSolver::copyPlotPointIfItFitsIntoKnapsack(PlotPoint* from, PlotPoint* to) {
 	if (from->weight > knapsackCapacity)
 		return false;
 	to->worth = from->worth;
