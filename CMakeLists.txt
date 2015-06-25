@@ -76,6 +76,7 @@ add_library (knapsack
 	main/KnapSack.h main/KnapSack.cpp
 	main/algorithms/BruteForceSolver.h main/algorithms/BruteForceSolver.cpp
 	main/algorithms/NemhauserUllmannSolver.h main/algorithms/NemhauserUllmannSolver.cpp
+	main/algorithms/NemhauserUllmannParallelSolver.h main/algorithms/NemhauserUllmannParallelSolver.cpp
 	main/algorithms/DynamicProgrammingSolver.h main/algorithms/DynamicProgrammingSolver.cpp
 	util/GetWalltime.h util/GetWalltime.cpp
 	util/io/KnapSackReader.h util/io/KnapSackReader.cpp
@@ -92,18 +93,18 @@ add_executable (readerTest  test/ReaderTest.cpp test/TestData.h)
 target_link_libraries (readerTest knapsack)
 add_test (NAME readerTest COMMAND readerTest)
 
-add_executable (writerTest  test/WriterTest.cpp util/TestUtils.h)
+add_executable (writerTest  test/WriterTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (writerTest knapsack)
 add_test (NAME writerTest COMMAND writerTest)
 
-add_executable (knapSackSolverTest  test/KnapSackSolverTest.cpp util/TestUtils.h)
+add_executable (knapSackSolverTest  test/KnapSackSolverTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (knapSackSolverTest knapsack)
 add_test (NAME knapSackSolverTest COMMAND knapSackSolverTest)
 
-add_executable (bruteForceSolverTest  test/BruteForceSolverTest.cpp util/TestUtils.h)
+add_executable (bruteForceSolverTest  test/BruteForceSolverTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (bruteForceSolverTest knapsack)
 add_test (NAME bruteForceSolverTest COMMAND bruteForceSolverTest)
 
-add_executable (nemhauserUllmannSolverTest  test/NemhauserUllmannSolverTest.cpp util/TestUtils.h)
+add_executable (nemhauserUllmannSolverTest  test/NemhauserUllmannSolverTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (nemhauserUllmannSolverTest knapsack)
 add_test (NAME nemhauserUllmannSolverTest COMMAND nemhauserUllmannSolverTest)
