@@ -38,8 +38,27 @@ if (AddDebugBuild)
 	endif(CMAKE_CONFIGURATION_TYPES)
 endif(AddDebugBuild)
 
+# Hier kann man einschalten ob Profiling-Informationen mit generiert werden
+option(AddProfilingInformation "EnableProfiling" OFF)
+if (AddProfilingInformation)
+	set( CMAKE_CXX_FLAGS "-pg ${CMAKE_CXX_FLAGS}" )
+	set( CMAKE_EXE_LINKER_FLAGS " -pg ${CMAKE_EXE_LINKER_FLAGS}" )
+endif(AddProfilingInformation)
+
+# Hiermit wird der Eclipse-Indexer auf C++11 aufgerüstet
+option(AddCpp11EclipseSupport "EnableCpp11EclipseSupport" OFF)
+if (AddCpp11EclipseSupport)
+	set( CMAKE_CXX_COMPILER_ARG1 "-std=c++11 ${CMAKE_CXX_COMPILER_ARG1}" )
+endif(AddCpp11EclipseSupport)
+
 # Für Makefiles und ordentliche IDEs
 SET(CMAKE_BUILD_TYPE Release CACHE STRING "Nur Release" Force)
+
+# DebugBuild für Eclipse. Unter Eclipse ist es nicht moeglich Release und Debug builds zu haben.
+option(EclipseDebugBuild "CreateEclipseDebugBuild" OFF)
+if (EclipseDebugBuild)
+	SET(CMAKE_BUILD_TYPE Debug)
+endif(EclipseDebugBuild)
 
 # XCode arbeitet scheinbar nicht mit relativen Pfadangaben
 if(NOT APPLE) 
@@ -47,7 +66,7 @@ if(NOT APPLE)
     set(CMAKE_USE_RELATIVE_PATHS TRUE CACHE STRING "Relative Pfade" FORCE)
 endif(NOT APPLE)
 
-# Benötigte Dateien nach build kopieren
+# Benötigte Dateien im Ordner 'res' nach build kopieren
 file(COPY res DESTINATION ${CMAKE_BINARY_DIR})
 
 # ------------------------------------------------------------------
