@@ -9,14 +9,13 @@ static const char* KNAPSACK_OUTPUT_FILE = "knapSackOut.txt";
 
 int main(int argc, char* argv[]){
 
+	/*
 	BruteForceSolver* bfsolver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
 	bfsolver->start();
 	delete bfsolver;
+*/
 
-	/*
 	DynamicProgrammingSolver* dpsolver = new DynamicProgrammingSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
 	dpsolver->start();
 	delete dpsolver;
-	*/
-	
 }
