@@ -113,6 +113,31 @@ const std::string ASSUMED_CONTENT_FILE_3[] {"Kapazität;645.0", "EINS;4", "Gesam
 const int ASSUMED_CONTENT_LINES_FILE_3 = 4;
 
 
+static const char* KNAPSACK_INPUT_FILE_DP_EXAMPLE = "res/dynamicProgrammingExample.txt";
+/* Content of text file
+5.0 1 4
+item_01                 2.0 3.0
+item_02                 3.0 4.0
+item_03                 4.0 5.0
+item_04                 5.0 6.0
+ */
+
+std::string* ITEM__DP_01 = new std::string("item_01");
+const KnapSackItem TEST_ITEM_DP_01 = {ITEM__DP_01, 2.0, 3.0};
+
+std::string* ITEM__DP_02 = new std::string("item_02");
+const KnapSackItem TEST_ITEM_DP_02 = {ITEM__DP_02, 3.0, 4.0};
+
+std::string* ITEM__DP_03 = new std::string("item_03");
+const KnapSackItem TEST_ITEM_DP_03 = {ITEM__DP_03, 4.0, 5.0};
+
+std::string* ITEM__DP_04 = new std::string("item_04");
+const KnapSackItem TEST_ITEM_DP_04 = {ITEM__DP_04, 5.0, 6.0};
+
+// Output
+const std::string ASSUMED_CONTENT_FILE_DP[] {"Kapazität;5.0", "item_02;1", "item_01;1", "Gesamtgewicht;5.00", "Gesamtwert;7.00"};
+const int ASSUMED_CONTENT_LINES_FILE_DP = 5;
+
 const char* TEST_OUTPUT_FILE = "outputForTesting.txt";
 
 #endif /* TEST_DATA_H_ */

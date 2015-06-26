@@ -116,3 +116,7 @@ add_test (NAME nemhauserUllmannSolverTest COMMAND nemhauserUllmannSolverTest)
 add_executable (nemhauserUllmannParallelSolverTest  test/NemhauserUllmannParallelSolverTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (nemhauserUllmannParallelSolverTest knapsack)
 add_test (NAME nemhauserUllmannParallelSolverTest COMMAND nemhauserUllmannParallelSolverTest)
+
+add_executable (dynamicProgrammingSolverTest  test/DynamicProgrammingSolverTest.cpp util/TestUtils.h test/TestData.h)
+target_link_libraries (dynamicProgrammingSolverTest knapsack)
+add_test (NAME dynamicProgrammingSolverTest COMMAND dynamicProgrammingSolverTest)

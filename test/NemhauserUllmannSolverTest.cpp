@@ -24,13 +24,6 @@ salmon mousse 01.0 1.00
  * overall 15 weight and 36 worth
 */
 
-
-
-/**/
-const std::string ASSUMED_CONTENT[] {"Kapazität;15.0", "gray mouse;3", "yellow daisy;3", "Gesamtgewicht;15.0", "Gesamtwert;36.00"};
-const int ASSUMED_CONTENT_LENGTH = 5;
-
-
 int testNemhauserUllmannSolver(const char* inputFile, const char* outputFile, const std::string* assumedContent, int assumedContentLength) {
 	NemhauserUllmannSolver* solver = new NemhauserUllmannSolver(inputFile, outputFile);
 

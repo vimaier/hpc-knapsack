@@ -25,10 +25,6 @@ salmon mousse 01.0 1.00
 */
 
 
-
-/**/
-
-
 int testNemhauserUllmannParallelSolver(const char* inputFile, const char* outputFile, const std::string* assumedContent, int assumedContentLength) {
 	NemhauserUllmannParallelSolver* solver = new NemhauserUllmannParallelSolver(inputFile, outputFile);
 

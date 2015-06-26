@@ -3,7 +3,6 @@
  */
 
 #include "main/algorithms/BruteForceSolver.h"
-#include "main/algorithms/NemhauserUllmannSolver.h"
 #include "util/TestUtils.h"
 #include "test/TestData.h"
 
