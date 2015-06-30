@@ -17,6 +17,10 @@
  * are known, the worths of higher sub problems are calculated until
  * the worth of main problem is known. Afterwards the items belonging to the
  * calculated worth are added to the solutionlist.
+ *
+ * This version is only compatible to integer input values and can not handle floating point values.
+ * To handle floating point values, we could multiply them (e.g. by 100) and parse them them to integer
+ * but this delivers only a low accuracy and makes the problem / matrix to solve more complex.
  */
 class DynamicProgrammingSolver : public KnapSackSolver {
 public:

@@ -26,30 +26,33 @@ void executeNemhauserUllmanParallelSolver() {
 	delete solver;
 }
 
+void executeBruteForceSolver(){
+	BruteForceSolver* bfsolver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	bfsolver->start();
+	delete bfsolver;
+}
+
+void executeDynamicProgrammingSolver(){
+	DynamicProgrammingSolver* dpsolver = new DynamicProgrammingSolver(FOURTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	dpsolver->start();
+	delete dpsolver;
+}
+
+void checkForOpenMP(){
+	int id;
+	#pragma omp parallel private(id)
+	{
+		id = omp_get_thread_num();
+		printf("%d: Hello World!\n", id);
+	}
+}
+
 int main(int argc, char* argv[]){
 
-//	BruteForceSolver* bfsolver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
-//	bfsolver->start();
-//	delete bfsolver;
+	//checkForOpenMP();
 
-	/*
-	NemhauserUllmannParallelSolver* nupsolver = new NemhauserUllmannParallelSolver(THIRD_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
-	nupsolver->start();
-	delete nupsolver;
-	*/
-
-//	DynamicProgrammingSolver* dpsolver = new DynamicProgrammingSolver(DP_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
-//	dpsolver->start();
-//	delete dpsolver;
-	
-//	executeNemhauserUllmanSolver();
-//	int id;
-//	#pragma omp parallel private(id)
-//	{
-//	id = omp_get_thread_num();
-//	printf("%d: Hello World!\n", id);
-//	}
-
+	executeBruteForceSolver();
+	executeNemhauserUllmanSolver();
 	executeNemhauserUllmanParallelSolver();
-
+	executeDynamicProgrammingSolver();
 }
