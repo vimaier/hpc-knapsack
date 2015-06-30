@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <iostream>
+#include "util/MyMath.h"
 
 struct KnapSackItem{
 
@@ -12,7 +13,7 @@ struct KnapSackItem{
 	double worth;
 
 	bool operator==(const KnapSackItem& rhs){
-		return weight == rhs.weight && worth == rhs.worth && *name == *(rhs.name);
+		return MyMath::almostEqual(weight, rhs.weight) && MyMath::almostEqual(worth, rhs.worth) && *name == *(rhs.name);
 	}
 };
 
