@@ -80,6 +80,7 @@ add_library (knapsack
 	main/KnapSack.h main/KnapSack.cpp
 	main/algorithms/BruteForceSolver.h main/algorithms/BruteForceSolver.cpp
 	main/algorithms/NemhauserUllmannSolver.h main/algorithms/NemhauserUllmannSolver.cpp
+	main/algorithms/NemhauserUllmannSolverRLP.h main/algorithms/NemhauserUllmannSolverRLP.cpp
 	main/algorithms/NemhauserUllmannParallelSolver.h main/algorithms/NemhauserUllmannParallelSolver.cpp
 	main/algorithms/DynamicProgrammingSolver.h main/algorithms/DynamicProgrammingSolver.cpp
 	util/GetWalltime.h util/GetWalltime.cpp
