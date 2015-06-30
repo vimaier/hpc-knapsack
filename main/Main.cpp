@@ -11,6 +11,7 @@ static const char* FIRST_KNAPSACK_INPUT_FILE = "res/firstFileExample.txt";
 static const char* SECOND_KNAPSACK_INPUT_FILE = "res/secondFileExample.txt";
 static const char* THIRD_KNAPSACK_INPUT_FILE = "res/thirdFileExample.txt";
 static const char* FOURTH_KNAPSACK_INPUT_FILE = "res/fourthFileExample.txt";
+static const char* FIFTH_KNAPSACK_INPUT_FILE = "res/fifthFileExample.txt";
 static const char* DP_INPUT_FILE = "res/dynamicProgrammingExample.txt";
 static const char* KNAPSACK_OUTPUT_FILE = "knapSackOut.txt";
 
@@ -33,7 +34,7 @@ void executeBruteForceSolver(){
 }
 
 void executeDynamicProgrammingSolver(){
-	DynamicProgrammingSolver* dpsolver = new DynamicProgrammingSolver(FOURTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	DynamicProgrammingSolver* dpsolver = new DynamicProgrammingSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
 	dpsolver->start();
 	delete dpsolver;
 }
@@ -51,8 +52,8 @@ int main(int argc, char* argv[]){
 
 	//checkForOpenMP();
 
-	executeBruteForceSolver();
-	executeNemhauserUllmanSolver();
-	executeNemhauserUllmanParallelSolver();
+	//executeBruteForceSolver();
+	//executeNemhauserUllmanSolver();
+	//executeNemhauserUllmanParallelSolver();
 	executeDynamicProgrammingSolver();
 }
