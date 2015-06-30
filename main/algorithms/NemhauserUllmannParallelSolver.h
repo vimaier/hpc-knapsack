@@ -1,6 +1,7 @@
 #ifndef MAIN_ALGORITHMS_NEMHAUSERULLMANNPARALLELSOLVER_H_
 #define MAIN_ALGORITHMS_NEMHAUSERULLMANNPARALLELSOLVER_H_
 
+#include <omp.h>
 #include <string>
 #include <vector>
 
@@ -33,6 +34,30 @@ private:
 	 * Returns true if the item was actually copied, otherwise false.
 	 */
 	bool copyPlotPointIfItFitsIntoKnapsack(PlotPoint* from, PlotPoint* to);
+
+	/**
+	 * Checks whether a better point than 'ptToCheck' exists in 'list'. 'counter' is the number
+	 * of points in 'list'.
+	 * A better point means a point which is located in the upper left quarter, so a point with
+	 * lower weight but higher worth.
+	 */
+	bool betterPointExists(const PlotPoint* ptToCheck, const PlotPoint* list, const int counter);
+
+	/**
+	 * Find PlotPoints which are not pareto-optimal and 'mark' them. Marking means here set the
+	 * worth to a negative value. Not pareto-optimal points are points which have other points in
+	 * their the upper left quarter, so points with lower weights but higher worths.
+	 *
+	 * Note, for the points from L_i we only need to check for better points in the list L'_i since
+	 * all points in the list are pareto-optimal. The same holds for points from L'_i accordingly.
+	 *
+	 * @param list1
+	 * @param ctr1		The number of elements in list1
+	 * @param list1
+	 * @param ctr2		The number of elements in list2
+	 */
+	void markAllNonOptimalPoints(PlotPoint* list1, const int ctr1, PlotPoint* list2, const int ctr2);
+
 
 	/*
 	 * The PlotPoint lists represent the lists L_i, L'_i and L_{i+i}.

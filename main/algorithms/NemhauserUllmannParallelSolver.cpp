@@ -17,17 +17,17 @@ NemhauserUllmannParallelSolver::NemhauserUllmannParallelSolver(std::string input
 void NemhauserUllmannParallelSolver::setUp() {
 	initPlotPointLists();
 }
-int ESTIMATED_MAX_NUMBER_OF_POINTS = 100000;
+int ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL = 100000;
 void NemhauserUllmannParallelSolver::initPlotPointLists() {
 
-	list0 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
-	list1 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
-	list2 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS];
+	list0 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL];
+	list1 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL];
+	list2 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL];
 	counter0= 0;
 	counter1= 0;
 	counter2= 0;
 
-	for (int i=0; i < ESTIMATED_MAX_NUMBER_OF_POINTS ;++i) {
+	for (int i=0; i < ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL ;++i) {
 		list0[i].containingItems = new std::vector<KnapSackItem*>();
 		list1[i].containingItems = new std::vector<KnapSackItem*>();
 		list2[i].containingItems = new std::vector<KnapSackItem*>();
@@ -38,7 +38,7 @@ void NemhauserUllmannParallelSolver::tearDown() {
 	deletePlotPointLists();
 }
 void NemhauserUllmannParallelSolver::deletePlotPointLists() {
-	for (int i=0; i < ESTIMATED_MAX_NUMBER_OF_POINTS ;++i) {
+	for (int i=0; i < ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL ;++i) {
 		delete list0[i].containingItems;
 		delete list1[i].containingItems;
 		delete list2[i].containingItems;
@@ -50,14 +50,8 @@ void NemhauserUllmannParallelSolver::deletePlotPointLists() {
 }
 
 
-/**
- * Checks whether a better point than 'ptToCheck' exists in 'list'. 'counter' is the number
- * of points in 'list'.
- * A better point means a point which is located in the upper left quarter, so a point with
- * lower weight but higher worth.
- */
-bool betterPointExists(const PlotPoint* ptToCheck, const PlotPoint* list, const int counter) {
-
+bool NemhauserUllmannParallelSolver::betterPointExists(const PlotPoint* ptToCheck, const PlotPoint* list, const int counter) {
+#pragma parallal for
 	for (int i=0; i < counter ;++i) {
 		if(list[i].weight > ptToCheck->weight)
 			break;  // This is a sorted list (by weights) thus we do not need to check further items
@@ -71,20 +65,8 @@ bool betterPointExists(const PlotPoint* ptToCheck, const PlotPoint* list, const 
 
 const double NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS = -1.0;
 
-/**
- * Find PlotPoints which are not pareto-optimal and 'mark' them. Marking means here set the
- * worth to a negative value. Not pareto-optimal points are points which have other points in
- * their the upper left quarter, so points with lower weights but higher worths.
- *
- * Note, for the points from L_i we only need to check for better points in the list L'_i since
- * all points in the list are pareto-optimal. The same holds for points from L'_i accordingly.
- *
- * @param list1
- * @param ctr1		The number of elements in list1
- * @param list1
- * @param ctr2		The number of elements in list2
- */
-void markAllNonOptimalPoints(PlotPoint* list1, const int ctr1, PlotPoint* list2, const int ctr2) {
+
+void NemhauserUllmannParallelSolver::markAllNonOptimalPoints(PlotPoint* list1, const int ctr1, PlotPoint* list2, const int ctr2) {
 
 	assert(list1 != NULL && ctr1 > 0 && list2 != NULL && ctr2 > 0 );
 
