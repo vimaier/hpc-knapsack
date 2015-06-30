@@ -44,6 +44,7 @@ salmon mousse                 1.0 1.0
 
 // Output
 const std::string ASSUMED_CONTENT_FILE_1[] {"Kapazität;15.0", "gray mouse;3", "yellow daisy;3", "Gesamtgewicht;15.00", "Gesamtwert;36.00"};
+const std::string ASSUMED_CONTENT_FILE_1_DIFFERENT_ORDER_OF_ITEMS[] {"Kapazität;15.0", "yellow daisy;3", "gray mouse;3", "Gesamtgewicht;15.00", "Gesamtwert;36.00"};
 const int ASSUMED_CONTENT_LINES_FILE_1 = 5;
 
 
@@ -66,6 +67,7 @@ const KnapSackItem TEST_ITEM_6 = {ITEM__NAME_6, 1.54, 44.99};
 
 // Output
 const std::string ASSUMED_CONTENT_FILE_2[] {"Kapazität;15.0", "XXL blue 0x;1", "gray mouse;1", "yellow daisy;1", "salmon mousse;1", "9780596521530;1", "Gesamtgewicht;9.54", "Gesamtwert;59.99"};
+const std::string ASSUMED_CONTENT_FILE_2_DIFFERENT_ORDER[] {"Kapazität;15.0", "9780596521530;1", "yellow daisy;1", "XXL blue 0x;1", "gray mouse;1", "salmon mousse;1",  "Gesamtgewicht;9.54", "Gesamtwert;59.99"};
 const int ASSUMED_CONTENT_LINES_FILE_2 = 8;
 
 

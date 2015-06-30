@@ -17,6 +17,8 @@ NemhauserUllmannSolverRLP::NemhauserUllmannSolverRLP(std::string inputFilename, 
 
 void NemhauserUllmannSolverRLP::setUp() {
 	initPlotPointLists();
+	if (sortInputItemsByWeights)
+		sortInputItems();
 }
 int ESTIMATED_MAX_NUMBER_OF_POINTS_RLP = 100000;
 void NemhauserUllmannSolverRLP::initPlotPointLists() {
@@ -34,6 +36,32 @@ void NemhauserUllmannSolverRLP::initPlotPointLists() {
 		list2[i].containingItems = new std::vector<KnapSackItem*>();
 	}
 }
+
+void NemhauserUllmannSolverRLP::sortInputItems() {
+	// Simple bubble sort since we take this not into time measurement.
+
+	// If we have an iteration without a swap the remaining iterations
+	// also won't have swaps. We can break then.
+	bool swapOccuredDuringLastIteration = true;
+	KnapSackItem temp;  // holding variable
+	KnapSackItem* items = knapSack.getItems();
+	int numLength = knapSack.getNumOfItems();
+
+
+	for(int i = 1; (i <= numLength) && swapOccuredDuringLastIteration; i++) {
+		swapOccuredDuringLastIteration = false;
+		for (int j=0; j < (numLength - i); j++) {
+			if (items[j].worth < items[j+1].worth) {
+				// swap elements (will use generated default assignment operator of PlotPoint. That's fine)
+				temp = items[j];
+				items[j] = items[j+1];
+				items[j+1] = temp;
+				swapOccuredDuringLastIteration = true;
+		   }
+	  }
+	}
+}
+
 
 void NemhauserUllmannSolverRLP::tearDown() {
 	deletePlotPointLists();

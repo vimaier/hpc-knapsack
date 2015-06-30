@@ -35,12 +35,12 @@ int testNemhauserUllmannSolverRLP(const char* inputFile, const char* outputFile,
 
 int main(int argc, char* argv[]){
 	int returnCode = testNemhauserUllmannSolverRLP(KNAPSACK_INPUT_FILE_FIRST_EXAMPLE, TEST_OUTPUT_FILE,
-												ASSUMED_CONTENT_FILE_1, ASSUMED_CONTENT_LINES_FILE_1);
+			ASSUMED_CONTENT_FILE_1_DIFFERENT_ORDER_OF_ITEMS, ASSUMED_CONTENT_LINES_FILE_1);
 	if (0 != returnCode)
 		return 1;
 
 	returnCode = testNemhauserUllmannSolverRLP(KNAPSACK_INPUT_FILE_SECOND_EXAMPLE, TEST_OUTPUT_FILE,
-												ASSUMED_CONTENT_FILE_2, ASSUMED_CONTENT_LINES_FILE_2);
+			ASSUMED_CONTENT_FILE_2_DIFFERENT_ORDER, ASSUMED_CONTENT_LINES_FILE_2);
 	if (0 != returnCode)
 		return 2;
 

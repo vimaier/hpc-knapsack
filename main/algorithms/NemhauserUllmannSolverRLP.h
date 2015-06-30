@@ -47,6 +47,12 @@ private:
 	 */
 	bool betterPointExists(PlotPoint* ptToCheck, PlotPoint* list, int counter);
 
+	/**
+	 * Sort the list of input items in knapsack by weights descending. The first element at index 0
+	 * will have the highest weight. The sort will take place on the list itself.
+	 */
+	void sortInputItems();
+
 	/*
 	 * The PlotPoint lists represent the lists L_i, L'_i and L_{i+i}.
 	 * The corresponding counter represent the amount of items in the
