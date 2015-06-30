@@ -37,6 +37,7 @@ void KnapSackSolver::start() {
 }
 
 void KnapSackSolver::executeOneRun() {
+	printf("preparing ...\n");
 	setUp();
 
 	std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
@@ -44,7 +45,7 @@ void KnapSackSolver::executeOneRun() {
 	            r = 1000;
 	const double flopsPerCalc = 2.0;
 
-	printf("started solving ...\n");
+	printf("solving ...\n");
 
 	start = getWalltime();
 
@@ -56,6 +57,7 @@ void KnapSackSolver::executeOneRun() {
 
 	printGFLOPs( static_cast<double>(r) * static_cast<double>( n ), flopsPerCalc, elapsedSeconds( start, end ) );
 
+	printf("finishing ...\n");
 	tearDown();
 
 	writeSolution();

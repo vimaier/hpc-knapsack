@@ -8,6 +8,22 @@
 #include "main/KnapSackSolver.h"
 
 /**
+ * The same struct as KnapSackItem but instead of having
+ * double values for weight and worth we use int values.
+ * This struct is used to prevent explicit casting during
+ * solve of DynamicProgrammingSolver
+ */
+struct IntegerItem{
+	std::string* name;
+	int weight;
+	int worth;
+
+	bool operator==(const IntegerItem& rhs){
+		return weight == rhs.weight && worth == rhs.worth && *name == *(rhs.name);
+	}
+};
+
+/**
  * The BruteForceSolver extends the KnapSackSolver class and
  * implements the abstract method solve().
  *
@@ -36,7 +52,12 @@ protected:
 	void solve();
 		
 private:
+	/**each row represents the number of items available for the specific sub problem*/
+	const int itemRows;
 
+	/**each column represents the max capacity of the knapsack for the specific sub problem*/
+	const int weightColumns;
+	
 	/**
 	 * The result table.
 	 * Each row represents the number of items available for the specific sub problem
@@ -66,12 +87,13 @@ private:
 	 */
 	int** table;
 
-	/**each row represents the number of items available for the specific sub problem*/
-	const int itemRows;
+	/**
+	 * Equals the itemlist of the KnapSack, except that those items worths and weights are casted to int.
+	 * Thus we prevent explicit casting during solve
+	 */
+	IntegerItem* integerItems;
 
-	/**each column represents the max capacity of the knapsack for the specific sub problem*/
-	const int weightColumns;
-	
+
 	/**prints the table to the console*/
 	void printTable();
 

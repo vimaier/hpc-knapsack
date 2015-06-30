@@ -3,17 +3,9 @@
 DynamicProgrammingSolver::DynamicProgrammingSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
 : KnapSackSolver(inputFilename, outputFilename, nrOfExecutions),
   //init rows and columns with +1 for zero row and zero column
-  itemRows(knapSack.getNumOfItems() + 1), weightColumns(knapSack.getCapacity() + 1)
+  itemRows(knapSack.getNumOfItems() + 1), weightColumns(knapSack.getCapacity() + 1), table(new int*[itemRows]), integerItems(new IntegerItem[knapSack.getNumOfItems()])
 {
-	// initialize result table structure.
-	// each row represents the number of items available for the specific sub problem
-	// each column represents the max capacity of the knapsack for the specific sub problem
-	table = new int*[itemRows];
-	for(int i=0; i<itemRows; i++){
-		table[i] = new int[weightColumns];
-		for(int j=0; j<weightColumns; j++)
-			table[i][j] = 0;
-	}
+	
 }
 
 DynamicProgrammingSolver::~DynamicProgrammingSolver(){
@@ -21,10 +13,28 @@ DynamicProgrammingSolver::~DynamicProgrammingSolver(){
 	for(int i=0; i<knapSack.getNumOfItems(); i++)
 		delete[] table[i];
 	delete[] table;
+	
+	// delete integerItems
+	delete[] integerItems;
 }
 
 void DynamicProgrammingSolver::setUp(){
-	// nothing to do here. initialization of table happens in constructor
+	// initialize result table structure.
+	// each row represents the number of items available for the specific sub problem
+	// each column represents the max capacity of the knapsack for the specific sub problem
+	for(int i=0; i<itemRows; i++){
+		table[i] = new int[weightColumns];
+		for(int j=0; j<weightColumns; j++)
+			table[i][j] = 0;
+	}
+
+	// fill integerItem list to prevent explicit casting during solve
+	KnapSackItem* items = knapSack.getItems();
+	for(int i=0; i < knapSack.getNumOfItems() ;++i) {
+		integerItems[i].name = items[i].name;
+		integerItems[i].weight = (int)items[i].weight;
+		integerItems[i].worth = (int)items[i].worth;
+	}
 }
 
 /**
@@ -39,18 +49,17 @@ void DynamicProgrammingSolver::setUp(){
  * stay 0.
  */
 void DynamicProgrammingSolver::solve() {
-	KnapSackItem* items = knapSack.getItems();
-
 	for(int i=1; i < itemRows; i++){
 		//items index must be i-1 because index 0 represents row 1, index 1 represents row 2 etc...
 		int itemsIndex = i-1;
-
+		int itemWeight = integerItems[itemsIndex].weight;
+		int itemWorth = integerItems[itemsIndex].worth;
 		for(int c=1; c < weightColumns; c++){
-			if(c < items[itemsIndex].weight){ //can not pick item
+			if(c < itemWeight){ //can not pick item
 				table[i][c] = table[i-1][c];
 			}else{ //can pick item. choose if we should pick or not
 				int worthOfNotUsingItem = table[i-1][c];
-				int worthOfUsingItem = (int)items[itemsIndex].worth + table[i-1][c-(int)items[itemsIndex].weight];
+				int worthOfUsingItem = itemWorth + table[i-1][c-itemWeight];
 				table[i][c] = worthOfNotUsingItem < worthOfUsingItem ? worthOfUsingItem : worthOfNotUsingItem;
 			}
 		}
@@ -88,7 +97,7 @@ void DynamicProgrammingSolver::tearDown(){
 
 			// add item to solution and move item.weight columns to the left since the added item decreases capacity
 			itemsOfSolution.insert(itemsOfSolution.end(), items[itemsIndex]);
-			currCapacity -= (int)items[itemsIndex].weight;
+			currCapacity -= integerItems[itemsIndex].weight;
 		}
 
 		//move one row up to the next item
