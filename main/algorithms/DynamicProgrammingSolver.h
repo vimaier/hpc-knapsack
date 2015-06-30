@@ -24,7 +24,7 @@ struct IntegerItem{
 };
 
 /**
- * The BruteForceSolver extends the KnapSackSolver class and
+ * The DynamicProgrammingSolver extends the KnapSackSolver class and
  * implements the abstract method solve().
  *
  * Solves the KnapSack-Problem with the dynamic programming approach.

@@ -49,15 +49,24 @@ void DynamicProgrammingSolver::setUp(){
  * stay 0.
  */
 void DynamicProgrammingSolver::solve() {
+	
+	// iterate through rows, representing the item coordinate of the subproblem
 	for(int i=1; i < itemRows; i++){
+		
 		//items index must be i-1 because index 0 represents row 1, index 1 represents row 2 etc...
 		int itemsIndex = i-1;
 		int itemWeight = integerItems[itemsIndex].weight;
 		int itemWorth = integerItems[itemsIndex].worth;
+		
+		// iterate through columns, representing the capacity coordinate of the subproblem
 		for(int c=1; c < weightColumns; c++){
-			if(c < itemWeight){ //can not pick item
+			
+			//can not pick item, set to same worth of subproblem of previous item
+			if(c < itemWeight){ 
 				table[i][c] = table[i-1][c];
-			}else{ //can pick item. choose if we should pick or not
+				
+			//can pick item. choose if we should pick or not and set worth according to decision
+			}else{ 
 				int worthOfNotUsingItem = table[i-1][c];
 				int worthOfUsingItem = itemWorth + table[i-1][c-itemWeight];
 				table[i][c] = worthOfNotUsingItem < worthOfUsingItem ? worthOfUsingItem : worthOfNotUsingItem;
