@@ -14,6 +14,8 @@
 
 class NemhauserUllmannParallelSolver : public KnapSackSolver {
 public:
+	static const std::string NAME;
+
 	NemhauserUllmannParallelSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions = 1);
 
 protected:

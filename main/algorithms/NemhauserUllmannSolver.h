@@ -27,6 +27,8 @@ struct PlotPoint {
  */
 class NemhauserUllmannSolver : public KnapSackSolver {
 public:
+	static const std::string NAME;
+
 	NemhauserUllmannSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions = 1);
 
 protected:

@@ -18,6 +18,8 @@
  */
 class NemhauserUllmannSolverRLP : public KnapSackSolver {
 public:
+	static const std::string NAME;
+
 	NemhauserUllmannSolverRLP(std::string inputFilename, std::string outputFilename, int nrOfExecutions = 1, bool sortInputItemsByWeights = true);
 
 protected:

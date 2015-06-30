@@ -7,12 +7,13 @@
 
 #include "KnapSackSolver.h"
 
-KnapSackSolver::KnapSackSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
+KnapSackSolver::KnapSackSolver(std::string inputFilename, std::string outputFilename, std::string algorithmName, int nrOfExecutions)
 : knapSack(0,0),
+  itemsOfSolution(),
   inputFilename(inputFilename),
   outputFilename(outputFilename),
-  numberOfExecutions(nrOfExecutions),
-  itemsOfSolution()
+  algorithmName(algorithmName),
+  numberOfExecutions(nrOfExecutions)
 {
 	initKnapSack();
 }
@@ -31,6 +32,7 @@ void KnapSackSolver::readInput() {
 }
 
 void KnapSackSolver::start() {
+	printf("Started %s\n", algorithmName.c_str());
 	for (int i=0; i < numberOfExecutions ;++i) {
 		executeOneRun();
 	}

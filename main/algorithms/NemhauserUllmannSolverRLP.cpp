@@ -1,8 +1,10 @@
 #include "main/algorithms/NemhauserUllmannSolverRLP.h"
 #include <cmath>
 
+const std::string NemhauserUllmannSolverRLP::NAME =  "Algorithm of Nemhauser and Ullmann (RLP)";
+
 NemhauserUllmannSolverRLP::NemhauserUllmannSolverRLP(std::string inputFilename, std::string outputFilename, int nrOfExecutions, bool sortInputItemsByWeights)
-: KnapSackSolver(inputFilename, outputFilename, nrOfExecutions),
+: KnapSackSolver(inputFilename, outputFilename, NemhauserUllmannSolverRLP::NAME, nrOfExecutions),
   list0(NULL),
   counter0(0),
   list1(NULL),

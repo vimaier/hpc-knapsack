@@ -1,7 +1,9 @@
 #include "main/algorithms/DynamicProgrammingSolver.h"
 
+const std::string DynamicProgrammingSolver::NAME =  "Dynamic Programming (Sequential)";
+
 DynamicProgrammingSolver::DynamicProgrammingSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
-: KnapSackSolver(inputFilename, outputFilename, nrOfExecutions),
+: KnapSackSolver(inputFilename, outputFilename, DynamicProgrammingSolver::NAME, nrOfExecutions),
   //init rows and columns with +1 for zero row and zero column
   itemRows(knapSack.getNumOfItems() + 1), weightColumns(knapSack.getCapacity() + 1), table(new int*[itemRows]), integerItems(new IntegerItem[knapSack.getNumOfItems()])
 {

@@ -1,7 +1,9 @@
 #include "main/algorithms/DynamicProgrammingParallelSolver.h"
 
+const std::string DynamicProgrammingParallelSolver::NAME =  "Dynamic Programming (Parallel)";
+
 DynamicProgrammingParallelSolver::DynamicProgrammingParallelSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
-: KnapSackSolver(inputFilename, outputFilename, nrOfExecutions),
+: KnapSackSolver(inputFilename, outputFilename, DynamicProgrammingParallelSolver::NAME, nrOfExecutions),
   //init rows and columns with +1 for zero row and zero column
   itemRows(knapSack.getNumOfItems() + 1), weightColumns(knapSack.getCapacity() + 1), table(new int*[itemRows]), integerItems(new IntegerItem[knapSack.getNumOfItems()])
 {
@@ -66,7 +68,7 @@ void DynamicProgrammingParallelSolver::solve() {
 		// iterate through columns, representing the capacity coordinate of the subproblem
 		// we can do this in parallel, since the entries of the same row are not depending on each other
 		// we only want to do this in parallel, if there are more columns than PARALLEL_WEIGHT_THRESHOLD
-		#pragma omp parallel for if(weightColumns > PARALLEL_WEIGHT_THRESHOLD)
+		#pragma omp parallel for if(weightColumns > PARALLEL_CAPACITY_THRESHOLD)
 		for(int c=1; c < weightColumns; c++){
 
 			//can not pick item, set to same worth of subproblem of previous item

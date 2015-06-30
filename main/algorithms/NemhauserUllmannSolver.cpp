@@ -1,8 +1,10 @@
 #include "main/algorithms/NemhauserUllmannSolver.h"
 #include <cmath>
 
+const std::string NemhauserUllmannSolver::NAME =  "Algorithm of Nemhauser and Ullmann (Sequential)";
+
 NemhauserUllmannSolver::NemhauserUllmannSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
-: KnapSackSolver(inputFilename, outputFilename, nrOfExecutions),
+: KnapSackSolver(inputFilename, outputFilename, NemhauserUllmannSolver::NAME, nrOfExecutions),
   list0(NULL),
   counter0(0),
   list1(NULL),

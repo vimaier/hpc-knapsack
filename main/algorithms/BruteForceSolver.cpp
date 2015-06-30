@@ -1,8 +1,10 @@
 #include "main/algorithms/BruteForceSolver.h"
 #include <cmath>
 
+const std::string BruteForceSolver::NAME =  "Brute Force (Sequential)";
+
 BruteForceSolver::BruteForceSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
-: KnapSackSolver(inputFilename, outputFilename, nrOfExecutions), currentCombination(knapSack.getNumOfItems()), bestCombination(), numOfCombinations(pow(2, knapSack.getNumOfItems()))
+: KnapSackSolver(inputFilename, outputFilename, BruteForceSolver::NAME, nrOfExecutions), currentCombination(knapSack.getNumOfItems()), bestCombination(), numOfCombinations(pow(2, knapSack.getNumOfItems()))
 {
 	
 }

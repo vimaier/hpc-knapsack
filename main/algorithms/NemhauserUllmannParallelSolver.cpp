@@ -1,8 +1,10 @@
 #include "main/algorithms/NemhauserUllmannParallelSolver.h"
 #include <cmath>
 
+const std::string NemhauserUllmannParallelSolver::NAME =  "Algorithm of Nemhauser and Ullmann (Parallel)";
+
 NemhauserUllmannParallelSolver::NemhauserUllmannParallelSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
-: KnapSackSolver(inputFilename, outputFilename, nrOfExecutions),
+: KnapSackSolver(inputFilename, outputFilename, NemhauserUllmannParallelSolver::NAME, nrOfExecutions),
   list0(NULL),
   counter0(0),
   list1(NULL),

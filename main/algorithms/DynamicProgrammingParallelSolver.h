@@ -33,8 +33,11 @@ public:
 	 */
 	const int PARALLEL_CAPACITY_THRESHOLD = 100;
 
+	static const std::string NAME;
+
 	DynamicProgrammingParallelSolver(std::string inputFilename,
 			std::string outputFilename, int nrOfExecutions = 1);
+
 	~DynamicProgrammingParallelSolver();
 
 protected:

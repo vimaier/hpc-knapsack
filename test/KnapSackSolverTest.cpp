@@ -11,7 +11,7 @@
 class SolverImpl: public KnapSackSolver {
 public:
 	SolverImpl(std::string inputFilename, std::string outputFilename, int nrOfExecutions=1)
-	: KnapSackSolver(inputFilename, outputFilename, nrOfExecutions)
+	: KnapSackSolver(inputFilename, outputFilename, "Solver Test", nrOfExecutions)
 	{
 	}
 

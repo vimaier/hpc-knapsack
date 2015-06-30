@@ -40,6 +40,8 @@ struct IntegerItem{
  */
 class DynamicProgrammingSolver : public KnapSackSolver {
 public:
+	static const std::string NAME;
+
 	DynamicProgrammingSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions = 1);
 	~DynamicProgrammingSolver();
 

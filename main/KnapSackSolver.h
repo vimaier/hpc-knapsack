@@ -37,7 +37,7 @@
  */
 class KnapSackSolver {
 public:
-	KnapSackSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions=1);
+	KnapSackSolver(std::string inputFilename, std::string outputFilename, std::string algorithmName, int nrOfExecutions=1);
 	virtual ~KnapSackSolver();
 
 
@@ -85,6 +85,7 @@ private:
 
 	const std::string inputFilename;
 	const std::string outputFilename;
+	const std::string algorithmName;
 	int numberOfExecutions;
 
 };

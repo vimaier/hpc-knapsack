@@ -6,6 +6,7 @@
 #include "main/algorithms/DynamicProgrammingParallelSolver.h"
 #include "main/algorithms/NemhauserUllmannSolver.h"
 #include "main/algorithms/NemhauserUllmannParallelSolver.h"
+#include "main/algorithms/NemhauserUllmannSolverRLP.h"
 using namespace std;
 
 #define PRINT_VERBOSE
@@ -19,33 +20,39 @@ static const char* DP_INPUT_FILE = "res/dynamicProgrammingExample.txt";
 static const char* KNAPSACK_OUTPUT_FILE = "knapSackOut.txt";
 
 void executeNemhauserUllmanSolver() {
-	KnapSackSolver* solver = new NemhauserUllmannSolver(FOURTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	KnapSackSolver* solver = new NemhauserUllmannSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
 	solver->start();
 	delete solver;
 }
 
 void executeNemhauserUllmanParallelSolver() {
-	KnapSackSolver* solver = new NemhauserUllmannParallelSolver(FOURTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	KnapSackSolver* solver = new NemhauserUllmannParallelSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	solver->start();
+	delete solver;
+}
+
+void executeNemhauserUllmanRLPSolver() {
+	KnapSackSolver* solver = new NemhauserUllmannSolverRLP(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
 	solver->start();
 	delete solver;
 }
 
 void executeBruteForceSolver(){
-	BruteForceSolver* bfsolver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
-	bfsolver->start();
-	delete bfsolver;
+	KnapSackSolver* solver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	solver->start();
+	delete solver;
 }
 
 void executeDynamicProgrammingSolver(){
-	DynamicProgrammingSolver* dpsolver = new DynamicProgrammingSolver(DP_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
-	dpsolver->start();
-	delete dpsolver;
+	KnapSackSolver* solver = new DynamicProgrammingSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	solver->start();
+	delete solver;
 }
 
 void executeDynamicProgrammingParallelSolver(){
-	DynamicProgrammingParallelSolver* dpsolver = new DynamicProgrammingParallelSolver(DP_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
-	dpsolver->start();
-	delete dpsolver;
+	KnapSackSolver* solver = new DynamicProgrammingParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	solver->start();
+	delete solver;
 }
 
 void checkForOpenMP(){
@@ -61,9 +68,10 @@ int main(int argc, char* argv[]){
 
 	//checkForOpenMP();
 
-	//executeBruteForceSolver();
-	//executeNemhauserUllmanSolver();
-	//executeNemhauserUllmanParallelSolver();
+	executeBruteForceSolver();
+	executeNemhauserUllmanSolver();
+	executeNemhauserUllmanParallelSolver();
+	executeNemhauserUllmanRLPSolver();
 	executeDynamicProgrammingSolver();
 	executeDynamicProgrammingParallelSolver();
 }
