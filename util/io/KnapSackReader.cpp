@@ -19,8 +19,10 @@
 
 KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 
+#ifdef PRINT_VERBOSE
 	std::cout << "**************************" << std::endl;
 	std::cout << "reading " << fileName << " ... " << std::endl;
+#endif
 
 	//allocate objects on stack by auto calling constructors ifstream(filename) and string()
 	std::ifstream input(fileName);
@@ -28,7 +30,11 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 
 	//read first line: capacity, MaxNumPerItem and numOfItems
 	std::getline(input, strLine);
+
+#ifdef PRINT_VERBOSE
 	std::cout << "constraints: " << strLine << '\n';
+#endif
+
 	std::vector<std::string> firstLine = StringUtils::split(strLine, ' ');
 	const double capacity = std::atof(firstLine[0].c_str());
 	const int numOfInstancesPerItem = std::atoi(firstLine[1].c_str());
@@ -43,7 +49,10 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 	while (std::getline(input, strLine)) {
 		if (strLine.length() < STRLENGTH_ITEMNAME)
 			continue; // Probably an empty line
+
+#ifdef PRINT_VERBOSE
 		std::cout << "item: " << strLine << '\n';
+#endif
 
 		// Read name, weight and worth
 		std::string name(strLine.substr(0, STRLENGTH_ITEMNAME));
@@ -63,8 +72,10 @@ KnapSack KnapSackReader::readKnapSackFrom(const char* fileName){
 		}
 	}
 
+#ifdef PRINT_VERBOSE
 	std::cout << "reading complete" << std::endl;
 	std::cout << "**************************" << std::endl;
+#endif
 
 	return knapSack;
 }

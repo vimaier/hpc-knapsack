@@ -3,9 +3,12 @@
 
 #include "main/algorithms/BruteForceSolver.h"
 #include "main/algorithms/DynamicProgrammingSolver.h"
+#include "main/algorithms/DynamicProgrammingParallelSolver.h"
 #include "main/algorithms/NemhauserUllmannSolver.h"
 #include "main/algorithms/NemhauserUllmannParallelSolver.h"
 using namespace std;
+
+#define PRINT_VERBOSE
 
 static const char* FIRST_KNAPSACK_INPUT_FILE = "res/firstFileExample.txt";
 static const char* SECOND_KNAPSACK_INPUT_FILE = "res/secondFileExample.txt";
@@ -34,7 +37,13 @@ void executeBruteForceSolver(){
 }
 
 void executeDynamicProgrammingSolver(){
-	DynamicProgrammingSolver* dpsolver = new DynamicProgrammingSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	DynamicProgrammingSolver* dpsolver = new DynamicProgrammingSolver(DP_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	dpsolver->start();
+	delete dpsolver;
+}
+
+void executeDynamicProgrammingParallelSolver(){
+	DynamicProgrammingParallelSolver* dpsolver = new DynamicProgrammingParallelSolver(DP_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
 	dpsolver->start();
 	delete dpsolver;
 }
@@ -56,4 +65,5 @@ int main(int argc, char* argv[]){
 	//executeNemhauserUllmanSolver();
 	//executeNemhauserUllmanParallelSolver();
 	executeDynamicProgrammingSolver();
+	executeDynamicProgrammingParallelSolver();
 }
