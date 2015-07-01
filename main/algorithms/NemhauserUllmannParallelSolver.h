@@ -77,6 +77,8 @@ private:
 
 	const double knapsackCapacity;
 
+	static const double NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
+
 };
 
 #endif /* MAIN_ALGORITHMS_NEMHAUSERULLMANNPARALLELSOLVER_H_ */

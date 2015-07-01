@@ -69,7 +69,7 @@ bool NemhauserUllmannParallelSolver::betterPointExists(const PlotPoint* ptToChec
 	return aBetterPointExists;
 }
 
-const double NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS = -1.0;
+const double NemhauserUllmannParallelSolver::NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS = -1.0;
 
 
 void NemhauserUllmannParallelSolver::markAllNonOptimalPoints(PlotPoint* list1, const int ctr1, PlotPoint* list2, const int ctr2) {
@@ -106,6 +106,9 @@ void NemhauserUllmannParallelSolver::solve() {
 
 	// Adding KnapSackItems
 	for(int i=0; i < numOfItems ;++i) {
+
+		//TODO: remove
+		std::printf("cL_i %d\n", cL_i);
 
 		KnapSackItem* currentItem = &(items[i]);
 
