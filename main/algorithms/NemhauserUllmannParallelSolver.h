@@ -78,6 +78,11 @@ private:
 	const double knapsackCapacity;
 
 	static const double NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
+	/**
+	 * Used in "parallel for" pragma. If we have only a few items then it is faster to run it on a single
+	 * thread. The threshold has to be determined.
+	 */
+	static const int THRESHOLD_OF_ITEMS_TO_PARALLELIZE;
 
 };
 

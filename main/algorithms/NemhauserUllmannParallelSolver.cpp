@@ -53,34 +53,34 @@ void NemhauserUllmannParallelSolver::deletePlotPointLists() {
 
 
 bool NemhauserUllmannParallelSolver::betterPointExists(const PlotPoint* ptToCheck, const PlotPoint* list, const int counter) {
-	bool aBetterPointExists = false;
-	bool onlyHeavierPointsLeft = false;
-#pragma omp parallel for
-	for (int i=0; i < counter ;++i) {
-		if (aBetterPointExists || onlyHeavierPointsLeft)
-			continue;
-		if(list[i].weight > ptToCheck->weight)
-			onlyHeavierPointsLeft = true;  // This is a sorted list (by weights) thus we do not need to check further items
-		else if(list[i].worth > ptToCheck->worth)
-			// Here we have a point with lower weight but bigger worth
-			aBetterPointExists = true;
-	}
 
-	return aBetterPointExists;
+	for (int i=0; i < counter ;++i) {
+		if(list[i].weight > ptToCheck->weight)
+			break;  // This is a sorted list (by weights) thus we do not need to check further items
+		if(list[i].worth > ptToCheck->worth)
+ 			// Here we have a point with lower weight but bigger worth
+ 			return true;
+ 	}
+
+ 	return false;
 }
 
+
 const double NemhauserUllmannParallelSolver::NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS = -1.0;
+const int NemhauserUllmannParallelSolver::THRESHOLD_OF_ITEMS_TO_PARALLELIZE = 100;
 
 
 void NemhauserUllmannParallelSolver::markAllNonOptimalPoints(PlotPoint* list1, const int ctr1, PlotPoint* list2, const int ctr2) {
 
 	assert(list1 != NULL && ctr1 > 0 && list2 != NULL && ctr2 > 0 );
 
+	#pragma omp parallel for if (ctr1 > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
 	for (int i=0; i < ctr1 ;++i) {
 		if (betterPointExists(&(list1[i]), list2, ctr2))
 			list1[i].worth = NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
 	}
 
+	#pragma omp parallel for if (ctr2 > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
 	for (int i=0; i < ctr2;++i) {
 		if (betterPointExists(&(list2[i]), list1, ctr1))
 			list2[i].worth = NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
