@@ -53,16 +53,20 @@ void NemhauserUllmannParallelSolver::deletePlotPointLists() {
 
 
 bool NemhauserUllmannParallelSolver::betterPointExists(const PlotPoint* ptToCheck, const PlotPoint* list, const int counter) {
-#pragma parallal for
+	bool aBetterPointExists = false;
+	bool onlyHeavierPointsLeft = false;
+#pragma omp parallel for
 	for (int i=0; i < counter ;++i) {
+		if (aBetterPointExists || onlyHeavierPointsLeft)
+			continue;
 		if(list[i].weight > ptToCheck->weight)
-			break;  // This is a sorted list (by weights) thus we do not need to check further items
-		if(list[i].worth > ptToCheck->worth)
+			onlyHeavierPointsLeft = true;  // This is a sorted list (by weights) thus we do not need to check further items
+		else if(list[i].worth > ptToCheck->worth)
 			// Here we have a point with lower weight but bigger worth
-			return true;
+			aBetterPointExists = true;
 	}
 
-	return false;
+	return aBetterPointExists;
 }
 
 const double NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS = -1.0;
