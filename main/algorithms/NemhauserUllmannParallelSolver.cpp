@@ -108,7 +108,7 @@ void NemhauserUllmannParallelSolver::solve() {
 	for(int i=0; i < numOfItems ;++i) {
 
 		//TODO: remove
-		std::printf("cL_i %d\n", cL_i);
+		//std::printf("cL_i %d\n", cL_i);
 
 		KnapSackItem* currentItem = &(items[i]);
 

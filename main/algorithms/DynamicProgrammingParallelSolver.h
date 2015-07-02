@@ -7,6 +7,7 @@
 #include "util/MyMath.h"
 #include "main/KnapSackSolver.h"
 #include "main/algorithms/DynamicProgrammingSolver.h" // for IntegerItem struct
+
 /**
  * The DynamicProgrammingParallelSolver extends the KnapSackSolver class and
  * implements the abstract method solve().
@@ -18,6 +19,7 @@
  * This version is only compatible to integer input values and can not handle floating point values.
  * To handle floating point values, we could multiply them (e.g. by 100) and parse them them to integer
  * but this delivers only a low accuracy and makes the problem / matrix to solve more complex.
+ * To solve problems with floating point values we have implemented the algorithm of Nemhauser and Ullmann
  */
 class DynamicProgrammingParallelSolver: public KnapSackSolver {
 public:

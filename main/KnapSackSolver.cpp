@@ -59,7 +59,7 @@ void KnapSackSolver::executeOneRun() {
 
 	printGFLOPs( static_cast<double>(r) * static_cast<double>( n ), flopsPerCalc, elapsedSeconds( start, end ) );
 
-	printf("finishing ...\n");
+	printf("finishing ...\n\n");
 	tearDown();
 
 	writeSolution();

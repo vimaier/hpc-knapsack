@@ -1,5 +1,5 @@
 #include "main/algorithms/DynamicProgrammingSolver.h"
-#include <cstring>
+
 const std::string DynamicProgrammingSolver::NAME =  "Dynamic Programming (Sequential)";
 
 DynamicProgrammingSolver::DynamicProgrammingSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
