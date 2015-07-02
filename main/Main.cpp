@@ -3,6 +3,7 @@
 
 #include "main/algorithms/BruteForceSolver.h"
 #include "main/algorithms/DynamicProgrammingSolver.h"
+#include "main/algorithms/DynamicProgrammingLessSpaceSolver.h"
 #include "main/algorithms/DynamicProgrammingParallelSolver.h"
 #include "main/algorithms/NemhauserUllmannSolver.h"
 #include "main/algorithms/NemhauserUllmannParallelSolver.h"
@@ -16,6 +17,8 @@ static const char* SECOND_KNAPSACK_INPUT_FILE = "res/secondFileExample.txt";
 static const char* THIRD_KNAPSACK_INPUT_FILE = "res/thirdFileExample.txt";
 static const char* FOURTH_KNAPSACK_INPUT_FILE = "res/fourthFileExample.txt";
 static const char* FIFTH_KNAPSACK_INPUT_FILE = "res/fifthFileExample.txt";
+static const char* SIXTH_KNAPSACK_INPUT_FILE = "res/sixthFileExample.txt";
+static const char* SEVENTH_KNAPSACK_INPUT_FILE = "res/seventhFileExample.txt";
 static const char* DP_INPUT_FILE = "res/dynamicProgrammingExample.txt";
 static const char* KNAPSACK_OUTPUT_FILE = "knapSackOut.txt";
 
@@ -55,6 +58,12 @@ void executeDynamicProgrammingParallelSolver(){
 	delete solver;
 }
 
+void executeDynamicProgrammingLessSpaceSolver(){
+	KnapSackSolver* solver = new DynamicProgrammingLessSpaceSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	solver->start();
+	delete solver;
+}
+
 void checkForOpenMP(){
 	int id;
 	#pragma omp parallel private(id)
@@ -68,10 +77,11 @@ int main(int argc, char* argv[]){
 
 	//checkForOpenMP();
 
-	executeBruteForceSolver();
-	executeNemhauserUllmanSolver();
-	executeNemhauserUllmanParallelSolver();
-	executeNemhauserUllmanRLPSolver();
-	executeDynamicProgrammingSolver();
-	executeDynamicProgrammingParallelSolver();
+	//executeBruteForceSolver();
+	//executeNemhauserUllmanSolver();
+	//executeNemhauserUllmanParallelSolver();
+	//executeNemhauserUllmanRLPSolver();
+	//executeDynamicProgrammingSolver();
+	executeDynamicProgrammingLessSpaceSolver();
+	//executeDynamicProgrammingParallelSolver();
 }
