@@ -87,6 +87,20 @@ void DynamicProgrammingParallelSolver::solve() {
 				}
 			}
 
+
+			/*
+			// copying previous row ensures the correct worths for all entries where the item can not be picked
+			std::copy(table[i-1], table[i-1] + weightColumns, table[i]);
+
+			#pragma omp for
+			for(int c=itemWeight; c < weightColumns; c++){
+				int worthOfNotUsingItem = table[i-1][c];
+				int worthOfUsingItem = itemWorth + table[i-1][c-itemWeight];
+				if(worthOfNotUsingItem < worthOfUsingItem)
+					table[i][c] = worthOfUsingItem;
+			}
+			*/
+
 		}
 	}
 

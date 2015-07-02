@@ -1,5 +1,5 @@
 #include "main/algorithms/DynamicProgrammingSolver.h"
-
+#include <cstring>
 const std::string DynamicProgrammingSolver::NAME =  "Dynamic Programming (Sequential)";
 
 DynamicProgrammingSolver::DynamicProgrammingSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
@@ -60,18 +60,15 @@ void DynamicProgrammingSolver::solve() {
 		int itemWeight = integerItems[itemsIndex].weight;
 		int itemWorth = integerItems[itemsIndex].worth;
 		
-		//iterate through columns, representing the capacity coordinate of the subproblem.
-		int c = 1;
+		// copying previous row ensures the correct worths for all entries where the item can not be picked
+		std::copy(table[i-1], table[i-1] + weightColumns, table[i]);
 
-		//can not pick item, set to same worth of subproblem of previous item
-		for(; c < itemWeight; c++)
-			table[i][c] = table[i-1][c];
-
-		//can pick item. choose if we should pick or not and set worth according to decision
-		for(; c < weightColumns; c++){
+		// for all columns where the item could be picked, check if it's worth it and if so, pick it
+		for(int c=itemWeight; c < weightColumns; c++){
 			int worthOfNotUsingItem = table[i-1][c];
 			int worthOfUsingItem = itemWorth + table[i-1][c-itemWeight];
-			table[i][c] = worthOfNotUsingItem < worthOfUsingItem ? worthOfUsingItem : worthOfNotUsingItem;
+			if(worthOfNotUsingItem < worthOfUsingItem)
+				table[i][c] = worthOfUsingItem;
 		}
 	}
 
