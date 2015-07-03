@@ -52,6 +52,17 @@ protected:
 
 	void tearDown();
 
+	/**
+	 * Solves every subproblem of the given knapsack problem including the knapsack problem itself.
+	 * Each entry of the table represents the best worth achievable by the specific sub problem.
+	 * The problems are being solved in a bottom-up manner.
+	 * We start by solving the lowest subproblem [1,1] and end up solving the main problem at [numOfItems, maxCapacity].
+	 *
+	 * Why don't we start at [0,0] ? Because worths of row[0] and worths of column[0] stay 0.
+	 * This is because a knapsack with 0 capacity can not have any items and a knapsack with 0 items can not weigh anything (0 capacity = 0 items).
+	 * Thus the best worths of our base-problems (the sub problems at [i,0] for all [0 <= i < cols] and the sub problems at [0, c] for all [0 <= c < rows])
+	 * stay 0.
+	 */
 	void solve();
 		
 private:
@@ -97,7 +108,23 @@ private:
 	IntegerItem* integerItems;
 
 
-	/**prints the table to the console*/
+	/**
+	 * Determines items included in the optimal solution by
+	 * traversing the populated result table.
+	 * This happens top-down, meaning we start at the most lower right table entry.
+	 * This entry contains the optimal worths for the main knapsack problem.
+	 * By comparing the worths of specific sub problems we can determine if a
+	 * specific item is part of the optimal solution or not.
+	 *
+	 * If the optimal worths of entries of two rows
+	 * table[currItem][currWeight] and table[currItem-1][currWeight]
+	 * differ from each other, the item of the current row must be part of the solution.
+	 * We add the item and decrease the capacity by the weight of that item.
+	 * Thus, new sub problems with the new capacity will be checked until we checked all items.
+	 */
+	void backtrackItemsOfSolution();
+
+	/**prints the result table to the console*/
 	void printTable();
 
 };

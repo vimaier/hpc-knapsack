@@ -19,6 +19,7 @@
  * having the whole table we just need one row which stores the previously calculated worths and uses
  * them to calculate the worths of the next iteration.
  * This however causes some difficulty when trying to backtrack the items of the solution.
+ * We could simply
  * TODO: explain backtracking. siehe seite 66 in kellerer buch
  *
  * This version is only compatible to integer input values and can not handle floating point values.
@@ -49,7 +50,7 @@ private:
 	IntegerItem* integerItems;
 	std::vector<IntegerItem> integerItemsOfSolution;
 
-	int* solveProblem(IntegerItem* items, int itemsLength, int* currentRow, int rowLength, int capacity);
+	int* solveProblem(IntegerItem* items, int itemsLength, int* solutionRow, int rowLength, int capacity);
 	void determineItemsOfSolutionRecursively(IntegerItem* items, int numOfItems, int capacity, int solution);
 };
 

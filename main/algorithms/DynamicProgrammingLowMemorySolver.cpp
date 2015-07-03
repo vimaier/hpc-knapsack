@@ -33,11 +33,11 @@ void DynamicProgrammingLowMemorySolver::solve() {
 	determineItemsOfSolutionRecursively(integerItems, knapSack.getNumOfItems(), knapSack.getCapacity(), solution);
 }
 
-int* DynamicProgrammingLowMemorySolver::solveProblem(IntegerItem* items, int itemsLength, int* currentRow, int rowLength, int capacity){
+int* DynamicProgrammingLowMemorySolver::solveProblem(IntegerItem* items, int itemsLength, int* solutionRow, int rowLength, int capacity){
 	assert(rowLength > capacity);
 
 	for(int i=0; i<rowLength; i++){
-		currentRow[i] = 0;
+		solutionRow[i] = 0;
 	}
 
 	// iterate through rows, representing the item coordinate of the subproblem
@@ -49,14 +49,14 @@ int* DynamicProgrammingLowMemorySolver::solveProblem(IntegerItem* items, int ite
 
 		// check if it's worth to pack the item for each column where the item fits in
 		for(int c=capacity; c >= itemWeight; c--){
-			int worthOfPickingItem = currentRow[c - itemWeight] + itemWorth;
-			if( worthOfPickingItem > currentRow[c])
-				currentRow[c] = worthOfPickingItem;
+			int worthOfPickingItem = solutionRow[c - itemWeight] + itemWorth;
+			if( worthOfPickingItem > solutionRow[c])
+				solutionRow[c] = worthOfPickingItem;
 		}
 	}
 
 	//solution now stands at the last position of the currentRow (currentRow[capacity-1])
-	return currentRow;
+	return solutionRow;
 }
 
 void DynamicProgrammingLowMemorySolver::tearDown(){

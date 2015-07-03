@@ -81,7 +81,7 @@ int main(int argc, char* argv[]){
 	//executeNemhauserUllmanSolver();
 	//executeNemhauserUllmanParallelSolver();
 	//executeNemhauserUllmanRLPSolver();
-	//executeDynamicProgrammingSolver();
+	executeDynamicProgrammingSolver();
 	executeDynamicProgrammingLowMemorySolver();
-	//executeDynamicProgrammingParallelSolver();
+	executeDynamicProgrammingParallelSolver();
 }
