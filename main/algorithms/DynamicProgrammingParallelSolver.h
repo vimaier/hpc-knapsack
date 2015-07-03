@@ -33,7 +33,8 @@ public:
 	 * The number of elements per row is depending on the max capacity of the knapsack,
 	 * since there are as many columns as the value of the capacity.
 	 */
-	const int PARALLEL_CAPACITY_THRESHOLD = 100;
+	static const int PARALLEL_CAPACITY_THRESHOLD;
+	static const int PARALLEL_ITEM_THRESHOLD;
 
 	static const std::string NAME;
 

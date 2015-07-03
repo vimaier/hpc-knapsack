@@ -14,10 +14,13 @@ DynamicProgrammingLowMemorySolver::~DynamicProgrammingLowMemorySolver(){
 	delete[] integerItems;
 }
 
+// we can parallelize this, since this is not part of the measurement
 void DynamicProgrammingLowMemorySolver::setUp(){
 	// fill integerItem list to prevent explicit casting during solve
 	KnapSackItem* items = knapSack.getItems();
-	for(int i=0; i < knapSack.getNumOfItems() ;++i) {
+	int numOfItems = knapSack.getNumOfItems();
+	#pragma omp parallel for if(numOfItems > 5000)
+	for(int i=0; i < numOfItems; ++i) {
 		integerItems[i].name = items[i].name;
 		integerItems[i].weight = (int)items[i].weight;
 		integerItems[i].worth = (int)items[i].worth;

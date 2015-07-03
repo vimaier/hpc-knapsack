@@ -20,22 +20,28 @@ DynamicProgrammingSolver::~DynamicProgrammingSolver(){
 	delete[] integerItems;
 }
 
+//we can parallelize setup since it is not being mesured
 void DynamicProgrammingSolver::setUp(){
-	// initialize result table structure.
-	// each row represents the number of items available for the specific sub problem
-	// each column represents the max capacity of the knapsack for the specific sub problem
-	for(int i=0; i<itemRows; i++){
-		table[i] = new int[weightColumns];
-		for(int j=0; j<weightColumns; j++)
-			table[i][j] = 0;
-	}
-
-	// fill integerItem list to prevent explicit casting during solve
-	KnapSackItem* items = knapSack.getItems();
-	for(int i=0; i < knapSack.getNumOfItems() ;++i) {
-		integerItems[i].name = items[i].name;
-		integerItems[i].weight = (int)items[i].weight;
-		integerItems[i].worth = (int)items[i].worth;
+	#pragma omp parallel if(itemRows > 5000)
+	{
+		// initialize result table structure.
+		// each row represents the number of items available for the specific sub problem
+		// each column represents the max capacity of the knapsack for the specific sub problem
+		#pragma omp for
+		for(int i=0; i<itemRows; i++){
+			table[i] = new int[weightColumns];
+			for(int j=0; j<weightColumns; j++)
+				table[i][j] = 0;
+		}
+	
+		// fill integerItem list to prevent explicit casting during solve
+		KnapSackItem* items = knapSack.getItems();
+		#pragma omp for
+		for(int i=0; i < knapSack.getNumOfItems() ;++i) {
+			integerItems[i].name = items[i].name;
+			integerItems[i].weight = (int)items[i].weight;
+			integerItems[i].worth = (int)items[i].worth;
+		}
 	}
 }
 

@@ -1,6 +1,8 @@
 #include "main/algorithms/DynamicProgrammingParallelSolver.h"
 
 const std::string DynamicProgrammingParallelSolver::NAME =  "Dynamic Programming (Parallel)";
+const int DynamicProgrammingParallelSolver::PARALLEL_CAPACITY_THRESHOLD = 5000;
+const int DynamicProgrammingParallelSolver::PARALLEL_ITEM_THRESHOLD = 5000;
 
 DynamicProgrammingParallelSolver::DynamicProgrammingParallelSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
 : KnapSackSolver(inputFilename, outputFilename, DynamicProgrammingParallelSolver::NAME, nrOfExecutions),
@@ -21,21 +23,26 @@ DynamicProgrammingParallelSolver::~DynamicProgrammingParallelSolver(){
 }
 
 void DynamicProgrammingParallelSolver::setUp(){
-	// initialize result table structure.
-	// each row represents the number of items available for the specific sub problem
-	// each column represents the max capacity of the knapsack for the specific sub problem
-	for(int i=0; i<itemRows; i++){
-		table[i] = new int[weightColumns];
-		for(int j=0; j<weightColumns; j++)
-			table[i][j] = 0;
-	}
+	#pragma omp parallel if(itemRows > DynamicProgrammingParallelSolver::PARALLEL_ITEM_THRESHOLD)
+	{
+		// initialize result table structure.
+		// each row represents the number of items available for the specific sub problem
+		// each column represents the max capacity of the knapsack for the specific sub problem
+		#pragma omp for
+		for(int i=0; i<itemRows; i++){
+			table[i] = new int[weightColumns];
+			for(int j=0; j<weightColumns; j++)
+				table[i][j] = 0;
+		}
 
-	// fill integerItem list to prevent explicit casting during solve
-	KnapSackItem* items = knapSack.getItems();
-	for(int i=0; i < knapSack.getNumOfItems() ;++i) {
-		integerItems[i].name = items[i].name;
-		integerItems[i].weight = (int)items[i].weight;
-		integerItems[i].worth = (int)items[i].worth;
+		// fill integerItem list to prevent explicit casting during solve
+		KnapSackItem* items = knapSack.getItems();
+		#pragma omp for
+		for(int i=0; i < knapSack.getNumOfItems() ;++i) {
+			integerItems[i].name = items[i].name;
+			integerItems[i].weight = (int)items[i].weight;
+			integerItems[i].worth = (int)items[i].worth;
+		}
 	}
 }
 
@@ -43,7 +50,7 @@ void DynamicProgrammingParallelSolver::solve() {
 	
 	// instantiate threads only if it's worth it (enough columns).
 	// we instantiate threads here, since we do not want to instantiate them again for every i of the outer loop
-	#pragma omp parallel if(weightColumns > PARALLEL_CAPACITY_THRESHOLD)
+	#pragma omp parallel if(weightColumns > DynamicProgrammingParallelSolver::PARALLEL_CAPACITY_THRESHOLD)
 	{
 		// iterate through columns, representing the capacity coordinate of the subproblem
 		for(int i=1; i < itemRows; i++){
