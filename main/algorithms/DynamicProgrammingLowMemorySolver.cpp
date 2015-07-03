@@ -1,20 +1,20 @@
-#include "main/algorithms/DynamicProgrammingLessSpaceSolver.h"
+#include "main/algorithms/DynamicProgrammingLowMemorySolver.h"
 #include <cstring>
-const std::string DynamicProgrammingLessSpaceSolver::NAME =  "Dynamic Programming Less Space (Sequential)";
+const std::string DynamicProgrammingLowMemorySolver::NAME =  "Dynamic Programming Low Memory (Sequential)";
 
-DynamicProgrammingLessSpaceSolver::DynamicProgrammingLessSpaceSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
-: KnapSackSolver(inputFilename, outputFilename, DynamicProgrammingLessSpaceSolver::NAME, nrOfExecutions),
+DynamicProgrammingLowMemorySolver::DynamicProgrammingLowMemorySolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
+: KnapSackSolver(inputFilename, outputFilename, DynamicProgrammingLowMemorySolver::NAME, nrOfExecutions),
   integerItems(new IntegerItem[knapSack.getNumOfItems()]),
   integerItemsOfSolution()
 {
 
 }
 
-DynamicProgrammingLessSpaceSolver::~DynamicProgrammingLessSpaceSolver(){
+DynamicProgrammingLowMemorySolver::~DynamicProgrammingLowMemorySolver(){
 	delete[] integerItems;
 }
 
-void DynamicProgrammingLessSpaceSolver::setUp(){
+void DynamicProgrammingLowMemorySolver::setUp(){
 	// fill integerItem list to prevent explicit casting during solve
 	KnapSackItem* items = knapSack.getItems();
 	for(int i=0; i < knapSack.getNumOfItems() ;++i) {
@@ -24,7 +24,7 @@ void DynamicProgrammingLessSpaceSolver::setUp(){
 	}
 }
 
-void DynamicProgrammingLessSpaceSolver::solve() {
+void DynamicProgrammingLowMemorySolver::solve() {
 	int cap = knapSack.getCapacity();
 	int* solutionRow = new int[cap+1];
 	int solution = solveProblem(integerItems, knapSack.getNumOfItems(), solutionRow, cap+1, cap)[cap];
@@ -33,7 +33,7 @@ void DynamicProgrammingLessSpaceSolver::solve() {
 	determineItemsOfSolutionRecursively(integerItems, knapSack.getNumOfItems(), knapSack.getCapacity(), solution);
 }
 
-int* DynamicProgrammingLessSpaceSolver::solveProblem(IntegerItem* items, int itemsLength, int* currentRow, int rowLength, int capacity){
+int* DynamicProgrammingLowMemorySolver::solveProblem(IntegerItem* items, int itemsLength, int* currentRow, int rowLength, int capacity){
 	assert(rowLength > capacity);
 
 	for(int i=0; i<rowLength; i++){
@@ -59,7 +59,7 @@ int* DynamicProgrammingLessSpaceSolver::solveProblem(IntegerItem* items, int ite
 	return currentRow;
 }
 
-void DynamicProgrammingLessSpaceSolver::tearDown(){
+void DynamicProgrammingLowMemorySolver::tearDown(){
 
 	// convert collected integeritems to knapsack items
 	for(int i=0; i<integerItemsOfSolution.size(); i++){
@@ -77,7 +77,7 @@ void DynamicProgrammingLessSpaceSolver::tearDown(){
 	integerItemsOfSolution.clear();
 }
 
-void DynamicProgrammingLessSpaceSolver::determineItemsOfSolutionRecursively(IntegerItem* items, int numOfItems, int capacity, int solution){
+void DynamicProgrammingLowMemorySolver::determineItemsOfSolutionRecursively(IntegerItem* items, int numOfItems, int capacity, int solution){
 	if(capacity <= 0)
 		return;
 

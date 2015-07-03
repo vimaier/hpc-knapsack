@@ -3,7 +3,7 @@
 
 #include "main/algorithms/BruteForceSolver.h"
 #include "main/algorithms/DynamicProgrammingSolver.h"
-#include "main/algorithms/DynamicProgrammingLessSpaceSolver.h"
+#include "main/algorithms/DynamicProgrammingLowMemorySolver.h"
 #include "main/algorithms/DynamicProgrammingParallelSolver.h"
 #include "main/algorithms/NemhauserUllmannSolver.h"
 #include "main/algorithms/NemhauserUllmannParallelSolver.h"
@@ -58,8 +58,8 @@ void executeDynamicProgrammingParallelSolver(){
 	delete solver;
 }
 
-void executeDynamicProgrammingLessSpaceSolver(){
-	KnapSackSolver* solver = new DynamicProgrammingLessSpaceSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+void executeDynamicProgrammingLowMemorySolver(){
+	KnapSackSolver* solver = new DynamicProgrammingLowMemorySolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
 	solver->start();
 	delete solver;
 }
@@ -82,6 +82,6 @@ int main(int argc, char* argv[]){
 	//executeNemhauserUllmanParallelSolver();
 	//executeNemhauserUllmanRLPSolver();
 	//executeDynamicProgrammingSolver();
-	executeDynamicProgrammingLessSpaceSolver();
+	executeDynamicProgrammingLowMemorySolver();
 	//executeDynamicProgrammingParallelSolver();
 }

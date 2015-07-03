@@ -1,5 +1,5 @@
-#ifndef MAIN_ALGORITHMS_DYNAMICPROGRAMMINGLESSSPACESOLVER_H_
-#define MAIN_ALGORITHMS_DYNAMICPROGRAMMINGLESSSPACESOLVER_H_
+#ifndef MAIN_ALGORITHMS_DYNAMICPROGRAMMINGLOWMEMORYSOLVER_H_
+#define MAIN_ALGORITHMS_DYNAMICPROGRAMMINGLOWMEMORYSOLVER_H_
 
 #include <string>
 #include <vector>
@@ -10,7 +10,7 @@
 #include "main/algorithms/DynamicProgrammingSolver.h" // for IntegerItem struct
 
 /**
- * The DynamicProgrammingLessSpaceSolver extends the KnapSackSolver class and
+ * The DynamicProgrammingLowMemorySolver extends the KnapSackSolver class and
  * implements the abstract method solve().
  *
  * Solves the KnapSack-Problem with the dynamic programming approach (see DynamicProgrammingSolver).
@@ -26,12 +26,12 @@
  * but this delivers only a low accuracy and makes the problem / matrix to solve more complex.
  * To solve problems with floating point values we have implemented the algorithm of Nemhauser and Ullmann
  */
-class DynamicProgrammingLessSpaceSolver : public KnapSackSolver {
+class DynamicProgrammingLowMemorySolver : public KnapSackSolver {
 public:
 	static const std::string NAME;
 
-	DynamicProgrammingLessSpaceSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions = 1);
-	~DynamicProgrammingLessSpaceSolver();
+	DynamicProgrammingLowMemorySolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions = 1);
+	~DynamicProgrammingLowMemorySolver();
 
 protected:
 
@@ -53,4 +53,4 @@ private:
 	void determineItemsOfSolutionRecursively(IntegerItem* items, int numOfItems, int capacity, int solution);
 };
 
-#endif /* MAIN_ALGORITHMS_DYNAMICPROGRAMMINGLESSSPACESOLVER_H_ */
+#endif /* MAIN_ALGORITHMS_DYNAMICPROGRAMMINGLOWMEMORYSOLVER_H_ */
