@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <assert.h>
 
 #include "util/MyMath.h"
 #include "main/KnapSackSolver.h"
@@ -41,22 +42,15 @@ protected:
 	void solve();
 		
 private:
-	/**each row represents the number of items available for the specific sub problem*/
-	const int itemRows;
-
-	/**each column represents the max capacity of the knapsack for the specific sub problem*/
-	const int weightColumns;
-	
-	int* currentRow;
-
 	/**
-	 * Equals the itemlist of the KnapSack, except that those items worths and weights are casted to int.
+	 * Equals the itemlist (itempool) of the KnapSack, except that those items worths and weights are casted to int.
 	 * Thus we prevent explicit casting during solve
 	 */
 	IntegerItem* integerItems;
+	std::vector<IntegerItem> integerItemsOfSolution;
 
-	/**prints the table to the console*/
-	void printTable();
+	int* solveProblem(IntegerItem* items, int itemsLength, int* currentRow, int rowLength, int capacity);
+	void determineItemsOfSolutionRecursively(IntegerItem* items, int numOfItems, int capacity, int solution);
 };
 
 #endif /* MAIN_ALGORITHMS_DYNAMICPROGRAMMINGLESSSPACESOLVER_H_ */
