@@ -1,0 +1,38 @@
+/**
+ * Tests whether the dynamic programming low memory algorithm for solving the knapsack problem works correctly.
+ */
+
+#include "main/algorithms/DynamicProgrammingLowMemorySolver.h"
+#include "util/TestUtils.h"
+#include "test/TestData.h"
+
+
+int testDPLMSolver(const char* inputFile, const char* outputFile, const std::string* assumedContent, int assumedContentLength) {
+	DynamicProgrammingLowMemorySolver* solver = new DynamicProgrammingLowMemorySolver(inputFile, outputFile);
+
+	solver->start();
+
+	delete solver;
+
+	return TestUtils::checkOutput(assumedContent, assumedContentLength, outputFile);
+}
+
+int main(int argc, char* argv[]){
+	int returnCode = testDPLMSolver(KNAPSACK_INPUT_FILE_FIRST_EXAMPLE, TEST_OUTPUT_FILE,
+			ASSUMED_CONTENT_FILE_1, ASSUMED_CONTENT_LINES_FILE_1);
+	if (0 != returnCode)
+		return 1;
+
+	returnCode = testDPLMSolver(KNAPSACK_INPUT_FILE_THIRD_EXAMPLE, TEST_OUTPUT_FILE,
+			ASSUMED_CONTENT_FILE_3, ASSUMED_CONTENT_LINES_FILE_3);
+	if (0 != returnCode)
+		return 2;
+
+	returnCode = testDPLMSolver(KNAPSACK_INPUT_FILE_DP_EXAMPLE, TEST_OUTPUT_FILE,
+			ASSUMED_CONTENT_FILE_DP_DIFFERENT_ORDER, ASSUMED_CONTENT_LINES_FILE_DP);
+
+	if (0 != returnCode)
+		return 3;
+
+	return returnCode;
+}

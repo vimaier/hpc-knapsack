@@ -127,3 +127,11 @@ add_test (NAME nemhauserUllmannSolverRLPTest COMMAND nemhauserUllmannSolverRLPTe
 add_executable (dynamicProgrammingSolverTest  test/DynamicProgrammingSolverTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (dynamicProgrammingSolverTest knapsack)
 add_test (NAME dynamicProgrammingSolverTest COMMAND dynamicProgrammingSolverTest)
+
+add_executable (dynamicProgrammingParallelSolverTest  test/DynamicProgrammingParallelSolverTest.cpp util/TestUtils.h test/TestData.h)
+target_link_libraries (dynamicProgrammingParallelSolverTest knapsack)
+add_test (NAME dynamicProgrammingParallelSolverTest COMMAND dynamicProgrammingParallelSolverTest)
+
+add_executable (dynamicProgrammingLowMemorySolverTest  test/DynamicProgrammingLowMemorySolverTest.cpp util/TestUtils.h test/TestData.h)
+target_link_libraries (dynamicProgrammingLowMemorySolverTest knapsack)
+add_test (NAME dynamicProgrammingLowMemorySolverTest COMMAND dynamicProgrammingLowMemorySolverTest)
