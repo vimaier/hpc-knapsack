@@ -13,7 +13,8 @@ KnapSackSolver::KnapSackSolver(std::string inputFilename, std::string outputFile
   inputFilename(inputFilename),
   outputFilename(outputFilename),
   algorithmName(algorithmName),
-  numberOfExecutions(nrOfExecutions)
+  numberOfExecutions(nrOfExecutions),
+  durationsOfExecutions(nrOfExecutions)
 {
 	initKnapSack();
 }
@@ -55,13 +56,15 @@ void KnapSackSolver::executeOneRun() {
 
 	end = getWalltime();
 
-	printWalltimeInSeconds(start, end);
-
-	printGFLOPs( static_cast<double>(r) * static_cast<double>( n ), flopsPerCalc, elapsedSeconds( start, end ) );
-
-	printf("finishing ...\n\n");
+	printf("finishing ...\n");
 	tearDown();
 
+	printWalltimeInSeconds(start, end);
+	printGFLOPs( static_cast<double>(r) * static_cast<double>( n ), flopsPerCalc, elapsedSeconds( start, end ) );
+	printf("\n");
+
+	//TODO: collect elapsedSeconsds().count and put into durationsOfExectuions
+	writeStatistics();
 	writeSolution();
 }
 
@@ -104,6 +107,10 @@ void KnapSackSolver::writeSolution() const {
 		std::printf("Could not write to file.");
 	}
 
+}
+
+void KnapSackSolver::writeStatistics() const {
+	//TODO calculate and write statistics to file
 }
 
 void KnapSackSolver::setUp() {

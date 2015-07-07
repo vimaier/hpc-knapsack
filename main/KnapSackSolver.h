@@ -79,15 +79,16 @@ protected:
 private:
 	void initKnapSack();
 	void readInput();
-	void writeSolution() const;
 	void executeOneRun();
+	void writeSolution() const;
+	void writeStatistics() const;
 
 
 	const std::string inputFilename;
 	const std::string outputFilename;
 	const std::string algorithmName;
 	int numberOfExecutions;
-
+	std::vector<long> durationsOfExecutions;
 };
 
 #endif /* MAIN_KNAPSACKSOLVER_H_ */
