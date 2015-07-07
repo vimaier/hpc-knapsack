@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
+#include <omp.h>
 
 #include "main/KnapSackSolver.h"
 // For PlotPoints
@@ -65,6 +67,22 @@ private:
 	 */
 	int removeHopelessPoints(PlotPoint* list, int counter, const int& remainingWorthOfInputItems);
 
+	/**
+		 * Find PlotPoints which are not pareto-optimal and 'mark' them. Marking means here set the
+		 * worth to a negative value. Not pareto-optimal points are points which have other points in
+		 * their the upper left quarter, so points with lower weights but higher worths.
+		 *
+		 * Note, for the points from L_i we only need to check for better points in the list L'_i since
+		 * all points in the list are pareto-optimal. The same holds for points from L'_i accordingly.
+		 *
+		 * @param list1
+		 * @param ctr1		The number of elements in list1
+		 * @param list1
+		 * @param ctr2		The number of elements in list2
+		 */
+		void markAllNonOptimalPoints(PlotPoint* list1, const int ctr1, PlotPoint* list2, const int ctr2);
+
+
 	/*
 	 * The PlotPoint lists represent the lists L_i, L'_i and L_{i+i}.
 	 * The corresponding counter represent the amount of items in the
@@ -82,6 +100,13 @@ private:
 	const double knapsackCapacity;
 
 	const bool sortInputItemsByWeights;
+
+	static const double NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
+	/**
+	 * Used in "parallel for" pragma. If we have only a few items then it is faster to run it on a single
+	 * thread. The threshold has to be determined.
+	 */
+	static const int THRESHOLD_OF_ITEMS_TO_PARALLELIZE;
 
 };
 

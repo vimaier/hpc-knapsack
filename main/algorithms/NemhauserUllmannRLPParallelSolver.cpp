@@ -1,5 +1,5 @@
 #include "main/algorithms/NemhauserUllmannRLPParallelSolver.h"
-#include <cmath>
+
 
 const std::string NemhauserUllmannRLPParallelSolver::NAME =  "Algorithm of Nemhauser and Ullmann (RLP and parallel)";
 
@@ -94,6 +94,27 @@ bool NemhauserUllmannRLPParallelSolver::betterPointExists(PlotPoint* ptToCheck, 
 	return false;
 }
 
+const double NemhauserUllmannRLPParallelSolver::NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS = -1.0;
+const int NemhauserUllmannRLPParallelSolver::THRESHOLD_OF_ITEMS_TO_PARALLELIZE = 100;
+
+
+void NemhauserUllmannRLPParallelSolver::markAllNonOptimalPoints(PlotPoint* list1, const int ctr1, PlotPoint* list2, const int ctr2) {
+
+	assert(list1 != NULL && ctr1 > 0 && list2 != NULL && ctr2 > 0 );
+
+	#pragma omp parallel for if (ctr1 > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
+	for (int i=0; i < ctr1 ;++i) {
+		if (betterPointExists(&(list1[i]), list2, ctr2))
+			list1[i].worth = NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
+	}
+
+	#pragma omp parallel for if (ctr2 > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
+	for (int i=0; i < ctr2;++i) {
+		if (betterPointExists(&(list2[i]), list1, ctr1))
+			list2[i].worth = NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
+	}
+}
+
 void NemhauserUllmannRLPParallelSolver::solve() {
 	KnapSackItem* items = knapSack.getItems();
 	const int numOfItems = knapSack.getNumOfItems();
@@ -144,6 +165,8 @@ void NemhauserUllmannRLPParallelSolver::solve() {
 
 		}
 
+		markAllNonOptimalPoints(L_i, cL_i, LPrime_i, cLPrime_i);
+
 		// Merge L_i and L'_i into L_{i+1}: Take only the points which have no points in the upper left quarter
 		// within the other list.
 
@@ -162,7 +185,7 @@ void NemhauserUllmannRLPParallelSolver::solve() {
 			if(ptrLPrime_i >= cLPrime_i) {
 				// No elements in L'_i left. Copy remaining elements of L_i and leave the while(true)-loop
 				while (ptrL_i < cL_i) {
-					if (! betterPointExists(&(L_i[ptrL_i]), LPrime_i, cLPrime_i))
+					if (L_i[ptrL_i].worth >= 0)  // Then L_i[ptrL_i] is a pareto-optimal point
 						if (copyPlotPointIfItFitsIntoKnapsack(&(L_i[ptrL_i]), &(L_ip1[cL_ip1])))
 							cL_ip1++;
 
@@ -173,7 +196,7 @@ void NemhauserUllmannRLPParallelSolver::solve() {
 			if(ptrL_i >= cL_i) {
 				// No elements in L_i left. Copy remaining elements of L'_i and leave the while(true)-loop
 				while (ptrLPrime_i < cLPrime_i) {
-					if (! betterPointExists(&(LPrime_i[ptrLPrime_i]), L_i, cL_i))
+					if (LPrime_i[ptrLPrime_i].worth >= 0)  // Then LPrime_i[ptrLPrime_i] is a pareto-optimal point
 						if (copyPlotPointIfItFitsIntoKnapsack(&(LPrime_i[ptrLPrime_i]), &(L_ip1[cL_ip1])))
 							cL_ip1++;
 
@@ -191,13 +214,13 @@ void NemhauserUllmannRLPParallelSolver::solve() {
 			if (L_i[ptrL_i].weight < LPrime_i[ptrLPrime_i].weight) {
 				smallestWeightPoint = &(L_i[ptrL_i]);
 				ptrL_i++;
-				if (betterPointExists(smallestWeightPoint, LPrime_i, cLPrime_i))
-					continue; // No need to copy this point
+				if (smallestWeightPoint->worth < 0)
+					continue; // No need to copy this non pareto-optimal point
 			} else {
 				smallestWeightPoint = &(LPrime_i[ptrLPrime_i]);
 				ptrLPrime_i++;
-				if (betterPointExists(smallestWeightPoint, L_i, cL_i))
-					continue; // No need to copy this point
+				if (smallestWeightPoint->worth < 0)
+					continue; // No need to copy this non pareto-optimal point
 			}
 
 			if (copyPlotPointIfItFitsIntoKnapsack(smallestWeightPoint, &(L_ip1[cL_ip1])))
