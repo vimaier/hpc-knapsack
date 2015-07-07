@@ -81,6 +81,7 @@ add_library (knapsack
 	main/algorithms/BruteForceSolver.h main/algorithms/BruteForceSolver.cpp
 	main/algorithms/NemhauserUllmannSolver.h main/algorithms/NemhauserUllmannSolver.cpp
 	main/algorithms/NemhauserUllmannSolverRLP.h main/algorithms/NemhauserUllmannSolverRLP.cpp
+	main/algorithms/NemhauserUllmannRLPParallelSolver.h main/algorithms/NemhauserUllmannRLPParallelSolver.cpp
 	main/algorithms/NemhauserUllmannParallelSolver.h main/algorithms/NemhauserUllmannParallelSolver.cpp
 	main/algorithms/DynamicProgrammingSolver.h main/algorithms/DynamicProgrammingSolver.cpp
 	main/algorithms/DynamicProgrammingLowMemorySolver.h main/algorithms/DynamicProgrammingLowMemorySolver.cpp
@@ -124,6 +125,10 @@ add_test (NAME nemhauserUllmannParallelSolverTest COMMAND nemhauserUllmannParall
 add_executable (nemhauserUllmannSolverRLPTest  test/NemhauserUllmannSolverRLPTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (nemhauserUllmannSolverRLPTest knapsack)
 add_test (NAME nemhauserUllmannSolverRLPTest COMMAND nemhauserUllmannSolverRLPTest)
+
+add_executable (nemhauserUllmannRLPParallelSolverTest  test/NemhauserUllmannRLPParallelSolverTest.cpp util/TestUtils.h test/TestData.h)
+target_link_libraries (nemhauserUllmannRLPParallelSolverTest knapsack)
+add_test (NAME nemhauserUllmannRLPParallelSolverTest COMMAND nemhauserUllmannRLPParallelSolverTest)
 
 add_executable (dynamicProgrammingSolverTest  test/DynamicProgrammingSolverTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (dynamicProgrammingSolverTest knapsack)

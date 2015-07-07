@@ -1,5 +1,5 @@
 /**
- * Tests whether the brute force algorithm for solving the knapsack problem works correctly.
+ * Tests whether the Nemhauser Ullmann algorithm for solving the knapsack problem works correctly.
  */
 
 #include "main/algorithms/BruteForceSolver.h"

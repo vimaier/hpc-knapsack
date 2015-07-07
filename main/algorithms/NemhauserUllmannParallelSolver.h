@@ -11,7 +11,6 @@
 /**
  * Based on NemhauserUllmannSolver but the method betterPointExists is parallelized here.
  */
-
 class NemhauserUllmannParallelSolver : public KnapSackSolver {
 public:
 	static const std::string NAME;
