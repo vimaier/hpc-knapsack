@@ -111,10 +111,20 @@ void NemhauserUllmannSolverRLP::solve() {
 	L_i[cL_i].weight = 0;
 	cL_i++;
 
+	//Calculate remaining worth
+	double remainingWorthOfInputItems = 0.0;
+	for(int i=0; i < numOfItems ;++i) {
+		remainingWorthOfInputItems += items[i].worth;
+	}
+
 	// Adding KnapSackItems
 	for(int i=0; i < numOfItems ;++i) {
 
 		KnapSackItem* currentItem = &(items[i]);
+
+		if (cL_i > 150) {
+			removeHopelessPoints(L_i, cL_i, remainingWorthOfInputItems);
+		}
 
 		// Create L'_i: This list contains all points of L_i plus the currentItem
 		for (int j=0; j < cL_i ;j++) {
@@ -198,6 +208,8 @@ void NemhauserUllmannSolverRLP::solve() {
 		cL_ip1 = 0;  // 'Resets' the lists
 		cLPrime_i = 0;
 
+		remainingWorthOfInputItems -= currentItem->worth;
+
 	} // END Adding KnapSackItems
 
 	// The optimal solution is the last point in L_i
@@ -208,6 +220,10 @@ void NemhauserUllmannSolverRLP::solve() {
 		itemsOfSolution.insert(itemsOfSolution.end(), *(*it));
 	}
 
+}
+
+void NemhauserUllmannSolverRLP::removeHopelessPoints(PlotPoint* list, int counter, const int& remainingWorthOfInputItems) {
+	//TODO
 }
 
 bool NemhauserUllmannSolverRLP::copyPlotPointIfItFitsIntoKnapsack(PlotPoint* from, PlotPoint* to) {

@@ -55,6 +55,14 @@ private:
 	 */
 	void sortInputItems();
 
+	/**
+	 * Removes points which cannot contribute to the optimal solution.
+	 * Such a point is a point for which the worth summed with
+	 * remainingWorthOfInputItems is smaller than the worth of the point
+	 * with the highest weight, which is the last item in list.
+	 */
+	void removeHopelessPoints(PlotPoint* list, int counter, const int& remainingWorthOfInputItems);
+
 	/*
 	 * The PlotPoint lists represent the lists L_i, L'_i and L_{i+i}.
 	 * The corresponding counter represent the amount of items in the
