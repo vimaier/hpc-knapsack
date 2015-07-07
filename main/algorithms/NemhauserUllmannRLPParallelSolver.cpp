@@ -151,7 +151,9 @@ void NemhauserUllmannRLPParallelSolver::solve() {
 			cL_i -= nrOfRemovedPoints;
 		}
 
+
 		// Create L'_i: This list contains all points of L_i plus the currentItem
+		#pragma omp parallel for if (cL_i > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
 		for (int j=0; j < cL_i ;j++) {
 			LPrime_i[j].worth = L_i[j].worth + currentItem->worth;
 			LPrime_i[j].weight = L_i[j].weight + currentItem->weight;
@@ -160,10 +162,8 @@ void NemhauserUllmannRLPParallelSolver::solve() {
 			*(LPrime_i[j].containingItems) = *(L_i[j].containingItems);
 			// ... add currentItem
 			LPrime_i[j].containingItems->insert(LPrime_i[j].containingItems->end(), currentItem);
-
-			cLPrime_i++;
-
 		}
+		cLPrime_i = cL_i;
 
 		markAllNonOptimalPoints(L_i, cL_i, LPrime_i, cLPrime_i);
 
