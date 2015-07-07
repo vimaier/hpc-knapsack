@@ -3,8 +3,9 @@
 
 #include "main/algorithms/BruteForceSolver.h"
 #include "main/algorithms/DynamicProgrammingSolver.h"
-#include "main/algorithms/DynamicProgrammingLowMemorySolver.h"
 #include "main/algorithms/DynamicProgrammingParallelSolver.h"
+#include "main/algorithms/DynamicProgrammingLowMemorySolver.h"
+#include "main/algorithms/DynamicProgrammingLowMemoryParallelSolver.h"
 #include "main/algorithms/NemhauserUllmannSolver.h"
 #include "main/algorithms/NemhauserUllmannParallelSolver.h"
 #include "main/algorithms/NemhauserUllmannSolverRLP.h"
@@ -59,7 +60,13 @@ void executeDynamicProgrammingParallelSolver(){
 }
 
 void executeDynamicProgrammingLowMemorySolver(){
-	KnapSackSolver* solver = new DynamicProgrammingLowMemorySolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	KnapSackSolver* solver = new DynamicProgrammingLowMemorySolver(SIXTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	solver->start();
+	delete solver;
+}
+
+void executeDynamicProgrammingLowMemoryParallelSolver(){
+	KnapSackSolver* solver = new DynamicProgrammingLowMemoryParallelSolver(SIXTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
 	solver->start();
 	delete solver;
 }
@@ -81,7 +88,8 @@ int main(int argc, char* argv[]){
 	//executeNemhauserUllmanSolver();
 	//executeNemhauserUllmanParallelSolver();
 	//executeNemhauserUllmanRLPSolver();
-	executeDynamicProgrammingSolver();
+	//executeDynamicProgrammingSolver();
+	//executeDynamicProgrammingParallelSolver();
 	executeDynamicProgrammingLowMemorySolver();
-	executeDynamicProgrammingParallelSolver();
+	executeDynamicProgrammingLowMemoryParallelSolver();
 }

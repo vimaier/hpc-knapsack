@@ -84,6 +84,7 @@ add_library (knapsack
 	main/algorithms/NemhauserUllmannParallelSolver.h main/algorithms/NemhauserUllmannParallelSolver.cpp
 	main/algorithms/DynamicProgrammingSolver.h main/algorithms/DynamicProgrammingSolver.cpp
 	main/algorithms/DynamicProgrammingLowMemorySolver.h main/algorithms/DynamicProgrammingLowMemorySolver.cpp
+	main/algorithms/DynamicProgrammingLowMemoryParallelSolver.h main/algorithms/DynamicProgrammingLowMemoryParallelSolver.cpp
 	main/algorithms/DynamicProgrammingParallelSolver.h main/algorithms/DynamicProgrammingParallelSolver.cpp
 	util/GetWalltime.h util/GetWalltime.cpp
 	util/io/KnapSackReader.h util/io/KnapSackReader.cpp
