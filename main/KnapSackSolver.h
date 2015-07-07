@@ -88,7 +88,7 @@ private:
 	const std::string outputFilename;
 	const std::string algorithmName;
 	int numberOfExecutions;
-	std::vector<long> durationsOfExecutions;
+	std::vector<double> durationsOfExecutions;
 };
 
 #endif /* MAIN_KNAPSACKSOLVER_H_ */
