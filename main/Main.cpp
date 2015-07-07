@@ -42,7 +42,7 @@ void executeNemhauserUllmanRLPSolver() {
 }
 
 void executeBruteForceSolver(){
-	KnapSackSolver* solver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+	KnapSackSolver* solver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE,5);
 	solver->start();
 	delete solver;
 }
@@ -84,12 +84,12 @@ int main(int argc, char* argv[]){
 
 	//checkForOpenMP();
 
-	//executeBruteForceSolver();
+	executeBruteForceSolver();
 	//executeNemhauserUllmanSolver();
 	//executeNemhauserUllmanParallelSolver();
 	//executeNemhauserUllmanRLPSolver();
 	//executeDynamicProgrammingSolver();
 	//executeDynamicProgrammingParallelSolver();
-	executeDynamicProgrammingLowMemorySolver();
-	executeDynamicProgrammingLowMemoryParallelSolver();
+	//executeDynamicProgrammingLowMemorySolver();
+	//executeDynamicProgrammingLowMemoryParallelSolver();
 }

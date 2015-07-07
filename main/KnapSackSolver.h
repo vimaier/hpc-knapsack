@@ -12,6 +12,7 @@
 #include <vector>
 #include <assert.h>
 #include <chrono>
+#include <cmath>
 
 #include "main/KnapSack.h"
 #include "util/io/KnapSackReader.h"

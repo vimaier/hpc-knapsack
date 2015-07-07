@@ -110,10 +110,33 @@ void KnapSackSolver::writeSolution() const {
 }
 
 void KnapSackSolver::writeStatistics() const {
-	//TODO calculate and write statistics to file
+	//calculate avg duration
+	const int n = durationsOfExecutions.size();
+	double sum = 0;
 	for(int i=0; i<durationsOfExecutions.size(); i++){
-		//printf("%.4f\n",durationsOfExecutions[i]);
+		sum += durationsOfExecutions[i];
 	}
+	const double avg = sum / n;
+
+	//calculate root mean square
+	sum = 0;
+	for(int i=0; i<durationsOfExecutions.size(); i++){
+		sum += pow(durationsOfExecutions[i] - avg, 2);
+	}
+	const double rms = sqrt(sum / n);
+
+	//TODO: remove demo print
+	printf("***Statistics BEGIN***\n");
+	printf("algorithm: %s\n", algorithmName.c_str());
+	printf("number of executions: %d\n", numberOfExecutions);
+	for(int i=0; i<durationsOfExecutions.size(); i++){
+		printf("%d: %.4f\n", i, durationsOfExecutions[i]);
+	}
+	printf("avg: %.4f\n", avg);
+	printf("rms: %.4f\n", rms);
+	printf("***Statistics END***\n");
+
+	//TODO: write statistics to file
 }
 
 void KnapSackSolver::setUp() {
