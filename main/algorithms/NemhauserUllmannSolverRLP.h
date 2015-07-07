@@ -60,8 +60,12 @@ private:
 	 * Such a point is a point for which the worth summed with
 	 * remainingWorthOfInputItems is smaller than the worth of the point
 	 * with the highest weight, which is the last item in list.
+	 * The list will be modified in such a way that the items will be
+	 * shift to the left until no hopeless points exist.
+	 *
+	 * @return the number of detected and removed points
 	 */
-	void removeHopelessPoints(PlotPoint* list, int counter, const int& remainingWorthOfInputItems);
+	int removeHopelessPoints(PlotPoint* list, int counter, const int& remainingWorthOfInputItems);
 
 	/*
 	 * The PlotPoint lists represent the lists L_i, L'_i and L_{i+i}.

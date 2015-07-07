@@ -123,7 +123,8 @@ void NemhauserUllmannSolverRLP::solve() {
 		KnapSackItem* currentItem = &(items[i]);
 
 		if (cL_i > 150) {
-			removeHopelessPoints(L_i, cL_i, remainingWorthOfInputItems);
+			int nrOfRemovedPoints = removeHopelessPoints(L_i, cL_i, remainingWorthOfInputItems);
+			cL_i -= nrOfRemovedPoints;
 		}
 
 		// Create L'_i: This list contains all points of L_i plus the currentItem
@@ -222,8 +223,24 @@ void NemhauserUllmannSolverRLP::solve() {
 
 }
 
-void NemhauserUllmannSolverRLP::removeHopelessPoints(PlotPoint* list, int counter, const int& remainingWorthOfInputItems) {
-	//TODO
+int NemhauserUllmannSolverRLP::removeHopelessPoints(PlotPoint* list, int counter, const int& remainingWorthOfInputItems) {
+	// First determine the number of points from the beginning of the list which are 'hopeless'.
+	int i;
+	double currBestWorth = list[counter - 1].worth;
+	for(i=0; i < counter -1 ;++i) {  // counter -1 because we want to omit the last point.
+		if (list[i].worth + remainingWorthOfInputItems > currBestWorth)
+			break;  // If the possible worth f the currItem is bigger then the biggest we don't have to look further.
+	}
+
+	// i stores the number of hopeless points. We have to shift the list to the beginning
+	int numberOfHopelessPoints = i;
+	for(int j=numberOfHopelessPoints; j < counter ;++j) {
+		list[j - numberOfHopelessPoints].weight = list[j].weight;
+		list[j - numberOfHopelessPoints].worth = list[j].worth;
+		*(list[j - numberOfHopelessPoints].containingItems) = *(list[j].containingItems);
+	}
+
+	return numberOfHopelessPoints;
 }
 
 bool NemhauserUllmannSolverRLP::copyPlotPointIfItFitsIntoKnapsack(PlotPoint* from, PlotPoint* to) {
