@@ -6,31 +6,33 @@
 #include "util/TestUtils.h"
 #include "test/TestData.h"
 
-/* Content of text file
-5.0 1 4
-item_01                 2.0 3.0
-item_02                 3.0 4.0
-item_03                 4.0 5.0
-item_04                 5.0 6.0
- */
 
-/* Expected Solution
- * -----------------------------------
- * 1x item_02 -> 3 weight, 4 worth
- * 1x item_01 -> 2 weight, 3 worth
- * -----------------------------------
- * overall 5 weight and 7 worth
-*/
-
-
-int testBruteForceSolver() {
-	DynamicProgrammingSolver* solver = new DynamicProgrammingSolver(KNAPSACK_INPUT_FILE_DP_EXAMPLE, TEST_OUTPUT_FILE);
+int testDPSolver(const char* inputFile, const char* outputFile, const std::string* assumedContent, int assumedContentLength) {
+	DynamicProgrammingSolver* solver = new DynamicProgrammingSolver(inputFile, outputFile);
 
 	solver->start();
 
-	return TestUtils::checkOutput(ASSUMED_CONTENT_FILE_DP, ASSUMED_CONTENT_LINES_FILE_DP, TEST_OUTPUT_FILE);
+	delete solver;
+
+	return TestUtils::checkOutput(assumedContent, assumedContentLength, outputFile);
 }
 
 int main(int argc, char* argv[]){
-	return testBruteForceSolver();
+	int returnCode = testDPSolver(KNAPSACK_INPUT_FILE_FIRST_EXAMPLE, TEST_OUTPUT_FILE,
+			ASSUMED_CONTENT_FILE_1_DIFFERENT_ORDER_OF_ITEMS, ASSUMED_CONTENT_LINES_FILE_1);
+	if (0 != returnCode)
+		return 1;
+
+	returnCode = testDPSolver(KNAPSACK_INPUT_FILE_THIRD_EXAMPLE, TEST_OUTPUT_FILE,
+			ASSUMED_CONTENT_FILE_3, ASSUMED_CONTENT_LINES_FILE_3);
+	if (0 != returnCode)
+		return 2;
+
+	returnCode = testDPSolver(KNAPSACK_INPUT_FILE_DP_EXAMPLE, TEST_OUTPUT_FILE,
+			ASSUMED_CONTENT_FILE_DP, ASSUMED_CONTENT_LINES_FILE_DP);
+
+	if (0 != returnCode)
+		return 3;
+
+	return returnCode;
 }
