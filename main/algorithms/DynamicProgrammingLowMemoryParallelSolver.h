@@ -23,6 +23,8 @@
 class DynamicProgrammingLowMemoryParallelSolver : public KnapSackSolver {
 public:
 	static const std::string NAME;
+	static const int PARALLEL_CAPACITY_THRESHOLD;
+	static const int PARALLEL_ITEMS_THRESHOLD;
 
 	DynamicProgrammingLowMemoryParallelSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions = 1);
 	~DynamicProgrammingLowMemoryParallelSolver();

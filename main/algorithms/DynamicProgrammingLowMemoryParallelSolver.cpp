@@ -1,6 +1,8 @@
 #include "main/algorithms/DynamicProgrammingLowMemoryParallelSolver.h"
 #include <cstring>
 const std::string DynamicProgrammingLowMemoryParallelSolver::NAME =  "Dynamic Programming Low Memory (Parallel)";
+const int DynamicProgrammingLowMemoryParallelSolver::PARALLEL_CAPACITY_THRESHOLD = 5000;
+const int DynamicProgrammingLowMemoryParallelSolver::PARALLEL_ITEMS_THRESHOLD = 5000;
 
 DynamicProgrammingLowMemoryParallelSolver::DynamicProgrammingLowMemoryParallelSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
 : KnapSackSolver(inputFilename, outputFilename, DynamicProgrammingLowMemoryParallelSolver::NAME, nrOfExecutions),
@@ -19,7 +21,7 @@ void DynamicProgrammingLowMemoryParallelSolver::setUp(){
 	// fill integerItem list to prevent explicit casting during solve
 	KnapSackItem* items = knapSack.getItems();
 	int numOfItems = knapSack.getNumOfItems();
-	#pragma omp parallel for if(numOfItems > 5000)
+	#pragma omp parallel for if(numOfItems > DynamicProgrammingLowMemoryParallelSolver::PARALLEL_ITEMS_THRESHOLD)
 	for(int i=0; i < numOfItems; ++i) {
 		integerItems[i].name = items[i].name;
 		integerItems[i].weight = (int)items[i].weight;
@@ -39,6 +41,7 @@ void DynamicProgrammingLowMemoryParallelSolver::solve() {
 int* DynamicProgrammingLowMemoryParallelSolver::solveProblem(IntegerItem* items, int itemsLength, int* solutionRow, int rowLength, int capacity){
 	assert(rowLength > capacity);
 
+	#pragma omp parallel for if(rowLength > DynamicProgrammingLowMemoryParallelSolver::PARALLEL_CAPACITY_THRESHOLD)
 	for(int i=0; i<rowLength; i++){
 		solutionRow[i] = 0;
 	}
@@ -89,8 +92,13 @@ void DynamicProgrammingLowMemoryParallelSolver::determineItemsOfSolutionRecursiv
 	int numOfItems2 = numOfItems - numOfItems1;
 	IntegerItem items1[numOfItems1];
 	IntegerItem items2[numOfItems2];
-	std::copy(items, items + numOfItems1, items1);
-	std::copy(items + numOfItems1, items + numOfItems1 + numOfItems2, items2);
+	#pragma omp parallel sections if(numOfItems > DynamicProgrammingLowMemoryParallelSolver::PARALLEL_ITEMS_THRESHOLD)
+	{
+		#pragma omp section
+			std::copy(items, items + numOfItems1, items1);
+		#pragma omp section
+			std::copy(items + numOfItems1, items + numOfItems1 + numOfItems2, items2);
+	}
 
 	// Find C1 and C2 with C1+C2 = C such that solve(items1,C) + solve(items2,C) = solve(items,C).
 	int rowLength = capacity+1;
@@ -102,15 +110,11 @@ void DynamicProgrammingLowMemoryParallelSolver::determineItemsOfSolutionRecursiv
 	{
 		//this section runs in a different thread than the next section
 		#pragma omp section
-		{
 			subSolutionRow1 = solveProblem(items1, numOfItems1, subSolutionRow1, rowLength, capacity);
-		}
 
 		//this section runs in a different thread than the previous section
 		#pragma omp section
-		{
 			subSolutionRow2 = solveProblem(items2, numOfItems2, subSolutionRow2, rowLength, capacity);
-		}
 	}
 
 	int c1=0;
