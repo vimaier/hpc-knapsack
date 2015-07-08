@@ -76,9 +76,9 @@ private:
 	double calcAvg();
 
 	/**
-	 * Calculates the root mean square among the collected durations and returns it.
+	 * Calculates the root mean square error among the collected durations and returns it.
 	 */
-	double calcRms(const double avg);
+	double calcRmsError(const double avg);
 };
 
 #endif /* IO_STATISTICSWRITER_H_ */

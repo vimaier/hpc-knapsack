@@ -31,7 +31,7 @@ double StatisticsWriter::calcAvg() {
 }
 
 //calculate root mean square
-double StatisticsWriter::calcRms(const double avg) {
+double StatisticsWriter::calcRmsError(const double avg) {
 	const int n = durations.size();
 	double sum = 0;
 	for(int i=0; i<n; i++){
@@ -49,12 +49,12 @@ bool StatisticsWriter::writeToFile() {
 		return false;
 
 	const double avg = calcAvg();
-	const double rms = calcRms(avg);
+	const double rms = calcRmsError(avg);
 
 	fprintf(fp, "Alogrithmus;%s\n", algorithmname.c_str());
 	fprintf(fp, "Anzahl Durchlaeufe;%d\n", durations.size());
 	fprintf(fp, "Durchschnittliche Laufzeit;%.4f\n", avg);
-	fprintf(fp, "Quadratisches Mittel;%.4f\n", rms);
+	fprintf(fp, "RMS Error;%.4f\n", rms);
 	
 	for (int i=0; i < durations.size() ;++i) {
 		fprintf(fp, "%d;%.4f\n", i+1, durations[i]);

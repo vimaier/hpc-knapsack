@@ -141,9 +141,6 @@ void NemhauserUllmannRLPParallelSolver::solve() {
 	// Adding KnapSackItems
 	for(int i=0; i < numOfItems ;++i) {
 
- 		//TODO: remove:
- 		std::printf("cL_i %d\n", cL_i);
-
 		KnapSackItem* currentItem = &(items[i]);
 
 		if (cL_i > 150) {
