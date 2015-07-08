@@ -52,6 +52,7 @@ bool StatisticsWriter::writeToFile() {
 	const double rms = calcRms(avg);
 
 	fprintf(fp, "Alogrithmus;%s\n", algorithmname.c_str());
+	fprintf(fp, "Anzahl Durchlaeufe;%d\n", durations.size());
 	fprintf(fp, "Durchschnittliche Laufzeit;%.4f\n", avg);
 	fprintf(fp, "Quadratisches Mittel;%.4f", rms);
 	
