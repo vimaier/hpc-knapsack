@@ -1,28 +1,12 @@
-/**
- * Tests whether the Nemhauser Ullmann RLP (parallel) algorithm for solving the knapsack problem works correctly.
- */
-
 #include "main/algorithms/NemhauserUllmannRLPParallelSolver.h"
 #include "util/TestUtils.h"
 #include "test/TestData.h"
 
-/* Content of text file
-15.0 4 5
-XXL blue Ox   02.0 2.00
-gray mouse    01.0 2.00
-big green box 12.0 4.00
-yellow daisy  04.0 10.00
-salmon mousse 01.0 1.00
+/**
+ * Tests whether the parallel rlp version of the nemhauser ullmann algorithm for solving the knapsack problem works correctly.
+ * Returns 0 if test succeeds.
+ * Returns -1 if actual output mismatches assumed output
  */
-
-/* Expected Solution
- * -----------------------------------
- * 3x gray mouse -> 3 weight, 6 worth
- * 3x yellow daisy -> 12 weight, 30 worth
- * -----------------------------------
- * overall 15 weight and 36 worth
-*/
-
 int testNemhauserUllmannRLPParallelSolver(const char* inputFile, const char* outputFile, const std::string* assumedContent, int assumedContentLength) {
 	KnapSackSolver* solver = new NemhauserUllmannRLPParallelSolver(inputFile, outputFile);
 
@@ -33,6 +17,13 @@ int testNemhauserUllmannRLPParallelSolver(const char* inputFile, const char* out
 	return TestUtils::checkOutput(assumedContent, assumedContentLength, outputFile);
 }
 
+/**
+ * Tests whether the parallel rlp version of the nemhauser ullmann algorithm for solving the knapsack problem works correctly.
+ * Returns 0 if test succeeds.
+ * Returns 1 if actual output of KNAPSACK_INPUT_FILE_FIRST_EXAMPLE mismatches assumed output.
+ * Returns 2 if actual output of KNAPSACK_INPUT_FILE_SECOND_EXAMPLE mismatches assumed output.
+ * Returns 3 if actual output of KNAPSACK_INPUT_FILE_THIRD_EXAMPLE mismatches assumed output.
+ */
 int main(int argc, char* argv[]){
 	int returnCode = testNemhauserUllmannRLPParallelSolver(KNAPSACK_INPUT_FILE_FIRST_EXAMPLE, TEST_OUTPUT_FILE,
 			ASSUMED_CONTENT_FILE_1_DIFFERENT_ORDER_OF_ITEMS, ASSUMED_CONTENT_LINES_FILE_1);

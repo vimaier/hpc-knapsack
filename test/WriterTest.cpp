@@ -12,10 +12,12 @@
 #include "test/TestData.h"
 
 /**
- * Tests the writing of a knapsack object.
+ * Tests whether a filled knapsackwriter object is properly written to file.
+ * Returns 0 if test succeeds.
+ * Returns -1 if actual output mismatches expected output.
+ * Returns -2 if writing to file failed.
  */
-
-int testReading() {
+int testWriting() {
 	// Create the file
 	KnapSackWriter writer(TEST_OUTPUT_FILE, 2, 15.0);
 
@@ -30,6 +32,9 @@ int testReading() {
 	return TestUtils::checkOutput(ASSUMED_CONTENT_FILE_1, ASSUMED_CONTENT_LINES_FILE_1, TEST_OUTPUT_FILE);
 }
 
+/**
+ * Performs the test by calling testWriting()
+ */
 int main(int argc, char* argv[]){
-	return testReading();
+	return testWriting();
 }
