@@ -17,6 +17,7 @@
 #include "main/KnapSack.h"
 #include "util/io/KnapSackReader.h"
 #include "util/io/KnapSackWriter.h"
+#include "util/io/StatisticsWriter.h"
 #include "util/GetWalltime.h"
 
 /**
@@ -82,14 +83,15 @@ private:
 	void readInput();
 	void executeOneRun();
 	void writeSolution() const;
-	void writeStatistics() const;
+	void writeStatistics();
 
 
 	const std::string inputFilename;
 	const std::string outputFilename;
-	const std::string algorithmName;
+	const std::string algorithmname;
 	int numberOfExecutions;
-	std::vector<double> durationsOfExecutions;
+	StatisticsWriter statistics;
+
 };
 
 #endif /* MAIN_KNAPSACKSOLVER_H_ */

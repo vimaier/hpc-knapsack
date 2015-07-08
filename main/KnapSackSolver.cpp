@@ -7,14 +7,14 @@
 
 #include "KnapSackSolver.h"
 
-KnapSackSolver::KnapSackSolver(std::string inputFilename, std::string outputFilename, std::string algorithmName, int nrOfExecutions)
+KnapSackSolver::KnapSackSolver(std::string inputFilename, std::string outputFilename, std::string algorithmname, int nrOfExecutions)
 : knapSack(0,0),
   itemsOfSolution(),
   inputFilename(inputFilename),
   outputFilename(outputFilename),
-  algorithmName(algorithmName),
+  algorithmname(algorithmname),
   numberOfExecutions(nrOfExecutions),
-  durationsOfExecutions()
+  statistics("statistics_"+algorithmname+".txt", algorithmname)
 {
 	initKnapSack();
 }
@@ -33,7 +33,7 @@ void KnapSackSolver::readInput() {
 }
 
 void KnapSackSolver::start() {
-	printf("Started %s\n", algorithmName.c_str());
+	printf("Started %s\n", algorithmname.c_str());
 	for (int i=0; i < numberOfExecutions ;++i) {
 		executeOneRun();
 	}
@@ -45,8 +45,8 @@ void KnapSackSolver::executeOneRun() {
 	setUp();
 
 	std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
-	const int n = 10000,
-	            r = 1000;
+	const int n = 10000;
+	const int r = 1000;
 	const double flopsPerCalc = 2.0;
 
 	printf("solving ...\n");
@@ -60,11 +60,13 @@ void KnapSackSolver::executeOneRun() {
 	printf("finishing ...\n");
 	tearDown();
 
+	const double duration = elapsedSeconds(start, end).count();
+	statistics.addDuration(duration);
+
 	printWalltimeInSeconds(start, end);
-	printGFLOPs( static_cast<double>(r) * static_cast<double>( n ), flopsPerCalc, elapsedSeconds( start, end ) );
+	printGFLOPs( static_cast<double>(r) * static_cast<double>( n ), flopsPerCalc, elapsedSeconds(start, end));
 	printf("\n");
 
-	durationsOfExecutions.insert(durationsOfExecutions.end(), elapsedSeconds(start, end).count());
 	writeSolution();
 }
 
@@ -104,39 +106,15 @@ void KnapSackSolver::writeSolution() const {
 	}
 
 	if ( ! writer.writeToFile()) {
-		std::printf("Could not write to file.");
+		std::printf("Could not write solution to file.");
 	}
 
 }
 
-void KnapSackSolver::writeStatistics() const {
-	//calculate avg duration
-	const int n = durationsOfExecutions.size();
-	double sum = 0;
-	for(int i=0; i<durationsOfExecutions.size(); i++){
-		sum += durationsOfExecutions[i];
+void KnapSackSolver::writeStatistics() {
+	if (!statistics.writeToFile()) {
+		std::printf("Could not write statistics to file.");
 	}
-	const double avg = sum / n;
-
-	//calculate root mean square
-	sum = 0;
-	for(int i=0; i<durationsOfExecutions.size(); i++){
-		sum += pow(durationsOfExecutions[i] - avg, 2);
-	}
-	const double rms = sqrt(sum / n);
-
-	//TODO: remove demo print
-	printf("***Statistics BEGIN***\n");
-	printf("algorithm: %s\n", algorithmName.c_str());
-	printf("number of executions: %d\n", numberOfExecutions);
-	for(int i=0; i<durationsOfExecutions.size(); i++){
-		printf("%d: %.4f\n", i, durationsOfExecutions[i]);
-	}
-	printf("avg: %.4f\n", avg);
-	printf("rms: %.4f\n", rms);
-	printf("***Statistics END***\n");
-
-	//TODO: write statistics to file
 }
 
 void KnapSackSolver::setUp() {
