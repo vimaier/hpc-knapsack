@@ -142,3 +142,8 @@ add_test (NAME dynamicProgrammingParallelSolverTest COMMAND dynamicProgrammingPa
 add_executable (dynamicProgrammingLowMemorySolverTest  test/DynamicProgrammingLowMemorySolverTest.cpp util/TestUtils.h test/TestData.h)
 target_link_libraries (dynamicProgrammingLowMemorySolverTest knapsack)
 add_test (NAME dynamicProgrammingLowMemorySolverTest COMMAND dynamicProgrammingLowMemorySolverTest)
+
+add_executable (dynamicProgrammingLowMemoryParallelSolverTest  test/DynamicProgrammingLowMemoryParallelSolverTest.cpp util/TestUtils.h test/TestData.h)
+target_link_libraries (dynamicProgrammingLowMemoryParallelSolverTest knapsack)
+add_test (NAME dynamicProgrammingLowMemoryParallelSolverTest COMMAND dynamicProgrammingLowMemoryParallelSolverTest)
+
