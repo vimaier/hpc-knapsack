@@ -9,6 +9,7 @@
 #include "main/algorithms/NemhauserUllmannSolver.h"
 #include "main/algorithms/NemhauserUllmannParallelSolver.h"
 #include "main/algorithms/NemhauserUllmannSolverRLP.h"
+#include "main/algorithms/NemhauserUllmannRLPParallelSolver.h"
 using namespace std;
 
 #define PRINT_VERBOSE
@@ -23,54 +24,105 @@ static const char* SEVENTH_KNAPSACK_INPUT_FILE = "res/seventhFileExample.txt";
 static const char* DP_INPUT_FILE = "res/dynamicProgrammingExample.txt";
 static const char* KNAPSACK_OUTPUT_FILE = "knapSackOut.txt";
 
-void executeNemhauserUllmanSolver(int numOfExecutions=1) {
-	KnapSackSolver* solver = new NemhauserUllmannSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+/**
+ * Solves the knapsack problem found within the given input file
+ * by applying the brute force algorithm n times, where n equals the numOfExecutions parameter.
+ */
+void executeBruteForceSolver(const char* inputFile, int numOfExecutions=1){
+	KnapSackSolver* solver = new BruteForceSolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeNemhauserUllmanParallelSolver(int numOfExecutions=1) {
-	KnapSackSolver* solver = new NemhauserUllmannParallelSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+/**
+ * Solves the knapsack problem found within the given input file
+ * by applying the nemhauser ullman algorithm n times, where n equals the numOfExecutions parameter.
+ */
+void executeNemhauserUllmanSolver(const char* inputFile, const int numOfExecutions=1) {
+	KnapSackSolver* solver = new NemhauserUllmannSolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeNemhauserUllmanRLPSolver(int numOfExecutions=1) {
-	KnapSackSolver* solver = new NemhauserUllmannSolverRLP(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+/**
+ * Solves the knapsack problem found within the given input file
+ * by applying the parallel nemhauser ullman algorithm n times, where n equals the numOfExecutions parameter.
+ */
+void executeNemhauserUllmanParallelSolver(const char* inputFile, int numOfExecutions=1) {
+	KnapSackSolver* solver = new NemhauserUllmannParallelSolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeBruteForceSolver(int numOfExecutions=1){
-	KnapSackSolver* solver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+/**
+ * Solves the knapsack problem found within the given input file
+ * by applying the rlp improved version of the nemhauser ullman algorithm n times,
+ * where n equals the numOfExecutions parameter.
+ */
+void executeNemhauserUllmanRLPSolver(const char* inputFile, int numOfExecutions=1) {
+	KnapSackSolver* solver = new NemhauserUllmannSolverRLP(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeDynamicProgrammingSolver(int numOfExecutions=1){
-	KnapSackSolver* solver = new DynamicProgrammingSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+/**
+ * Solves the knapsack problem found within the given input file
+ * by applying the parallel rlp improved version of the nemhauser ullman algorithm n times,
+ * where n equals the numOfExecutions parameter.
+ */
+void executeNemhauserUllmanRLPParallelSolver(const char* inputFile, int numOfExecutions=1) {
+	KnapSackSolver* solver = new NemhauserUllmannRLPParallelSolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeDynamicProgrammingParallelSolver(int numOfExecutions=1){
-	KnapSackSolver* solver = new DynamicProgrammingParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+/**
+ * Solves the knapsack problem found within the given input file
+ * by applying the dynamic programming algorithm n times,
+ * where n equals the numOfExecutions parameter.
+ */
+void executeDynamicProgrammingSolver(const char* inputFile, int numOfExecutions=1){
+	KnapSackSolver* solver = new DynamicProgrammingSolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeDynamicProgrammingLowMemorySolver(int numOfExecutions=1){
-	KnapSackSolver* solver = new DynamicProgrammingLowMemorySolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+/**
+ * Solves the knapsack problem found within the given input file
+ * by applying the parallel dynamic programming algorithm n times,
+ * where n equals the numOfExecutions parameter.
+ */
+void executeDynamicProgrammingParallelSolver(const char* inputFile, int numOfExecutions=1){
+	KnapSackSolver* solver = new DynamicProgrammingParallelSolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeDynamicProgrammingLowMemoryParallelSolver(int numOfExecutions=1){
-	KnapSackSolver* solver = new DynamicProgrammingLowMemoryParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+/**
+ * Solves the knapsack problem found within the given input file
+ * by applying the low memory version of the dynamic programming algorithm n times,
+ * where n equals the numOfExecutions parameter.
+ */
+void executeDynamicProgrammingLowMemorySolver(const char* inputFile, int numOfExecutions=1){
+	KnapSackSolver* solver = new DynamicProgrammingLowMemorySolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
+/**
+ * Solves the knapsack problem found within the given input file
+ * by applying the parallel low memory version of the dynamic programming algorithm n times,
+ * where n equals the numOfExecutions parameter.
+ */
+void executeDynamicProgrammingLowMemoryParallelSolver(const char* inputFile, int numOfExecutions=1){
+	KnapSackSolver* solver = new DynamicProgrammingLowMemoryParallelSolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+	solver->start();
+	delete solver;
+}
+
+/**
+ * Can be used to check if open mp is supported by the current environment
+ */
 void checkForOpenMP(){
 	int id;
 	#pragma omp parallel private(id)
@@ -80,16 +132,20 @@ void checkForOpenMP(){
 	}
 }
 
+/**
+ * Entry point of the application.
+ * Can be used to determine which algorithm should be performed how often.
+ * The problem which the specific algorithm shall solve, can be determined
+ * by changing the respective input file parameter.
+ */
 int main(int argc, char* argv[]){
-
-	//checkForOpenMP();
-
-	//executeBruteForceSolver(3);
-	//executeNemhauserUllmanSolver(3);
-	//executeNemhauserUllmanParallelSolver(3);
-	//executeNemhauserUllmanRLPSolver(3);
-	//executeDynamicProgrammingSolver(3);
-	//executeDynamicProgrammingParallelSolver(3);
-	//executeDynamicProgrammingLowMemorySolver(3);
-	executeDynamicProgrammingLowMemoryParallelSolver(3);
+//	executeBruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
+//	executeNemhauserUllmanSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
+//	executeNemhauserUllmanParallelSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
+//	executeNemhauserUllmanRLPSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
+//	executeNemhauserUllmanRLPParallelSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
+//	executeDynamicProgrammingSolver(FIFTH_KNAPSACK_INPUT_FILE, 5);
+//	executeDynamicProgrammingParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, 5);
+//	executeDynamicProgrammingLowMemorySolver(FIFTH_KNAPSACK_INPUT_FILE, 5);
+	executeDynamicProgrammingLowMemoryParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, 5);
 }

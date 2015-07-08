@@ -42,6 +42,9 @@ private:
 	KnapSack();
 
 public:
+	/**
+	 * Initializes a knapSack object with _capacity as max capacity and allocates an array of knapsackitems of the size of _numOfItems on the heap.
+	 */
 	KnapSack(double _capacity, int _numOfItems);
 	KnapSack(const KnapSack& other);
 	~KnapSack();
