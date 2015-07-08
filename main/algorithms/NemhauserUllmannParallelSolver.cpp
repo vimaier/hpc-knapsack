@@ -19,7 +19,19 @@ NemhauserUllmannParallelSolver::NemhauserUllmannParallelSolver(std::string input
 void NemhauserUllmannParallelSolver::setUp() {
 	initPlotPointLists();
 }
+
+/**
+ * This represents the number of maximal pareto optimal points which we can hold.
+ * It is difficult to guess the number of maximal pareto optimal points since it
+ * depends on the input items.
+ * We simply take here 100000 points due to observed previous runs of this algorithm
+ * One PlotPoint has the size of 24 bytes. The size of a list is
+ * 100000 * 24 bytes = 2400000 bytes = 2343.75 kb = 2.29mb
+ * We have three lists, so we need approximately 6.9mb for the lists.
+ * Space should not be the bottleneck of this algorithm.
+ */
 int ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL = 100000;
+
 void NemhauserUllmannParallelSolver::initPlotPointLists() {
 
 	list0 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL];
