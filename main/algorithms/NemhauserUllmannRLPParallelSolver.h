@@ -85,17 +85,12 @@ private:
 
 	/*
 	 * The PlotPoint lists represent the lists L_i, L'_i and L_{i+i}.
-	 * The corresponding counter represent the amount of items in the
-	 * list. The names are numbered because the roles (L_*) will switch.
+	 * The names are numbered because the roles (L_*) will switch.
 	 * The items in the lists are ordered ascend by weight.
 	 */
-
 	PlotPoint* list0;
-	int counter0;
 	PlotPoint* list1;
-	int counter1;
 	PlotPoint* list2;
-	int counter2;
 
 	const double knapsackCapacity;
 

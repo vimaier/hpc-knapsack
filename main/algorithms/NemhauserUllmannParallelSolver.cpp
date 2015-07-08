@@ -6,11 +6,8 @@ const std::string NemhauserUllmannParallelSolver::NAME =  "Algorithm of Nemhause
 NemhauserUllmannParallelSolver::NemhauserUllmannParallelSolver(std::string inputFilename, std::string outputFilename, int nrOfExecutions)
 : KnapSackSolver(inputFilename, outputFilename, NemhauserUllmannParallelSolver::NAME, nrOfExecutions),
   list0(NULL),
-  counter0(0),
   list1(NULL),
-  counter1(0),
   list2(NULL),
-  counter2(0),
   knapsackCapacity(knapSack.getCapacity())
 {
 	
@@ -37,9 +34,6 @@ void NemhauserUllmannParallelSolver::initPlotPointLists() {
 	list0 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL];
 	list1 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL];
 	list2 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL];
-	counter0= 0;
-	counter1= 0;
-	counter2= 0;
 
 	for (int i=0; i < ESTIMATED_MAX_NUMBER_OF_POINTS_PARALLEL ;++i) {
 		list0[i].containingItems = new std::vector<KnapSackItem*>();
@@ -105,7 +99,7 @@ void NemhauserUllmannParallelSolver::solve() {
 	const double maxWeight = knapsackCapacity;
 
 	PlotPoint* L_i = list0;
-	int cL_i = 0;
+	int cL_i = 0;  // counts the items in array L_i
 	PlotPoint* LPrime_i = list1;  // L'_i
 	int cLPrime_i = 0;
 	PlotPoint* L_ip1 = list2;  // L_{i+1}

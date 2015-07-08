@@ -6,11 +6,8 @@ const std::string NemhauserUllmannSolverRLP::NAME =  "Algorithm of Nemhauser and
 NemhauserUllmannSolverRLP::NemhauserUllmannSolverRLP(std::string inputFilename, std::string outputFilename, int nrOfExecutions, bool sortInputItemsByWeights)
 : KnapSackSolver(inputFilename, outputFilename, NemhauserUllmannSolverRLP::NAME, nrOfExecutions),
   list0(NULL),
-  counter0(0),
   list1(NULL),
-  counter1(0),
   list2(NULL),
-  counter2(0),
   knapsackCapacity(knapSack.getCapacity()),
   sortInputItemsByWeights(sortInputItemsByWeights)
 {
@@ -40,9 +37,6 @@ void NemhauserUllmannSolverRLP::initPlotPointLists() {
 	list0 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_RLP];
 	list1 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_RLP];
 	list2 = new PlotPoint[ESTIMATED_MAX_NUMBER_OF_POINTS_RLP];
-	counter0= 0;
-	counter1= 0;
-	counter2= 0;
 
 	for (int i=0; i < ESTIMATED_MAX_NUMBER_OF_POINTS_RLP ;++i) {
 		list0[i].containingItems = new std::vector<KnapSackItem*>();
@@ -112,7 +106,7 @@ void NemhauserUllmannSolverRLP::solve() {
 	const double maxWeight = knapsackCapacity;
 
 	PlotPoint* L_i = list0;
-	int cL_i = 0;
+	int cL_i = 0;  // counts the items in array L_i
 	PlotPoint* LPrime_i = list1;  // L'_i
 	int cLPrime_i = 0;
 	PlotPoint* L_ip1 = list2;  // L_{i+1}
