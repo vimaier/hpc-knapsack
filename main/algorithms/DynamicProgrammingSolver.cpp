@@ -7,7 +7,23 @@ DynamicProgrammingSolver::DynamicProgrammingSolver(std::string inputFilename, st
   //init rows and columns with +1 for zero row and zero column
   itemRows(knapSack.getNumOfItems() + 1), weightColumns(knapSack.getCapacity() + 1), table(new int*[itemRows]), integerItems(new IntegerItem[knapSack.getNumOfItems()])
 {
+	// we can parallelize this since it is not being measured
+	#pragma omp parallel if(itemRows > 5000)
+	{
+		#pragma omp for
+		for(int i=0; i<itemRows; i++){
+			table[i] = new int[weightColumns];
+		}
 	
+		// fill integerItem list to prevent explicit casting during solve
+		KnapSackItem* items = knapSack.getItems();
+		#pragma omp for
+		for(int i=0; i < knapSack.getNumOfItems() ;++i) {
+			integerItems[i].name = items[i].name;
+			integerItems[i].weight = (int)items[i].weight;
+			integerItems[i].worth = (int)items[i].worth;
+		}
+	}
 }
 
 DynamicProgrammingSolver::~DynamicProgrammingSolver(){
@@ -20,28 +36,13 @@ DynamicProgrammingSolver::~DynamicProgrammingSolver(){
 	delete[] integerItems;
 }
 
-//we can parallelize setup since it is not being mesured
+// we can parallelize setup since it is not being measured
 void DynamicProgrammingSolver::setUp(){
-	#pragma omp parallel if(itemRows > 5000)
-	{
-		// initialize result table structure.
-		// each row represents the number of items available for the specific sub problem
-		// each column represents the max capacity of the knapsack for the specific sub problem
-		#pragma omp for
-		for(int i=0; i<itemRows; i++){
-			table[i] = new int[weightColumns];
-			for(int j=0; j<weightColumns; j++)
-				table[i][j] = 0;
-		}
-	
-		// fill integerItem list to prevent explicit casting during solve
-		KnapSackItem* items = knapSack.getItems();
-		#pragma omp for
-		for(int i=0; i < knapSack.getNumOfItems() ;++i) {
-			integerItems[i].name = items[i].name;
-			integerItems[i].weight = (int)items[i].weight;
-			integerItems[i].worth = (int)items[i].worth;
-		}
+	// init table entries with zeros
+	#pragma omp parallel for if(itemRows > 5000 || weightColumns > 5000) collapse(2)
+	for(int i=0; i<itemRows; i++){
+		for(int j=0; j<weightColumns; j++)
+			table[i][j] = 0;
 	}
 }
 

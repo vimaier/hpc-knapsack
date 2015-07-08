@@ -9,30 +9,11 @@ DynamicProgrammingParallelSolver::DynamicProgrammingParallelSolver(std::string i
   //init rows and columns with +1 for zero row and zero column
   itemRows(knapSack.getNumOfItems() + 1), weightColumns(knapSack.getCapacity() + 1), table(new int*[itemRows]), integerItems(new IntegerItem[knapSack.getNumOfItems()])
 {
-	
-}
-
-DynamicProgrammingParallelSolver::~DynamicProgrammingParallelSolver(){
-	// delete allocated table arrays
-	for(int i=0; i<knapSack.getNumOfItems(); i++)
-		delete[] table[i];
-	delete[] table;
-	
-	// delete integerItems
-	delete[] integerItems;
-}
-
-void DynamicProgrammingParallelSolver::setUp(){
 	#pragma omp parallel if(itemRows > DynamicProgrammingParallelSolver::PARALLEL_ITEM_THRESHOLD)
 	{
-		// initialize result table structure.
-		// each row represents the number of items available for the specific sub problem
-		// each column represents the max capacity of the knapsack for the specific sub problem
 		#pragma omp for
 		for(int i=0; i<itemRows; i++){
 			table[i] = new int[weightColumns];
-			for(int j=0; j<weightColumns; j++)
-				table[i][j] = 0;
 		}
 
 		// fill integerItem list to prevent explicit casting during solve
@@ -46,8 +27,27 @@ void DynamicProgrammingParallelSolver::setUp(){
 	}
 }
 
+DynamicProgrammingParallelSolver::~DynamicProgrammingParallelSolver(){
+	// delete allocated table arrays
+	for(int i=0; i<knapSack.getNumOfItems(); i++)
+		delete[] table[i];
+	delete[] table;
+
+	// delete integerItems
+	delete[] integerItems;
+}
+
+void DynamicProgrammingParallelSolver::setUp(){
+	// init table entries with zeros
+	#pragma omp parallel for if(itemRows > DynamicProgrammingParallelSolver::PARALLEL_ITEM_THRESHOLD || weightColumns > DynamicProgrammingParallelSolver::PARALLEL_CAPACITY_THRESHOLD) collapse(2)
+	for(int i=0; i<itemRows; i++){
+		for(int j=0; j<weightColumns; j++)
+			table[i][j] = 0;
+	}
+}
+
 void DynamicProgrammingParallelSolver::solve() {
-	
+
 	// instantiate threads only if it's worth it (enough columns).
 	// we instantiate threads here, since we do not want to instantiate them again for every i of the outer loop
 	#pragma omp parallel if(weightColumns > DynamicProgrammingParallelSolver::PARALLEL_CAPACITY_THRESHOLD)

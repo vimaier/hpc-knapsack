@@ -9,15 +9,6 @@ DynamicProgrammingLowMemoryParallelSolver::DynamicProgrammingLowMemoryParallelSo
   integerItems(new IntegerItem[knapSack.getNumOfItems()]),
   integerItemsOfSolution()
 {
-
-}
-
-DynamicProgrammingLowMemoryParallelSolver::~DynamicProgrammingLowMemoryParallelSolver(){
-	delete[] integerItems;
-}
-
-// we can parallelize this, since this is not part of the measurement
-void DynamicProgrammingLowMemoryParallelSolver::setUp(){
 	// fill integerItem list to prevent explicit casting during solve
 	KnapSackItem* items = knapSack.getItems();
 	int numOfItems = knapSack.getNumOfItems();
@@ -27,6 +18,15 @@ void DynamicProgrammingLowMemoryParallelSolver::setUp(){
 		integerItems[i].weight = (int)items[i].weight;
 		integerItems[i].worth = (int)items[i].worth;
 	}
+}
+
+DynamicProgrammingLowMemoryParallelSolver::~DynamicProgrammingLowMemoryParallelSolver(){
+	delete[] integerItems;
+}
+
+// we can parallelize this, since this is not part of the measurement
+void DynamicProgrammingLowMemoryParallelSolver::setUp(){
+	// nothing to do here. integerItemsOfSolution is getting cleared in tearDown
 }
 
 void DynamicProgrammingLowMemoryParallelSolver::solve() {
