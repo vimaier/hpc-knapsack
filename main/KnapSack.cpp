@@ -1,10 +1,10 @@
 #include "KnapSack.h"
 
 KnapSack::KnapSack(double _capacity, int _numOfItems)
+  :	capacity(_capacity),
+	numOfItems(_numOfItems),
+	items(new KnapSackItem[_numOfItems])
 {
-	setCapacity(_capacity);
-	setNumOfItems(_numOfItems);
-	setItems(new KnapSackItem[_numOfItems]);
 }
 
 KnapSack::KnapSack(const KnapSack& other)
@@ -39,11 +39,6 @@ KnapSack& KnapSack::operator =(KnapSack other) {
 double KnapSack::getCapacity() const { return capacity; }
 int KnapSack::getNumOfItems() const { return numOfItems; }
 KnapSackItem* KnapSack::getItems() const { return items; }
-
-//***************************SETTERS********************************//
-void KnapSack::setCapacity(double _capacity){ capacity = _capacity; }
-void KnapSack::setNumOfItems(int _numOfItems){ numOfItems = _numOfItems; }
-void KnapSack::setItems(KnapSackItem* _items){ items = _items; }
 
 
 std::ostream& operator<<(std::ostream &strm, const KnapSack &v) {

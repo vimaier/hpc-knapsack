@@ -5,9 +5,12 @@
 #include <iostream>
 #include "util/MyMath.h"
 
+/**
+ * Represents an item from the item pool of the knapsack
+ */
 struct KnapSackItem{
 
-	// using string pointer because of memory reasons. uses less than string itself.
+	// using string pointer because of performance reasons.
 	std::string* name;
 	double weight;
 	double worth;
@@ -20,14 +23,23 @@ struct KnapSackItem{
 class KnapSack{
 
 private:
+	/**
+	 * The maximum capacity the knapsack can take
+	 */
 	double capacity;
-	int numOfItems;
-	KnapSackItem* items;
-	KnapSack();
 
-	void setCapacity(double _capacity);
-	void setNumOfItems(int _numOfItems);
-	void setItems(KnapSackItem* _items);
+	/**
+	 * the number of items available in the item pool
+	 */
+	int numOfItems;
+
+	/**
+	 * the item pool from which the items can be picked
+	 */
+	KnapSackItem* items;
+
+
+	KnapSack();
 
 public:
 	KnapSack(double _capacity, int _numOfItems);
