@@ -54,7 +54,7 @@ bool StatisticsWriter::writeToFile() {
 	fprintf(fp, "Alogrithmus;%s\n", algorithmname.c_str());
 	fprintf(fp, "Anzahl Durchlaeufe;%d\n", durations.size());
 	fprintf(fp, "Durchschnittliche Laufzeit;%.4f\n", avg);
-	fprintf(fp, "Quadratisches Mittel;%.4f", rms);
+	fprintf(fp, "Quadratisches Mittel;%.4f\n", rms);
 	
 	for (int i=0; i < durations.size() ;++i) {
 		fprintf(fp, "%d;%.4f\n", i+1, durations[i]);
