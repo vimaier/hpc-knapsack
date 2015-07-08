@@ -91,7 +91,7 @@ add_library (knapsack
 	util/io/KnapSackReader.h util/io/KnapSackReader.cpp
 	util/io/KnapSackWriter.h util/io/KnapSackWriter.cpp
 	util/io/StatisticsWriter.h util/io/StatisticsWriter.cpp
-	util/StringUtils.h util/StringUtils.cpp
+	util/StringUtils.h
 	util/MyMath.h util/MyMath.cpp
 )
 

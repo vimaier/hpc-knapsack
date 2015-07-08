@@ -1,9 +1,18 @@
 #ifndef UTIL_TESTUTILS_H_
 #define UTIL_TESTUTILS_H_
 
+/**
+ * Helper class that provides methods for performing tests.
+ */
 class TestUtils {
 public:
 	
+	/**
+	 * Checks whether the file found at the given TEST_OUTPUT_FILE path matches the given ASSUMED_CONTENT.
+	 * Reads the file found at the given path and compares line for line with the elements of the ASSUMED_CONTET array.
+	 * Returns 0 if everything matches.
+	 * Returns -1 if a mismatch occured.
+	 */
 	static inline int checkOutput(const std::string ASSUMED_CONTENT[], const int ASSUMED_CONTENT_LENGTH, const char* TEST_OUTPUT_FILE) {
 		// Read file
 		std::ifstream ifile(TEST_OUTPUT_FILE);
