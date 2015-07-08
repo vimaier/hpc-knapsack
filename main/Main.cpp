@@ -23,50 +23,50 @@ static const char* SEVENTH_KNAPSACK_INPUT_FILE = "res/seventhFileExample.txt";
 static const char* DP_INPUT_FILE = "res/dynamicProgrammingExample.txt";
 static const char* KNAPSACK_OUTPUT_FILE = "knapSackOut.txt";
 
-void executeNemhauserUllmanSolver() {
-	KnapSackSolver* solver = new NemhauserUllmannSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+void executeNemhauserUllmanSolver(int numOfExecutions=1) {
+	KnapSackSolver* solver = new NemhauserUllmannSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeNemhauserUllmanParallelSolver() {
-	KnapSackSolver* solver = new NemhauserUllmannParallelSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+void executeNemhauserUllmanParallelSolver(int numOfExecutions=1) {
+	KnapSackSolver* solver = new NemhauserUllmannParallelSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeNemhauserUllmanRLPSolver() {
-	KnapSackSolver* solver = new NemhauserUllmannSolverRLP(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+void executeNemhauserUllmanRLPSolver(int numOfExecutions=1) {
+	KnapSackSolver* solver = new NemhauserUllmannSolverRLP(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeBruteForceSolver(){
-	KnapSackSolver* solver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE,5);
+void executeBruteForceSolver(int numOfExecutions=1){
+	KnapSackSolver* solver = new BruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeDynamicProgrammingSolver(){
-	KnapSackSolver* solver = new DynamicProgrammingSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+void executeDynamicProgrammingSolver(int numOfExecutions=1){
+	KnapSackSolver* solver = new DynamicProgrammingSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeDynamicProgrammingParallelSolver(){
-	KnapSackSolver* solver = new DynamicProgrammingParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+void executeDynamicProgrammingParallelSolver(int numOfExecutions=1){
+	KnapSackSolver* solver = new DynamicProgrammingParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeDynamicProgrammingLowMemorySolver(){
-	KnapSackSolver* solver = new DynamicProgrammingLowMemorySolver(SIXTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+void executeDynamicProgrammingLowMemorySolver(int numOfExecutions=1){
+	KnapSackSolver* solver = new DynamicProgrammingLowMemorySolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
 
-void executeDynamicProgrammingLowMemoryParallelSolver(){
-	KnapSackSolver* solver = new DynamicProgrammingLowMemoryParallelSolver(SIXTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE);
+void executeDynamicProgrammingLowMemoryParallelSolver(int numOfExecutions=1){
+	KnapSackSolver* solver = new DynamicProgrammingLowMemoryParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, KNAPSACK_OUTPUT_FILE, numOfExecutions);
 	solver->start();
 	delete solver;
 }
@@ -84,12 +84,12 @@ int main(int argc, char* argv[]){
 
 	//checkForOpenMP();
 
-	executeBruteForceSolver();
-	//executeNemhauserUllmanSolver();
-	//executeNemhauserUllmanParallelSolver();
-	//executeNemhauserUllmanRLPSolver();
-	//executeDynamicProgrammingSolver();
-	//executeDynamicProgrammingParallelSolver();
-	//executeDynamicProgrammingLowMemorySolver();
-	//executeDynamicProgrammingLowMemoryParallelSolver();
+	//executeBruteForceSolver(3);
+	//executeNemhauserUllmanSolver(3);
+	//executeNemhauserUllmanParallelSolver(3);
+	//executeNemhauserUllmanRLPSolver(3);
+	//executeDynamicProgrammingSolver(3);
+	//executeDynamicProgrammingParallelSolver(3);
+	//executeDynamicProgrammingLowMemorySolver(3);
+	executeDynamicProgrammingLowMemoryParallelSolver(3);
 }
