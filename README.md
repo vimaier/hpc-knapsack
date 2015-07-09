@@ -1,5 +1,4 @@
 # HPC - Knapsack #
-TODO: description...
 
 This is the result of the project of the course 'High Performance Computing' in the semester SS2015 at the University of Applied Sciences Kaiserslautern. The aim of the project was to solve the knapsack problem and parallelize the algorithm. The project was done by 
 
@@ -19,7 +18,7 @@ This package contains the most part of the project. The file *Main.cpp* contains
 ### Packages ###
 **res**
 
-This directory contains the input files for the knapsack problem. During the CMake project generation this directory will be copied to the build directory. Here is an example file:
+This directory contains the input files for the knapsack problem. During the CMake project generation this directory will be copied to the build directory. The syntax explains itself best with an example:
 ```
 15.0 4 5
 XXL blue 0x                  2.0 2.0
