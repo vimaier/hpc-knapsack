@@ -23,3 +23,16 @@ TODO
 
 ### Dynamic Programming ###
 TODO
+@phineliner hab oben erwähnt, dass das Problem NP-vollständig ist. Im Buch hab ich gelesen, dass es semi-polynomial (oder ähnlich) ist. Weißte was ich meine? Kannst du ja hier kurz erwähnen.
+
+## Build and Tests ##
+We use [CMake](http://www.cmake.org/) to build the project. The build is as easy as
+```
+mkdir build
+cd build
+cmake /path/to/hpc-knapsack/
+make
+```
+The `cmake-gui` can also be used for easier handling of the available options.
+
+To run the tests just run `make test` or `ctest` in the build directory.
