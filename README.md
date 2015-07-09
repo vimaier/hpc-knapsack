@@ -67,6 +67,13 @@ public:
 
 ```
 
+The algorithm can be executed with the following lines:
+```cpp
+KnapSackSolver* solver = new SolverImpl(KNAPSACK_INPUT_FILE, TEST_OUTPUT_FILE);
+solver->start();
+delete solver;
+```
+This will solve the problem given by *KNAPSACK_INPUT_FILE* and write the solution to *TEST_OUTPUT_FILE*. It will also write a statistic file with the mean and the rms error for the executions.
 
 ## Algorithms ##
 TODO
