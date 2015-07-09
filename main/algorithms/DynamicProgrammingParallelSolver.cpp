@@ -47,56 +47,32 @@ void DynamicProgrammingParallelSolver::setUp(){
 }
 
 void DynamicProgrammingParallelSolver::solve() {
+	// iterate through columns, representing the capacity coordinate of the subproblem
+	for(int i=1; i < itemRows; i++){
 
-	// instantiate threads only if it's worth it (enough columns).
-	// we instantiate threads here, since we do not want to instantiate them again for every i of the outer loop
-	#pragma omp parallel if(weightColumns > DynamicProgrammingParallelSolver::PARALLEL_CAPACITY_THRESHOLD)
-	{
+		//items index must be i-1 because index 0 represents row 1, index 1 represents row 2 etc...
+		int itemsIndex = i-1;
+		int itemWeight = integerItems[itemsIndex].weight;
+		int itemWorth = integerItems[itemsIndex].worth;
+
 		// iterate through columns, representing the capacity coordinate of the subproblem
-		for(int i=1; i < itemRows; i++){
+		// we can do this in parallel, since the entries of the same row are not depending on each other
+		// we only want to do this in parallel, if there are more columns than PARALLEL_WEIGHT_THRESHOLD
+		#pragma omp parallel for if(weightColumns > DynamicProgrammingParallelSolver::PARALLEL_CAPACITY_THRESHOLD)
+		for(int c=1; c < weightColumns; c++){
 
-			//items index must be i-1 because index 0 represents row 1, index 1 represents row 2 etc...
-			int itemsIndex = i-1;
-			int itemWeight = integerItems[itemsIndex].weight;
-			int itemWorth = integerItems[itemsIndex].worth;
+			//can not pick item, set to same worth of subproblem of previous item
+			if(c < itemWeight){
+				table[i][c] = table[i-1][c];
 
-			// iterate through columns, representing the capacity coordinate of the subproblem
-			// we can do this in parallel, since the entries of the same row are not depending on each other
-			// we only want to do this in parallel, if there are more columns than PARALLEL_WEIGHT_THRESHOLD
-			#pragma omp for
-			for(int c=1; c < weightColumns; c++){
-
-				//can not pick item, set to same worth of subproblem of previous item
-				if(c < itemWeight){
-					table[i][c] = table[i-1][c];
-
-				//can pick item. choose if we should pick or not and set worth according to decision
-				}else{
-					int worthOfNotUsingItem = table[i-1][c];
-					int worthOfUsingItem = itemWorth + table[i-1][c-itemWeight];
-					table[i][c] = worthOfNotUsingItem < worthOfUsingItem ? worthOfUsingItem : worthOfNotUsingItem;
-				}
-			}
-
-
-			/*
-			THE FOLLOWING APPROACH HAS BEEN TRIED, BUT WAS NOT CHOSEN SINCE IT BECAME SLOWER
-
-			// copying previous row ensures the correct worths for all entries where the item can not be picked
-			std::copy(table[i-1], table[i-1] + weightColumns, table[i]);
-
-			#pragma omp for
-			for(int c=itemWeight; c < weightColumns; c++){
+			//can pick item. choose if we should pick or not and set worth according to decision
+			}else{
 				int worthOfNotUsingItem = table[i-1][c];
 				int worthOfUsingItem = itemWorth + table[i-1][c-itemWeight];
-				if(worthOfNotUsingItem < worthOfUsingItem)
-					table[i][c] = worthOfUsingItem;
+				table[i][c] = worthOfNotUsingItem < worthOfUsingItem ? worthOfUsingItem : worthOfNotUsingItem;
 			}
-			*/
-
 		}
 	}
-
 	backtrackItemsOfSolution();
 }
 

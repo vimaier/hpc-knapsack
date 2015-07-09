@@ -22,6 +22,7 @@ static const char* FIFTH_KNAPSACK_INPUT_FILE = "res/fifthFileExample.txt";
 static const char* SIXTH_KNAPSACK_INPUT_FILE = "res/sixthFileExample.txt";
 static const char* SEVENTH_KNAPSACK_INPUT_FILE = "res/seventhFileExample.txt";
 static const char* DP_INPUT_FILE = "res/dynamicProgrammingExample.txt";
+static const char* SECOND_DP_INPUT_FILE = "res/secondDynamicProgrammingExample.txt";
 static const char* KNAPSACK_OUTPUT_FILE = "knapSackOut.txt";
 
 /**
@@ -144,8 +145,8 @@ int main(int argc, char* argv[]){
 //	executeNemhauserUllmanParallelSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
 //	executeNemhauserUllmanRLPSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
 //	executeNemhauserUllmanRLPParallelSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
-//	executeDynamicProgrammingSolver(FIFTH_KNAPSACK_INPUT_FILE, 5);
-//	executeDynamicProgrammingParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, 5);
-//	executeDynamicProgrammingLowMemorySolver(FIFTH_KNAPSACK_INPUT_FILE, 5);
-	executeDynamicProgrammingLowMemoryParallelSolver(FIFTH_KNAPSACK_INPUT_FILE, 5);
+	executeDynamicProgrammingSolver(SECOND_DP_INPUT_FILE, 5);
+//	executeDynamicProgrammingParallelSolver(SECOND_DP_INPUT_FILE, 5);
+//	executeDynamicProgrammingLowMemorySolver(SECOND_DP_INPUT_FILE, 5);
+//	executeDynamicProgrammingLowMemoryParallelSolver(SECOND_DP_INPUT_FILE, 5);
 }
