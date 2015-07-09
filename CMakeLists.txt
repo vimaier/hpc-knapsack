@@ -21,6 +21,9 @@ if(UNIX)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif(UNIX)
 
+# Compiler Optimierung ausschalten
+#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+
 # Für Visual Studio (ein "multi-target IDE" muss die folgende Variable verändert werden
 set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "Nur Release" FORCE)
 
