@@ -23,7 +23,10 @@ TODO
 
 ### Dynamic Programming ###
 TODO
-@phineliner hab oben erwähnt, dass das Problem NP-vollständig ist. Im Buch hab ich gelesen, dass es semi-polynomial (oder ähnlich) ist. Weißte was ich meine? Kannst du ja hier kurz erwähnen.
+@phineliner hab oben erwähnt, dass das Problem NP-vollständig ist. Im Buch hab ich gelesen, dass es semi-polynomial (oder ähnlich) ist. Weißte was ich meine? Kannst du ja hier kurz erwähnen. @vimaier ne weiß nich was du meinst^^
+
+### TODO ###
+@vimaier irgendwo müssen wir noch unsere überlegungen / verbesserungen dann hier unterbringen. Also das was wir im Wiki schon haben.
 
 ## Build and Tests ##
 We use [CMake](http://www.cmake.org/) to build the project. The build is as easy as
