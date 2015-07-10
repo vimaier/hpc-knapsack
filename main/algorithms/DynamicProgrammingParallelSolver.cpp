@@ -49,7 +49,7 @@ void DynamicProgrammingParallelSolver::setUp(){
 void DynamicProgrammingParallelSolver::solve() {
 
 	// we only want to do this in parallel, if there are more columns than PARALLEL_WEIGHT_THRESHOLD
-	//#pragma omp parallel if(weightColumns > DynamicProgrammingParallelSolver::PARALLEL_CAPACITY_THRESHOLD)
+	#pragma omp parallel if(weightColumns > DynamicProgrammingParallelSolver::PARALLEL_CAPACITY_THRESHOLD)
 	{
 		// iterate through columns, representing the capacity coordinate of the subproblem
 		for(int i=1; i < itemRows; i++){
@@ -61,7 +61,7 @@ void DynamicProgrammingParallelSolver::solve() {
 
 			// iterate through columns, representing the capacity coordinate of the subproblem
 			// we can do this in parallel, since the entries of the same row are not depending on each other
-			#pragma omp parallel for if(weightColumns > DynamicProgrammingParallelSolver::PARALLEL_CAPACITY_THRESHOLD)
+			#pragma omp for
 			for(int c=1; c < weightColumns; c++){
 				//can not pick item, set to same worth of subproblem of previous item
 				if(c < itemWeight){
