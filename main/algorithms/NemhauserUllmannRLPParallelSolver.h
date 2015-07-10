@@ -99,7 +99,9 @@ private:
 	static const double NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
 	/**
 	 * Used in "parallel for" pragma. If we have only a few items then it is faster to run it on a single
-	 * thread. The threshold has to be determined.
+	 * thread. It depends also an the number of threads actually.
+	 * For simplicity we will just take a value which delivers the best runtimes tested on a single computer
+	 * with 4 cores. The best runtimes delivered 100 (from 1, 100, 500 and 1000)
 	 */
 	static const int THRESHOLD_OF_ITEMS_TO_PARALLELIZE;
 
