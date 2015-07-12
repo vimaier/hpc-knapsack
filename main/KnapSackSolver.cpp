@@ -14,7 +14,7 @@ KnapSackSolver::KnapSackSolver(std::string inputFilename, std::string outputFile
   outputFilename(outputFilename),
   algorithmname(algorithmname),
   numberOfExecutions(nrOfExecutions),
-  statistics("statistics_"+algorithmname+".txt", algorithmname)
+  statistics("statistics_"+algorithmname+getCurrentTime()+".txt", algorithmname)
 {
 	initKnapSack();
 }
@@ -123,4 +123,17 @@ void KnapSackSolver::setUp() {
 
 void KnapSackSolver::tearDown() {
 	// Nothing to do in default implementation
+}
+
+std::string KnapSackSolver::getCurrentTime() const {
+	std::time_t rawtime;
+	std::tm* timeinfo;
+	char buffer [80];
+
+	std::time(&rawtime);
+	timeinfo = std::localtime(&rawtime);
+
+	std::strftime(buffer,80,"%Y-%m-%d-%H-%M-%S",timeinfo);
+
+	return std::string(buffer);
 }

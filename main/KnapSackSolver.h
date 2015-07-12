@@ -13,6 +13,8 @@
 #include <assert.h>
 #include <chrono>
 #include <cmath>
+#include <cstdio>
+#include <ctime>
 
 #include "main/KnapSack.h"
 #include "util/io/KnapSackReader.h"
@@ -84,6 +86,7 @@ private:
 	void executeOneRun();
 	void writeSolution() const;
 	void writeStatistics();
+	std::string getCurrentTime() const;
 
 
 	const std::string inputFilename;
