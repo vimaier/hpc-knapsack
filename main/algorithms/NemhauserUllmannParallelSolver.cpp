@@ -119,6 +119,7 @@ void NemhauserUllmannParallelSolver::solve() {
 		KnapSackItem* currentItem = &(items[i]);
 
 		// Create L'_i: This list contains all points of L_i plus the currentItem
+		#pragma omp parallel for if (cL_i > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
 		for (int j=0; j < cL_i ;j++) {
 			LPrime_i[j].worth = L_i[j].worth + currentItem->worth;
 			LPrime_i[j].weight = L_i[j].weight + currentItem->weight;
