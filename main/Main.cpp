@@ -149,16 +149,15 @@ int main(int argc, char* argv[]){
 	if (3 == argc) {
 		numberOfExecutions = std::atoi(argv[1]);
 		inputFile = argv[2];
-	}
 
-//	executeBruteForceSolver(inputFile, numberOfExecutions);
-//	executeNemhauserUllmanSolver(inputFile, numberOfExecutions);
-//	executeNemhauserUllmanParallelSolver(inputFile, numberOfExecutions);
-//	executeNemhauserUllmanRLPSolver(inputFile, numberOfExecutions);
+	executeBruteForceSolver(inputFile, numberOfExecutions);
+	executeNemhauserUllmanSolver(inputFile, numberOfExecutions);
+	executeNemhauserUllmanParallelSolver(inputFile, numberOfExecutions);
+	executeNemhauserUllmanRLPSolver(inputFile, numberOfExecutions);
 	executeNemhauserUllmanRLPParallelSolver(inputFile, numberOfExecutions);
-//	executeDynamicProgrammingSolver(inputFile, numberOfExecutions);
-//	executeDynamicProgrammingParallelSolver(inputFile, numberOfExecutions);
-//	executeDynamicProgrammingLowMemorySolver(inputFile, numberOfExecutions);
-//	executeDynamicProgrammingLowMemoryParallelSolver(inputFile, numberOfExecutions);
+	executeDynamicProgrammingSolver(inputFile, numberOfExecutions);
+	executeDynamicProgrammingParallelSolver(inputFile, numberOfExecutions);
+	executeDynamicProgrammingLowMemorySolver(inputFile, numberOfExecutions);
+	executeDynamicProgrammingLowMemoryParallelSolver(inputFile, numberOfExecutions);
 
 }
