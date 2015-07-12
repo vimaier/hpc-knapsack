@@ -72,7 +72,8 @@ void executeNemhauserUllmanRLPSolver(const char* inputFile, int numOfExecutions=
  * where n equals the numOfExecutions parameter.
  */
 void executeNemhauserUllmanRLPParallelSolver(const char* inputFile, int numOfExecutions=1) {
-	KnapSackSolver* solver = new NemhauserUllmannRLPParallelSolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions);
+	bool sortInputByWorth = false;
+	KnapSackSolver* solver = new NemhauserUllmannRLPParallelSolver(inputFile, KNAPSACK_OUTPUT_FILE, numOfExecutions, sortInputByWorth);
 	solver->start();
 	delete solver;
 }
@@ -140,13 +141,24 @@ void checkForOpenMP(){
  * by changing the respective input file parameter.
  */
 int main(int argc, char* argv[]){
-//	executeBruteForceSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
-//	executeNemhauserUllmanSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
-//	executeNemhauserUllmanParallelSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
-//	executeNemhauserUllmanRLPSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
-//	executeNemhauserUllmanRLPParallelSolver(FIRST_KNAPSACK_INPUT_FILE, 5);
-	executeDynamicProgrammingSolver(SECOND_DP_INPUT_FILE, 5);
-//	executeDynamicProgrammingParallelSolver(SECOND_DP_INPUT_FILE, 5);
-//	executeDynamicProgrammingLowMemorySolver(SECOND_DP_INPUT_FILE, 5);
-//	executeDynamicProgrammingLowMemoryParallelSolver(SECOND_DP_INPUT_FILE, 5);
+
+	int numberOfExecutions = 1;
+	const char* inputFile = FIRST_KNAPSACK_INPUT_FILE;
+
+	// Command line argumennts: program [nrOfExecutions] [filePath]
+	if (3 == argc) {
+		numberOfExecutions = std::atoi(argv[1]);
+		inputFile = argv[2];
+	}
+
+//	executeBruteForceSolver(inputFile, numberOfExecutions);
+//	executeNemhauserUllmanSolver(inputFile, numberOfExecutions);
+//	executeNemhauserUllmanParallelSolver(inputFile, numberOfExecutions);
+//	executeNemhauserUllmanRLPSolver(inputFile, numberOfExecutions);
+	executeNemhauserUllmanRLPParallelSolver(inputFile, numberOfExecutions);
+//	executeDynamicProgrammingSolver(inputFile, numberOfExecutions);
+//	executeDynamicProgrammingParallelSolver(inputFile, numberOfExecutions);
+//	executeDynamicProgrammingLowMemorySolver(inputFile, numberOfExecutions);
+//	executeDynamicProgrammingLowMemoryParallelSolver(inputFile, numberOfExecutions);
+
 }
