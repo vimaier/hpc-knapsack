@@ -108,3 +108,12 @@ The `cmake-gui` can also be used for easier handling of the available options.
 Note that [OpenMP](http://openmp.org/wp/) has to be installed. CMake tries to find it. In case it is not installed `cmake` will not finish.
 
 To run the tests just run `make test` or `ctest` in the build directory.
+
+## List of References
+
+* [1] http://www-i1.informatik.rwth-aachen.de/~algorithmus/algo15.php
+* [2] gprof https://sourceware.org/binutils/docs/gprof/Compiling.html#Compiling
+* [3] gprof eclispe manual https://wiki.eclipse.org/Linux_Tools_Project/GProf/User_Guide
+* [4] OpenMP http://openmp.org/wp/
+* [5] Intel VTune Amplifier https://software.intel.com/en-us/intel-vtune-amplifier-xe/
+* [6] VTune Amplifier and OpenMP https://software.intel.com/en-us/articles/profiling-openmp-applications-with-intel-vtune-amplifier-xe
