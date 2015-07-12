@@ -32,6 +32,8 @@ salmon mousse                 1.0 1.0
 ~~~
 The first line contains information about the knapsack and the following items. *15.0* is the capacity of the knapsack. *4* represents the number of exemplars of each item. *5* is the number of distinct items and also the number of following lines. Each of the following lines represents an item. The line consists of a name with maximal 13 characters, followed by the weight and the profit/worth. For example the item with the name *gray mouse* has a weight of *1.0* and a worth of *2.0*.
 
+There is also the script `run_and_collect_statistics.sh` which was used with *cron* to collects some data.
+
 **test**
 
 This package stores our unit tests. We use CMake to create tests for us. These tests are executables. In case they terminate with the result code 0 then the test will be treated as passed. Is the return code not equals 0 then the test failed. [ctest](http://www.cmake.org/Wiki/CMake/Testing_With_CTest) can be used to execute the tests (see section *Build and Tests*). The header file *TestData.h* contains the commonly used test data, for example paths to test files. There is a test for every implemented algorithm and further tests for testing input and output operations.
