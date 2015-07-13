@@ -93,7 +93,7 @@ It is the first approach implemented during the project and was used to get a pr
 
 **Measurement:**
 
-The measurement for this algorithm has been performed on (TODO: kevin laptop specs). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm hat to try 2^20 (1048576) combinations to find the best solution.
+The measurement for this algorithm has been performed on (TODO: kevin laptop specs). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm hat to try 2^20 combinations to find the best solution.
 
 ```
 #!
@@ -108,7 +108,7 @@ RMS Error;0.0083
 5;0.2772
 ```
 
-As one can see, the algorithm delivered the solution in suitable 0.2821 seconds, but this is only because there were only 2^20 combinations to try. For a more complex problem with, for example fourthFileExample.txt, there would be 2^56 combinations to try, which is ~69 billion times 2^20. Accordingly it would take 19 billion seconds or 614 years to solve. This shows how unsuitable this algorithm is for complex problems. Even parallelization would not make it suitable. Assuming we could parallelize the algorithm completely, we would gain a factor of n where n is the number of available cores. So to solve the previous problem within one second we would still need 614*356*24*3600 cores. Because of this, we concentrated on implementing more promising algorithms rather than wasting time on parallelizing this algorithm.
+As one can see, the algorithm delivered the solution in suitable 0.2821 seconds, but this is only because there were only 2^20 combinations to try. For a more complex problem with, for example fourthFileExample.txt, there would be 2^56 combinations to try, which is ~69 billion times 2^20. Accordingly it would take 19 billion seconds or 614 years to solve. This shows how unsuitable this algorithm is for complex problems. Even parallelization would not make it suitable. Assuming we could parallelize the algorithm completely, we would gain a factor of n where n is the number of available cores. So to solve the previous problem within one second we would still need 614\*356\*24\*3600 cores. Because of this, we concentrated on implementing more promising algorithms rather than wasting time on parallelizing this algorithm.
 
 ## Algorithm of Nemhauser and Ullmann
 TODO
