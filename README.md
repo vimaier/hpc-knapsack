@@ -1,21 +1,21 @@
 [TOC]
 
-This is the result of the project of the course 'High Performance Computing' in the semester SS2015 at the University of Applied Sciences Kaiserslautern. The aim of the project was to solve the knapsack problem and parallelize the algorithm. The project was done by
+This is the result of the project of the course 'High Performance Computing' in the semester SS2015 at the University of Applied Sciences Kaiserslautern. The aim of the project was to implement an algorithm that solves the knapsack problem and further implement a faster and parallelized version of the algorithm. The project was performed by
 
 * Kevin Keßler (keke0002@stud.hs-kl.de) and
 * Viktor Maier (vima0001@stud.hs-kl.de).
 
 
 # The Knapsack Problem
-You have a knapsack with a limited capacity and a list of items you can put into the knapsack. All items have the properties weight and worth/profit. The problem is that you have to pack the knapsack so that the sum of the item weights does not exceed the capacity of the knapsack and the profit is maximized. This problem is in the set of NP-complete problems. This means effort to solve such a problem increases exponentially with the input size, in our case list of items (and capacity of the knapsack).
+You have a knapsack with a limited capacity and a pool of items from which you can choose to put into the knapsack. All items have the properties weight and worth/profit. The problem is that you have to pack the knapsack in such a way that the sum of the item weights does not exceed the capacity of the knapsack. Furthermore sum of the profit of all items needs to be maximized. This problem is known to be in the set of NP-complete problems. This means effort to solve such a problem increases exponentially with the input size, in our case list of items (and capacity of the knapsack).
 
 # Framework
-A small execution framework was created. This section describes the package (directory) structure of the project and the framework.
+A small execution framework has been developed. This section describes the package / direcotry structure of the project and the framework.
 
 ## Packages
 **main**
 
-This package contains the most part of the project. The file *Main.cpp* contains the starter function `int main(int argc, char* argv[])`. The created binary *knapsackStarter* (see section *Build and Tests*) executes this main function. The classes KnapSack and KnapSackSolver and the package *algorithms* are also contained here.
+This package contains the most important part of the project. The file *Main.cpp* contains the starter function `int main(int argc, char* argv[])`. The created binary *knapsackStarter* (see section *Build and Tests*) executes this main function. The classes KnapSack and KnapSackSolver and the package *algorithms* are also contained here.
 
 **res**
 
@@ -28,29 +28,29 @@ big green box                 12.0 4.0
 yellow daisy                   4.0 10.0
 salmon mousse                 1.0 1.0
 ~~~
-The first line contains information about the knapsack and the following items. *15.0* is the capacity of the knapsack. *4* represents the number of exemplars of each item. *5* is the number of distinct items and also the number of following lines. Each of the following lines represents an item. The line consists of a name with maximal 13 characters, followed by the weight and the profit/worth. For example the item with the name *gray mouse* has a weight of *1.0* and a worth of *2.0*.
+The first line contains information about the knapsack and the following items. *15.0* is the capacity of the knapsack. *4* represents the number of exemplars of each item. *5* is the number of distinct items and also the number of the following lines. Each of the following lines represents an item. The line consists of a name with a maximum of 13 characters, followed by the weight and the profit/worth. For example the item with the name *gray mouse* has a weight of *1.0* and a worth of *2.0*.
 
-There is also the script `run_and_collect_statistics.sh` which was used with *cron* to collects some data.
+There is also the script `run_and_collect_statistics.sh` which was used with *cron* to collect some data.
 
 **test**
 
-This package stores our unit tests. We use CMake to create tests for us. These tests are executables. In case they terminate with the result code 0 then the test will be treated as passed. Is the return code not equals 0 then the test failed. [ctest](http://www.cmake.org/Wiki/CMake/Testing_With_CTest) can be used to execute the tests (see section *Build and Tests*). The header file *TestData.h* contains the commonly used test data, for example paths to test files. There is a test for every implemented algorithm and further tests for testing input and output operations.
+This package stores our unit tests. We use CMake to create and execute the tests. These tests are executables. In case they terminate with the result code 0, the test will be treated as passed. Is the return code not equal to 0, the test failed. [ctest](http://www.cmake.org/Wiki/CMake/Testing_With_CTest) can be used to execute the tests (see section *Build and Tests*). The header file *TestData.h* contains the commonly used test data, for example paths to test files. There is a test for each implemented algorithm and further tests for testing input and output operations.
 
 **util**
 
 This package stores helper classes. Here are helpful functions for string and IO operations.
 
 ## Algorithm Execution Framework
-To avoid common tasks in the solving of a knapsack problem we use a small algorithm execution framework, the abstract class KnapSackSolver. This class is responsible for the following tasks:
+To avoid duplication of common tasks in the solving of a knapsack problem, we use a small algorithm execution framework, represented by the abstract class KnapSackSolver. This class is responsible for the following tasks:
 
 * Reading input files (supported by KnapSackReader)
 * Writing solutions (supported by KnapSackWriter)
 * Executing algorithms and measuring time  (supported by GetWalltime)
 * Collect and write statistics for benchmarks  (supported by StatisticsWriter)
 
-An knapsack solving algorithm has to extend the class KnapSackSolver and implement the function *solve()*. Thus one can concentrate on the implementation and cut out the management details. Additionally the functions *setUp()* and *tearDown()*. The first function can be used to prepare data in front of each run. The latter can be used to make some finishing operations. The two functions will not be included in the time measurement. The idea behind is that we have a strict input format represented by the class KnapSack, but some algorithms need a different structure. Maybe it is possible to deliver this structure directly without conversion thus it we exclude the input conversion from time measurement. Additionally the time executed in this functions in the implemented algorithms are negligible.
+An knapsack solving algorithm has to extend the class KnapSackSolver and implement the function *solve()*. Thus one can concentrate on the implementation and cut out the management details. Additionally the functions *setUp()* and *tearDown()*. The first function can be used to prepare data in front of each run. The latter can be used to make some finishing operations. The two functions will not be included in the time measurement. The idea behind is that we have a strict input format represented by the class KnapSack, but some algorithms need a different structure and may use the structure directly without conversion. Thus, we exclude the input conversion from time measurement. Additionally, the time spent executing those functions is negligible.
 
-The following snippet provides a minimal implementation of an algorithm (taken from *test/KnapSackSolverTest.cpp*):
+The following snippet provides a minimal implementation of an algorithm (taken from test class KnapSackSolverTest):
 
 ~~~{.cpp}
 class SolverImpl: public KnapSackSolver {
@@ -83,17 +83,17 @@ This will solve the problem given by *KNAPSACK_INPUT_FILE* and write the solutio
 TODO
 
 ## Brute Force
-The most naive approach for solving the knapsack problem is the so called *Brute Force* approach. Brute Force is a trial and error method which finds the best solution through exhaustive effort by trying every possible combination. Accordingly, its running time increases exponentially with the complexity of the problem. Thus this algorithm belongs to the complexity class O(2^n).
+The most naive approach for solving the knapsack problem is the so called *Brute Force* approach. Brute Force is a trial and error method which finds the best solution through exhaustive effort by trying every possible combination. Accordingly, its running time increases exponentially with the complexity of the problem. Thus this algorithm belongs to the complexity class O(2^n) where n is the number of available items.
 
 **Implementation:**
 
 See class BruteForceSolver.
 
-It is the first approach implemented during the project and was used to get a proper feeling and understanding of the knapsack problem itself. The algorithm provides correct solutions and is sufficiently fast for very small problems. As soon as the complexity of problems increases, however, the algorithm can not deliver the solutions in suitable time.
+It was the first approach implemented during the project and was used to get a proper feeling and understanding of the knapsack problem itself. The algorithm provides correct solutions and is sufficiently fast for very small problems. As soon as the complexity of problems increases, however, the algorithm can not deliver the solutions in suitable time.
 
 **Measurement:**
 
-The measurement for this algorithm has been performed on (TODO: kevin laptop specs). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm hat to try 2^20 combinations to find the best solution.
+The measurement for this algorithm has been performed on (TODO: kevin laptop specs). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm had to try 2^20 combinations to find the best solution.
 
 ```
 #!
@@ -373,7 +373,7 @@ RMS Error;0.0604
 TODO: hier alle Algorithmen vergleichen.
 
 # Build and Tests #
-We use [CMake](http://www.cmake.org/) to build the project. The build is as easy as
+We use [CMake](http://www.cmake.org/) to build the project. The build can easily done by executing the following commands:
 
 ~~~{.sh}
 mkdir build
@@ -382,10 +382,10 @@ cmake /path/to/hpc-knapsack/
 make
 ~~~
 
-The `cmake-gui` can also be used for easier handling of the available options.
+Alternatively the `cmake-gui` can be used for easier handling of the available options.
 Note that [OpenMP](http://openmp.org/wp/) has to be installed. CMake tries to find it. In case it is not installed `cmake` will not finish.
 
-To run the tests just run `make test` or `ctest` in the build directory.
+To run the tests after building, simply run `make test` or `ctest` in the build directory.
 
 # List of References
 
