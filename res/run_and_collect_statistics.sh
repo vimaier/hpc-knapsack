@@ -27,7 +27,7 @@ function execute_filename {
     mkdir statistics/$1
   fi
   # Move created statistics files
-  mv statistics_* statistics/secondFileExample
+  mv statistics_* statistics/$1
 }
 
 execute_filename firstFileExample
