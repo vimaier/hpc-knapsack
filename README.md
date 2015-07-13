@@ -82,8 +82,33 @@ This will solve the problem given by *KNAPSACK_INPUT_FILE* and write the solutio
 # Algorithms
 TODO
 
-## Bruteforce
-TODO
+## Brute Force
+The most naive approach for solving the knapsack problem is the so called *Brute Force* approach. Brute Force is a trial and error method which finds the best solution through exhaustive effort by trying every possible combination. Accordingly, its running time increases exponentially with the complexity of the problem. Thus this algorithm belongs to the complexity class O(2^n).
+
+**Implementation:**
+
+See class BruteForceSolver.
+
+It is the first approach implemented during the project and was used to get a proper feeling and understanding of the knapsack problem itself. The algorithm provides correct solutions and is sufficiently fast for very small problems. As soon as the complexity of problems increases, however, the algorithm can not deliver the solutions in suitable time.
+
+**Measurement:**
+
+The measurement for this algorithm has been performed on (TODO: kevin laptop specs). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm hat to try 2^20 (1048576) combinations to find the best solution.
+
+```
+#!
+Alogrithm;Brute Force (Sequential)
+Number of Executions;5
+Average Duration;0.2821
+RMS Error;0.0083
+1;0.2982
+2;0.2812
+3;0.2754
+4;0.2782
+5;0.2772
+```
+
+As one can see, the algorithm delivered the solution in suitable 0.2821 seconds, but this is only because there were only 2^20 combinations to try. For a more complex problem with, for example fourthFileExample.txt, there would be 2^56 combinations to try, which is ~69 billion times 2^20. Accordingly it would take 19 billion seconds or 614 years to solve. This shows how unsuitable this algorithm is for complex problems. Even parallelization would not make it suitable. Assuming we could parallelize the algorithm completely, we would gain a factor of n where n is the number of available cores. So to solve the previous problem within one second we would still need 614*356*24*3600 cores. Because of this, we concentrated on implementing more promising algorithms rather than wasting time on parallelizing this algorithm.
 
 ## Algorithm of Nemhauser and Ullmann
 TODO
