@@ -51,9 +51,9 @@ bool StatisticsWriter::writeToFile() {
 	const double avg = calcAvg();
 	const double rms = calcRmsError(avg);
 
-	fprintf(fp, "Alogrithmus;%s\n", algorithmname.c_str());
-	fprintf(fp, "Anzahl Durchlaeufe;%d\n", durations.size());
-	fprintf(fp, "Durchschnittliche Laufzeit;%.4f\n", avg);
+	fprintf(fp, "Alogrithm;%s\n", algorithmname.c_str());
+	fprintf(fp, "Number of Executions;%d\n", durations.size());
+	fprintf(fp, "Average Duration;%.4f\n", avg);
 	fprintf(fp, "RMS Error;%.4f\n", rms);
 	
 	for (int i=0; i < durations.size() ;++i) {

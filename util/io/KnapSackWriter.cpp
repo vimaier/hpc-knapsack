@@ -41,15 +41,15 @@ bool KnapSackWriter::writeToFile() {
 	if (fp == NULL)
 		return false;
 
-	fprintf(fp, "Kapazität;%.1f\n", capacityOfKnapSack);
+	fprintf(fp, "Capacity;%.1f\n", capacityOfKnapSack);
 	
 
 	for (int i=0; i < nrOfDistinctItems ;++i) {
 		fprintf(fp, "%s;%d\n", items[i].name->c_str(), exemplarsOfItems[i]);
 	}
 
-	fprintf(fp, "Gesamtgewicht;%.2f\n", weight);
-	fprintf(fp, "Gesamtwert;%.2f", worth);
+	fprintf(fp, "Total weight;%.2f\n", weight);
+	fprintf(fp, "Total worth;%.2f", worth);
 
 	fclose(fp);
 

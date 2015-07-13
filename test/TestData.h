@@ -43,12 +43,12 @@ const KnapSackItem TEST_ITEM_5 = {ITEM__NAME_5, 1.0, 1.0};
  * -----------------------------------
  * overall 15 weight and 36 worth
  */
-const std::string ASSUMED_CONTENT_FILE_1[] {"Kapazität;15.0", "gray mouse;3", "yellow daisy;3", "Gesamtgewicht;15.00", "Gesamtwert;36.00"};
+const std::string ASSUMED_CONTENT_FILE_1[] {"Capacity;15.0", "gray mouse;3", "yellow daisy;3", "Total weight;15.00", "Total worth;36.00"};
 
 /**
  * Same solution as ASSUMED_CONTENT_FILE_1 but inverses the order of the items.
  */
-const std::string ASSUMED_CONTENT_FILE_1_DIFFERENT_ORDER_OF_ITEMS[] {"Kapazität;15.0", "yellow daisy;3", "gray mouse;3", "Gesamtgewicht;15.00", "Gesamtwert;36.00"};
+const std::string ASSUMED_CONTENT_FILE_1_DIFFERENT_ORDER_OF_ITEMS[] {"Capacity;15.0", "yellow daisy;3", "gray mouse;3", "Total weight;15.00", "Total worth;36.00"};
 
 /**
  * Number of elements of ASSUMED_CONTENT_FILE_1[] and ASSUMED_CONTENT_FILE_1_DIFFERENT_ORDER_OF_ITEMS[]
@@ -80,12 +80,12 @@ The items to fit into the 15.0 knapsack are:
 Total capacity used: 9.54
 Total value: 59.99
  */
-const std::string ASSUMED_CONTENT_FILE_2[] {"Kapazität;15.0", "XXL blue 0x;1", "gray mouse;1", "yellow daisy;1", "salmon mousse;1", "9780596521530;1", "Gesamtgewicht;9.54", "Gesamtwert;59.99"};
+const std::string ASSUMED_CONTENT_FILE_2[] {"Capacity;15.0", "XXL blue 0x;1", "gray mouse;1", "yellow daisy;1", "salmon mousse;1", "9780596521530;1", "Total weight;9.54", "Total worth;59.99"};
 
 /**
  * Same solution as ASSUMED_CONTENT_FILE_2 but inverses the order of the items.
  */
-const std::string ASSUMED_CONTENT_FILE_2_DIFFERENT_ORDER[] {"Kapazität;15.0", "9780596521530;1", "yellow daisy;1", "XXL blue 0x;1", "gray mouse;1", "salmon mousse;1",  "Gesamtgewicht;9.54", "Gesamtwert;59.99"};
+const std::string ASSUMED_CONTENT_FILE_2_DIFFERENT_ORDER[] {"Capacity;15.0", "9780596521530;1", "yellow daisy;1", "XXL blue 0x;1", "gray mouse;1", "salmon mousse;1",  "Total weight;9.54", "Total worth;59.99"};
 
 /**
  * Number of elements of ASSUMED_CONTENT_FILE_2[] and ASSUMED_CONTENT_FILE_2_DIFFERENT_ORDER[]
@@ -136,7 +136,7 @@ The items to fit into the 645.0 knapsack are:
 Total capacity used: 612.00
 Total value: 928.00
  */
-const std::string ASSUMED_CONTENT_FILE_3[] {"Kapazität;645.0", "EINS;4", "Gesamtgewicht;612.00", "Gesamtwert;928.00"};
+const std::string ASSUMED_CONTENT_FILE_3[] {"Capacity;645.0", "EINS;4", "Total weight;612.00", "Total worth;928.00"};
 
 /**
  * Number of elements of ASSUMED_CONTENT_FILE_3[]
@@ -172,12 +172,12 @@ const KnapSackItem TEST_ITEM_DP_04 = {ITEM__DP_04, 5.0, 6.0};
  * -----------------------------------
  * overall 5 weight and 7 worth
 */
-const std::string ASSUMED_CONTENT_FILE_DP[] {"Kapazität;5.0", "item_02;1", "item_01;1", "Gesamtgewicht;5.00", "Gesamtwert;7.00"};
+const std::string ASSUMED_CONTENT_FILE_DP[] {"Capacity;5.0", "item_02;1", "item_01;1", "Total weight;5.00", "Total worth;7.00"};
 
 /**
  * Same solution as ASSUMED_CONTENT_FILE_DP but inverses the order of the items.
  */
-const std::string ASSUMED_CONTENT_FILE_DP_DIFFERENT_ORDER[] {"Kapazität;5.0", "item_01;1", "item_02;1", "Gesamtgewicht;5.00", "Gesamtwert;7.00"};
+const std::string ASSUMED_CONTENT_FILE_DP_DIFFERENT_ORDER[] {"Capacity;5.0", "item_01;1", "item_02;1", "Total weight;5.00", "Total worth;7.00"};
 
 /**
  * Number of elements of ASSUMED_CONTENT_FILE_DP[] and ASSUMED_CONTENT_FILE_DP_DIFFERENT_ORDER[]

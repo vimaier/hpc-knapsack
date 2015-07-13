@@ -35,8 +35,8 @@ void printWalltime ( std::chrono::time_point<std::chrono::high_resolution_clock>
                           std::chrono::time_point<std::chrono::high_resolution_clock> end )
 {
     std::cout << std::fixed << std::setprecision ( 2 )
-                 << "Die Laufzeit: " << elapsedMilliSeconds ( start, end ).count ( )
-                  << " Millisekunden" << std::endl;
+                 << "Duration: " << elapsedMilliSeconds ( start, end ).count ( )
+                  << " ms" << std::endl;
 }
 
 // Ausgabe einer mit elapsedSeconds bestimmten Zeitspanne auf der Konsole
@@ -44,8 +44,8 @@ void printWalltimeInSeconds ( std::chrono::time_point<std::chrono::high_resoluti
     std::chrono::time_point<std::chrono::high_resolution_clock> end )
 {
     std::cout << std::fixed << std::setprecision (4 )
-        << "Die Laufzeit: " << elapsedSeconds ( start, end ).count ()
-        << " Sekunden" << std::endl;
+        << "Duration: " << elapsedSeconds ( start, end ).count ()
+        << " ms" << std::endl;
 }
 
 // Berechnung der GigaFLOPS
@@ -58,6 +58,6 @@ double countGFlops ( double numberOfCalcs, double flopPerCalc, std::chrono::dura
 void printGFLOPs ( double numberOfCalcs, double flopPerCalc, std::chrono::duration<double, std::ratio<1, 1>> duration )
 {
     double count =  ( 1.0E-9 * numberOfCalcs * flopPerCalc ) / duration.count ( );
-    std::cout << std::fixed << "Erreichte Performanz: " << count << " GFLOPs" << std::endl;
+    std::cout << std::fixed << "Performance: " << count << " GFLOPs" << std::endl;
 }
 
