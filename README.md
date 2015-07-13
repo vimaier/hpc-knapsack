@@ -1,5 +1,3 @@
-# HPC - Knapsack #
-
 [TOC]
 
 This is the result of the project of the course 'High Performance Computing' in the semester SS2015 at the University of Applied Sciences Kaiserslautern. The aim of the project was to solve the knapsack problem and parallelize the algorithm. The project was done by
@@ -8,13 +6,13 @@ This is the result of the project of the course 'High Performance Computing' in 
 * Viktor Maier (vima0001@stud.hs-kl.de).
 
 
-## The Knapsack Problem ##
-You have a knapsack with a limited capacity and a list of items you can put into the knapsack. All items have the properties weight and worth/profit. The problem is that you have to pack the knapsack so that the sum of the items weight does not exceed the capacity of the knapsack and the profit is maximized. The problem is in the set of NP-complete problems. This means effort to solve such a problem increases exponentially with the input size, in our case list of items (and capacity of the knapsack).
+# The Knapsack Problem
+You have a knapsack with a limited capacity and a list of items you can put into the knapsack. All items have the properties weight and worth/profit. The problem is that you have to pack the knapsack so that the sum of the item weights does not exceed the capacity of the knapsack and the profit is maximized. This problem is in the set of NP-complete problems. This means effort to solve such a problem increases exponentially with the input size, in our case list of items (and capacity of the knapsack).
 
-## Framework ##
+# Framework
 A small execution framework was created. This section describes the package (directory) structure of the project and the framework.
 
-### Packages ###
+## Packages
 **main**
 
 This package contains the most part of the project. The file *Main.cpp* contains the starter function `int main(int argc, char* argv[])`. The created binary *knapsackStarter* (see section *Build and Tests*) executes this main function. The classes KnapSack and KnapSackSolver and the package *algorithms* are also contained here.
@@ -42,7 +40,7 @@ This package stores our unit tests. We use CMake to create tests for us. These t
 
 This package stores helper classes. Here are helpful functions for string and IO operations.
 
-### Algorithm Execution Framework ###
+## Algorithm Execution Framework
 To avoid common tasks in the solving of a knapsack problem we use a small algorithm execution framework, the abstract class KnapSackSolver. This class is responsible for the following tasks:
 
 * Reading input files (supported by KnapSackReader)
@@ -81,20 +79,22 @@ delete solver;
 
 This will solve the problem given by *KNAPSACK_INPUT_FILE* and write the solution to *TEST_OUTPUT_FILE*. It will also write a statistic file with the mean and the rms error for the execution durations.
 
-## Algorithms ##
+# Algorithms
 TODO
 
-### Bruteforce ###
+## Bruteforce
 TODO
 
-### Algorithm of Nemhauser and Ullmann ###
+## Algorithm of Nemhauser and Ullmann
 TODO
-
-### Dynamic Programming ###
+## Dynamic Programming
 TODO
 @phineliner hab oben erwähnt, dass das Problem NP-vollständig ist. Im Buch hab ich gelesen, dass es semi-polynomial (oder ähnlich) ist. Weißte was ich meine? Kannst du ja hier kurz erwähnen.
 
-## Build and Tests ##
+# Conclusion
+TODO: hier alle Algorithmen vergleichen.
+
+# Build and Tests #
 We use [CMake](http://www.cmake.org/) to build the project. The build is as easy as
 
 ~~~{.sh}
@@ -109,7 +109,7 @@ Note that [OpenMP](http://openmp.org/wp/) has to be installed. CMake tries to fi
 
 To run the tests just run `make test` or `ctest` in the build directory.
 
-## List of References
+# List of References
 
 * [1] http://www-i1.informatik.rwth-aachen.de/~algorithmus/algo15.php
 * [2] gprof https://sourceware.org/binutils/docs/gprof/Compiling.html#Compiling
