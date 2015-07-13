@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Activate environment variables for intel compiler
+ source /opt/intel/composerxe/bin/compilervars.sh intel64
+
 # if numberOfArguments == 1
 if [ "$#" == 1 ]; then
 # The first parameter ($1) should be the path to the build dir
