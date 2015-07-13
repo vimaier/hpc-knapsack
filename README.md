@@ -214,7 +214,7 @@ So the second parallel version of the algorithm is faster than the previous one.
 
 Now the algorithm indeed is very fast in solving knapsack problems, however, it still suffers from memory problems. Both previously implemented versions store the maximum profits of their sub-problems within a i x w matrix, where i is equal to the number of objects and w represents the maximum capacity. With increasing complexity of the problems, the matrix is getting larger and larger which, at some point, leads to memory problems. So to be able to handle very complex problems, we need an alternative data structure for storing the calculated sub-problem solutions.
 
-#### Sequential Memory Optimized Version ####
+### Sequential Memory Optimized Version ###
 
 **Idea:**
 
