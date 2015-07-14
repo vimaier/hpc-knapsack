@@ -241,6 +241,13 @@ The RLP algorithm is based on the sequential algorithm. It can be parallelized i
 ### Conclusion
 This section compares the executions times of various algorithms of Nemhauser and Ullmann.
 
+| Name                                | firstFileExample.txt | secondFileExample.txt | thirdFileExample.txt | fourthFileExample.txt | fifthFileExample.txt | sixthFileExample.txt |
+|-------------------------------------|----------------------|-----------------------|----------------------|-----------------------|----------------------|----------------------|
+| NemhauserUllmann (sequential)       | 0 (0)                | 0 (0)                 | 0.1923 (0.0002)      | 19.6745 (0.0759)      | 1204.752 (0.9433)    | &infin;              |
+| NemhauserUllmann (parallel)         | 0 (0)                | 0 (0)                 | 0.0169 (0.0404)      | 1.6486 (0.0781)       | 136.253 (0.9996)     |                      |
+| NemhauserUllmann (RLP)              | 0 (0)                | 0 (0)                 | 0.0726 (0.0043)      | 6.5032 (0.0119)       | 961.0731 (41.211)    |                      |
+| NemhauserUllmann (RLP und parallel) | 0 (0)                | 0 (0)                 | 0.0239 (0.0008)      | 0.2921 (0.0874)       | 133.1148 (0.1533)    |                      |
+
 #### Insert plots and explain them
 
 
