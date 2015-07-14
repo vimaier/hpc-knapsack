@@ -128,10 +128,8 @@ void NemhauserUllmannParallelSolver::solve() {
 			*(LPrime_i[j].containingItems) = *(L_i[j].containingItems);
 			// ... add currentItem
 			LPrime_i[j].containingItems->insert(LPrime_i[j].containingItems->end(), currentItem);
-
-			cLPrime_i++;
-
 		}
+		cLPrime_i = cL_i;
 
 		markAllNonOptimalPoints(L_i, cL_i, LPrime_i, cLPrime_i);
 
