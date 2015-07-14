@@ -28,9 +28,18 @@ big green box                 12.0 4.0
 yellow daisy                   4.0 10.0
 salmon mousse                 1.0 1.0
 ~~~
-The first line contains information about the knapsack and the following items. *15.0* is the capacity of the knapsack. *4* represents the number of exemplars of each item. *5* is the number of distinct items and also the number of the following lines. Each of the following lines represents an item. The line consists of a name with a maximum of 13 characters, followed by the weight and the profit/worth. For example the item with the name *gray mouse* has a weight of *1.0* and a worth of *2.0*.
 
 There is also the script `run_and_collect_statistics.sh` which was used with *cron* to collect some data.
+The first line contains information about the knapsack and the following items. *15.0* is the capacity of the knapsack. *4* represents the number of exemplars of each item. *5* is the number of distinct items and also the number of the following lines. Each of the following lines represents an item. The line consists of a name with a maximum of 13 characters, followed by the weight and the profit/worth. For example the item with the name *gray mouse* has a weight of *1.0* and a worth of *2.0*. The following table shows the capacity and the number of input items of the files:
+
+| Name                  | Capacity of knapsack | # Items (=exemplars*DistinctItems) |
+|-----------------------|----------------------|------------------------------------|
+| firstFileExample.txt  | 15                   | 20                                 |
+| secondFileExample.txt | 15                   | 6                                  |
+| thirdFileExample.txt  | 645                  | 56                                 |
+| fourthFileExample.txt | 4645                 | 56                                 |
+| fifthFileExample.txt  | 45000                | 7500                               |
+| sixthFileExample.txt  | 150000               | 25000                              |
 
 **test**
 
@@ -80,7 +89,13 @@ delete solver;
 This will solve the problem given by *KNAPSACK_INPUT_FILE* and write the solution to *TEST_OUTPUT_FILE*. It will also write a statistic file with the mean and the rms error for the execution durations.
 
 # Algorithms
-TODO
+This section documents the implementation of the different algorithms. Three basic algorithms were implemented. A brute force algorithm was implemented to show how inefficient an exhaustive search is for NP problems. The next implemented algorithm of Nemhauser and Ullmann shows a more clever approach to solve the knapsack problem. The last algorithm is called Dynamic Programming. The last two algorithms exist in various improved and parallelized versions.<br/>
+The following table shows the used computers and their benchmark data:
+
+| Name          | CPU                                                               | Main Memory | OS                                    | Compiler                                |
+|---------------|-------------------------------------------------------------------|-------------|---------------------------------------|-----------------------------------------|
+| hal           | 4x Xeon E5-4620 (2,2GHz 8 cores) == 64 cores with Hyper-Threading | 128 GB      | Scientific Linux release 6.6 (Carbon) | icpc (ICC) 15.0.1 20141023 (Intel)      |
+| Viktors Tower | Intel(R) Core(TM) i5-3470 (3.20GHz 4 cores)                       | 8 GB        | Ubuntu 14.04.2 LTS                    | gcc (Ubuntu 4.8.4-2ubuntu1~14.04) 4.8.4 |
 
 ## Brute Force
 The most naive approach for solving the knapsack problem is the so called *Brute Force* approach. Brute Force is a trial and error method which finds the best solution through exhaustive effort by trying every possible combination. Accordingly, its running time increases exponentially with the complexity of the problem. Thus this algorithm belongs to the complexity class O(2^n) where n is the number of available items.
@@ -188,7 +203,7 @@ for (int j=0; j < cL_i ;j++) {
 }
 ~~~
 
-First time measurements showed that the execution time improved from 20 to 2 seconds (better time comparisons are below) on *hal*, a machine with 64 cores with Hyper-Threading. The parallel algorithm was analyzed with the analysis tool Intel VTune Amplifier [5,6]. The following screen shows overview of the *OpenMP Analysis*.
+First time measurements showed that the execution time improved from 20 to 2 seconds (better time comparisons are below) on *hal*, see table above. The parallel algorithm was analyzed with the analysis tool Intel VTune Amplifier [5,6]. The following screen shows overview of the *OpenMP Analysis*.
 
 ![VTune OpenMP Overview](docs/images/vtune_omp_overview.png)
 
