@@ -178,7 +178,7 @@ The time increases exponentially with the input because the size of the lists be
 
 Since the most time of the sequential algorithm will be spent checking of better points exist. Since a search for a single point is independent it is ideally suited for parallelization. The detection for better points in the sequential algorithm is strongly coupled to the merging of the lists L\_i and L'\_i into L\_{i+1}. Before it can be parallelized it has to be decoupled from merging. This was done in commit 903ca0fb8f0ab2a94cd20cd2951933b790f6c15d. The detection was moved into the function NemhauserUllmannParallelSolver::markAllNonOptimalPoints. Afterwards OpenMP (Open Multi-Processing) [4] was used to parallelize the for-loop. The following code snippet shows the code for detecting not Pareto-optimal points for one list:
 
-~~~.cpp
+~~~{.cpp}
 #pragma omp parallel for if (ctr1 > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
 for (int i=0; i < ctr1 ;++i) {
 	if (betterPointExists(&(list1[i]), list2, ctr2))
@@ -189,7 +189,7 @@ for (int i=0; i < ctr1 ;++i) {
 Note, if a point is not Pareto-optimal the worth of this point is set to NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS. Thus these points can be easily omitted in the process of merging. In the omp-pragme we only parallelize if the list has more items then THRESHOLD_OF_ITEMS_TO_PARALLELIZE. The reason is that if only a few points have tob e checked then it is faster to check it in the master thread than to start and synchronize the threads. The value depends also on the number of threads. For simplicity the value was determined with  several test runs with a single computer with 4 cores. The best execution time delivered the value 100 (from 1, 100, 500 and 1000). <br/>
 The copying of the points from list L\__i to L'\_i was also parallelized:
 
-~~~.cpp
+~~~{.cpp}
 // Create L'_i: This list contains all points of L_i plus the currentItem
 #pragma omp parallel for if (cL_i > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
 for (int j=0; j < cL_i ;j++) {
@@ -239,22 +239,17 @@ The RLP algorithm is based on the sequential algorithm. It can be parallelized i
 
 
 ### Conclusion
-This section compares the executions times of various algorithms of Nemhauser and Ullmann.
+This section compares the executions times of the various algorithms of Nemhauser and Ullmann. The following table shows the collected time measurements. Each entry is the mean of ten execution runs. The value in the parentheses represents the [RMS error](http://statweb.stanford.edu/~susan/courses/s60/split/node60.html) which indicates the oscillation of the measured values around the mean value. The data was collected on hal and the intel compiler *icpc* was used to compile the binaries.
 
 | Name                                | firstFileExample.txt | secondFileExample.txt | thirdFileExample.txt | fourthFileExample.txt | fifthFileExample.txt | sixthFileExample.txt |
 |-------------------------------------|----------------------|-----------------------|----------------------|-----------------------|----------------------|----------------------|
-| NemhauserUllmann (sequential)       | 0 (0)                | 0 (0)                 | 0.1923 (0.0002)      | 19.6745 (0.0759)      | 1204.752 (0.9433)    | &infin;              |
-| NemhauserUllmann (parallel)         | 0 (0)                | 0 (0)                 | 0.0169 (0.0404)      | 1.6486 (0.0781)       | 136.253 (0.9996)     |                      |
-| NemhauserUllmann (RLP)              | 0 (0)                | 0 (0)                 | 0.0726 (0.0043)      | 6.5032 (0.0119)       | 961.0731 (41.211)    |                      |
-| NemhauserUllmann (RLP und parallel) | 0 (0)                | 0 (0)                 | 0.0239 (0.0008)      | 0.2921 (0.0874)       | 133.1148 (0.1533)    |                      |
+| **NemhauserUllmann (sequential)**       | 0 (0)                | 0 (0)                 | 0.1923 (0.0002)      | 19.6745 (0.0759)      | 1204.752 (0.9433)    | &infin;              |
+| **NemhauserUllmann (parallel)**         | 0 (0)                | 0 (0)                 | 0.0169 (0.0404)      | 1.6486 (0.0781)       | 136.253 (0.9996)     |                      |
+| **NemhauserUllmann (RLP)**              | 0 (0)                | 0 (0)                 | 0.0726 (0.0043)      | 6.5032 (0.0119)       | 961.0731 (41.211)    |                      |
+| **NemhauserUllmann (RLP und parallel)** | 0 (0)                | 0 (0)                 | 0.0239 (0.0008)      | 0.2921 (0.0874)       | 133.1148 (0.1533)    |                      |
 
-#### Insert plots and explain them
+The problems of the first three files produced no significant run times. The last files are more interesting. All parallel algorithms are faster than the sequential algorithms. The difference of the speedup between the parallel and the RLP and parallel algorithms are completely different for the fourth and fifth file example. In the first case it is 1.6486/0.2921=5.644 and in the latter one 136.253/133.1148=1.0236. This shows that the RLP version will not always accelerate the computation significantly. The RLP version should not be used  if there are only items with the same weight and worth because this represents the worst case and the storage complexity would be O(2^n). The parallelized version of the algorithm boosts the calculations of big problems a lot but a significant amount of time is wasted on synchronizing the threads. This cannot be avoided since the most outer loop has dependencies and thus cannot be parallelized further.
 
-
-
-- do not run if we have only items with the same weight and worth because this represents the worst case and storage complexity would be O(2^n).
-
-- sequential algorithm is faster than parallel. Probably the reason is that the decoupling of the detection of not Pareto-optimal points is less efficient.
 
 
 ## Dynamic Programming
