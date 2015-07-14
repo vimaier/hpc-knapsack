@@ -111,7 +111,130 @@ RMS Error;0.0083
 As one can see, the algorithm delivered the solution in suitable 0.2821 seconds, but this is only because there were only 2^20 combinations to try. For a more complex problem, for example fourthFileExample.txt, there would be 2^56 combinations to try, which corresponds to ~69 billion times 2^20. Accordingly it would take 69 billion times 0.2821 seconds or 614 years to solve the problem. This shows how unsuitable this algorithm becomes when solving complex problems. Even parallelization would not make it more suitable. Assuming we could fully parallelize the algorithm, so we would gain a factor of n where n is the number of available cores. In this case we would still need 614\*356\*24\*3600 cores to solve the previous problem within one second. Because of this insight, we concentrated on implementing more promising algorithms rather than wasting time on parallelizing this algorithm.
 
 ## Algorithm of Nemhauser and Ullmann
-TODO
+The idea of this algorithm is based on the plot worth vs. weight [1]. Every possible combination represents a point in the plot. For example a point could be consist of item1, item2 and item3. The point would be located at
+~~~
+x = w1 + w2 + w3,
+~~~
+where w\* is an abbreviation for weight of item\* (\* represents here a wildcard for 1, 2, and 3) and
+~~~
+y = p1 + p2 + p3,
+~~~
+where p\* is an abbreviation for profit (or worth) of item\*. The following figure shows an example (figure taken from [1]):
+
+![Example plot](http://www-i1.informatik.rwth-aachen.de/~algorithmus/Algorithmen/algo15/pictures/big_po.png)
+
+The optimal solution is represented by the point with the highest profit and a weight smaller than the capacity of the knapsack, the red line in the figure.
+In this plot only the most upper points are interesting. These points are colored red in the figure. They are called Pareto-optimal. This means a Pareto-optimal point has no point with lower weight but higher profit. With other words there is no point in the left upper quarter of the Pareto-optimal point.
+To solve the knapsack problem it is possible to omit all the points which are not Pareto-optimal. During the construction we can omit a lot of points to check.
+
+For example if we have two Pareto-optimal points we can add an item from the input to the two points. We will receive two new points which are shifted to the right by the weight of the new item and upwards by the profit of the new item. The following figure illustrates the extension of the points with a further item (figure is taken fgrom [1]):
+
+![Plot extension](http://www-i1.informatik.rwth-aachen.de/~algorithmus/Algorithmen/algo15/pictures/beispiel3.png)
+
+If we examine each two points independently then all points are Pareto-optimal (note, the blue points in the figure are not all Pareto-optimal). However, it could be that one point from one set could have a point in the upper left quarter and thus would not be Pareto-optimal anymore. We can omit such points and would have again only Pareto-optimal points. A next item could be added.
+
+### Sequential implementation
+Following is the rough algorithm which is implemented in NemhauserUllmannSolver::solve():
+~~~
+L_0 := [(0,0)]  // A list with pareto optimal points. In the beginning only the point (0,0) is available
+foreach item x in input do:
+      1. Copy new items in L'_i
+      	L'_i := L_i + x  // This means create a new list L'_i with points equal to the list L_i and add to all points the current item x (weight and worth)
+      2. Remove not pareto-optimal points in lists L_i and L'_i
+      3. Merge both list sorted
+      	L_{i+1} := sort_with_ascending_weight( L_i, L'_i )
+After adding all items the optimal solution is at the end of list L_n where n is the number of input items.
+~~~
+A performance analysis with Eclipse and gprof[2,3] revealed that the algorithm spends 90 percent of his runtime in the function betterPointExists(). Here is the main line of **gmon.out**
+~~~
+# Name (location)                               Samples   Calls         Time/Call     % Time
+betterPointExists(PlotPoint*, PlotPoint*, int)	57	       167636	   3.400us	     90.47619
+~~~
+The implementation of this function can be found in the file NemhauserUllmannSolver. This function checks for a given point if a given list contains a point located in the left upper quarter. Basically it is a sequential search on a sorted list with stop criterium. In every 'foreach item' iteration we have to search for every point in L\_i if there is a better Point in L'\_i and vice versa. All searches of one iteration is independently of each other and can be parallelized.
+
+The following paragraph describes the complexity of this algorithm. First we take a look at the storage complexity. The only remarkable storage is used for the three lists *list0*, *list1* and *list2* in NemhauserUllmanSolver. These lists represents L\_i, L'\_i and L\_{i+1}. One list needs in the worst case **2^n** points. We have the worst case if we have only items with equal weight and profit. Thus we will have only Pareto-optimal points and a line on the plot. In general this is not the case. It is difficult to guess the maximal number of Pareto-optimal points. We simply take here 100000 points due to observed previous runs of the algorithm with the input files from *res/*. One PlotPoint has the size of 24 bytes. The size of a list is
+~~~
+100000 * 24 bytes = 2400000 bytes = 2343.75 kb = 2.29mb
+~~~
+We have three lists, so we need approximately 6.9mb for the lists. Space  is not the bottleneck of this algorithm. <br/>
+The time increases exponentially with the input because the size of the lists become bigger and bigger and and two searches are necessary, one in each of the lists L\_i and L'\_i.
+
+### Parallelization
+
+Since the most time of the sequential algorithm will be spent checking of better points exist. Since a search for a single point is independent it is ideally suited for parallelization. The detection for better points in the sequential algorithm is strongly coupled to the merging of the lists L\_i and L'\_i into L\_{i+1}. Before it can be parallelized it has to be decoupled from merging. This was done in commit 903ca0fb8f0ab2a94cd20cd2951933b790f6c15d. The detection was moved into the function NemhauserUllmannParallelSolver::markAllNonOptimalPoints. Afterwards OpenMP (Open Multi-Processing) [4] was used to parallelize the for-loop. The following code snippet shows the code for detecting not Pareto-optimal points for one list:
+
+~~~.cpp
+#pragma omp parallel for if (ctr1 > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
+for (int i=0; i < ctr1 ;++i) {
+	if (betterPointExists(&(list1[i]), list2, ctr2))
+		list1[i].worth = NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS;
+}
+~~~
+
+Note, if a point is not Pareto-optimal the worth of this point is set to NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS. Thus these points can be easily omitted in the process of merging. In the omp-pragme we only parallelize if the list has more items then THRESHOLD_OF_ITEMS_TO_PARALLELIZE. The reason is that if only a few points have tob e checked then it is faster to check it in the master thread than to start and synchronize the threads. The value depends also on the number of threads. For simplicity the value was determined with  several test runs with a single computer with 4 cores. The best execution time delivered the value 100 (from 1, 100, 500 and 1000). <br/>
+The copying of the points from list L\__i to L'\_i was also parallelized:
+
+~~~.cpp
+// Create L'_i: This list contains all points of L_i plus the currentItem
+#pragma omp parallel for if (cL_i > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
+for (int j=0; j < cL_i ;j++) {
+	LPrime_i[j].worth = L_i[j].worth + currentItem->worth;
+	LPrime_i[j].weight = L_i[j].weight + currentItem->weight;
+
+	// Copy items and ...
+	*(LPrime_i[j].containingItems) = *(L_i[j].containingItems);
+	// ... add currentItem
+	LPrime_i[j].containingItems->insert(LPrime_i[j].containingItems->end(), currentItem);
+}
+~~~
+
+First time measurements showed that the execution time improved from 20 to 2 seconds (better time comparisons are below) on *hal*, a machine with 64 cores with Hyper-Threading. The parallel algorithm was analyzed with the analysis tool Intel VTune Amplifier [5,6]. The following screen shows overview of the *OpenMP Analysis*.
+
+![VTune OpenMP Overview](docs/images/vtune_omp_overview.png)
+
+The most remarkable part is the *Potential Gain* of 59.6% in the last line. This is basically the time wasted on waiting and synchronizing. The workload of the threads can be analyzed as well. Therefor Intel VTune Amplifier provides a visualization:
+
+![VTune workload of threads](docs/images/vtune_spinning_threads.png)
+
+The green color indicates  that a thread is running. The brown color means that a thread is actually calculating something. The red color shows the spin and overhead time. As indicated by the *OpenMP Analysis* is a lot of spin and overhead time. This is the case if the threads are synchronizing. The function markAllNonOptimalPoints() in NemhauserUllmannParallelSolver will be called after adding an input item. Inside the function are two parallelized for-loops, one for L\_i and one for L'\_i. Let n be the number of input items then we encounter 3n parallelized for-loops, 2n in markAllNonOptimalPoints() and n in solve() copying the items. Thus the threads had to be synchronized a lot. Unfortunately there is no way to avoid it and the most of the time is still spent in the detection of not Pareto-optimal points.
+
+### Removing Lightest Points (RLP)
+
+To further improve the algorithm we need to improve the detection of not Pareto-optimal points. If we take a look at the plot of the points (see above) then we could ask ourself, is it really necessary to check all Pareto-optimal points? We omitted already all points with a weight greater than the capacity of the knapsack but it is also possible to omit points from the beginning of the list L\_i. <br/>
+In the beginning we have a remaining worth r_1 in the input items of
+~~~
+r_1 = p_1 + p_2 + ... + p_n
+~~~
+where n is the number of input items. In the iteration i and before adding item i we have a remaining worth r_i of
+~~~
+r_i = + p_i + p_{i+1} + ... + p_n
+~~~
+The basic idea is if the worth of the lightest point s in list L\_i cannot reach the heaviest point h in list L\_i
+~~~
+s + r_i < h,
+~~~
+then we can omitt this point. This is realized in the function removeHopelessPoints() in NemhauserUllmannRLPParallelSolver and done in commit bb0ae2775070a2cd1059a14c552ffb5b65c80523.
+
+A further improve of this algorithm could be the sorting of the input items by ascending worths. The idea behind is that we first add the highest worths and can remove earlier *hopeless* points. Thus the class NemhauserUllmannSolverRLP has a further parameter in the constructor. However, some test runs showed the opposite, the execution time increased with sorted input items. Thus the idea was discarded.
+
+First time measurements improved execution time from 20 to 7 seconds. The most part was still spent in the detection of better points.
+
+### Parallelization of RLP
+The RLP algorithm is based on the sequential algorithm. It can be parallelized in the same way as NemhauserUllmannParallelSolver (see above). The result is the class NemhauserUllmannRLPParallelSolver.
+
+
+### Conclusion
+This section compares the executions times of various algorithms of Nemhauser and Ullmann.
+
+#### Insert plots and explain them
+
+
+
+- do not run if we have only items with the same weight and worth because this represents the worst case and storage complexity would be O(2^n).
+
+- sequential algorithm is faster than parallel. Probably the reason is that the decoupling of the detection of not Pareto-optimal points is less efficient.
+
+
 ## Dynamic Programming
 
 The Dynamic Programming Approach for solving Knapsack-Problems is based on splitting the main-problem into its sub-problems. For each of those (simpler) sub-problems the maximum profit is being calculated to be able to calculate the maximum profit of the main-problem. At that the sub-problems with a maximum capacity of zero or an item pool of zero items serve as induction basis. The maximum profit of those sub-problems automatically stays zero since you can not pick up items into a knapsack without any capacity or without any items to pack. Starting from this basis more complex problems can be calculated. Be p(i,w) the maximum profit of the sub-problem with an item pool i and a maximum capacity of w. Beginning with p(0,0) the problems can be extended bit by bit. After all capacities have been evaluated with the current pool, another item is added to create the next bigger sub-problem. With c being the maximum capacity of the main-problem and n being the number of items withing the pool the process can be described as follows: Starting from p(0,0) problems up to p(0,c) are being solved (induction basis, each is zero). Afterwards those calculated values are being used to solve problems p(1,0) to p(1,c) and those again are used to solve p(2,0) to p(2,c) and so on. After all sub-problems have been solved, the maximum profit of the main problem is represented by p(n,c).
@@ -389,7 +512,7 @@ To run the tests after building, simply run `make test` or `ctest` in the build 
 
 # List of References
 
-* [1] http://www-i1.informatik.rwth-aachen.de/~algorithmus/algo15.php
+* [1] Algorithm of Nemhauser and Ullmann http://www-i1.informatik.rwth-aachen.de/~algorithmus/algo15.php
 * [2] gprof https://sourceware.org/binutils/docs/gprof/Compiling.html#Compiling
 * [3] gprof eclispe manual https://wiki.eclipse.org/Linux_Tools_Project/GProf/User_Guide
 * [4] OpenMP http://openmp.org/wp/
