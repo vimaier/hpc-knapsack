@@ -203,7 +203,7 @@ for (int j=0; j < cL_i ;j++) {
 }
 ~~~
 
-First time measurements showed that the execution time improved from 20 to 2 seconds (better time comparisons are below) on *hal*, see table above. The parallel algorithm was analyzed with the analysis tool Intel VTune Amplifier [5,6]. The following screen shows overview of the *OpenMP Analysis*.
+First time measurements showed that the execution time improved from 20 to 2 seconds (more accurate time comparisons are below) on *hal*, see table above. The parallel algorithm was analyzed with the analysis tool Intel VTune Amplifier [5,6]. The following screen shows overview of the *OpenMP Analysis*.
 
 ![VTune OpenMP Overview](docs/images/vtune_omp_overview.png)
 
