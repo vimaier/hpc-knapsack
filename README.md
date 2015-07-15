@@ -6,6 +6,21 @@ This is the result of the project of the course 'High Performance Computing' in 
 * Viktor Maier (vima0001@stud.hs-kl.de).
 
 
+# Build and Tests #
+We use [CMake](http://www.cmake.org/) to build the project. On a Linux distribution the build can be easily done by executing the following commands:
+
+~~~{.sh}
+mkdir build
+cd build
+cmake /path/to/hpc-knapsack/
+make
+~~~
+
+This will generate Unix Makefiles. Alternatively the *cmake-gui* can be used for easier handling of the available options.
+Note that [OpenMP](http://openmp.org/wp/) has to be installed. CMake tries to find it. In case it is not installed *cmake* will not continue generating.
+
+To run the tests after building, simply run *make test* or *ctest* in the build directory.
+
 # The Knapsack Problem
 You have a knapsack with a limited capacity and a pool of items from which you can choose to put into the knapsack. All items have the properties weight and worth/profit. The problem is that you have to pack the knapsack in such a way that the sum of the item weights does not exceed the capacity of the knapsack. Furthermore sum of the profit of all items needs to be maximized. This problem is known to be in the set of NP-complete problems. This means effort to solve such a problem increases exponentially with the input size, in our case list of items (and capacity of the knapsack).
 
@@ -29,7 +44,7 @@ yellow daisy                   4.0 10.0
 salmon mousse                 1.0 1.0
 ~~~
 
-There is also the script `run_and_collect_statistics.sh` which was used with *cron* to collect some data.
+There is also the script *run_and_collect_statistics.sh* which was used with *cron* to collect some data.
 The first line contains information about the knapsack and the following items. *15.0* is the capacity of the knapsack. *4* represents the number of exemplars of each item. *5* is the number of distinct items and also the number of the following lines. Each of the following lines represents an item. The line consists of a name with a maximum of 13 characters, followed by the weight and the profit/worth. For example the item with the name *gray mouse* has a weight of *1.0* and a worth of *2.0*. The following table shows the capacity and the number of input items of the files:
 
 | Name                  | Capacity of knapsack | # Items (=exemplars*DistinctItems) |
@@ -511,21 +526,6 @@ RMS Error;0.0604
 
 # Conclusion
 TODO: hier alle Algorithmen vergleichen.
-
-# Build and Tests #
-We use [CMake](http://www.cmake.org/) to build the project. The build can easily done by executing the following commands:
-
-~~~{.sh}
-mkdir build
-cd build
-cmake /path/to/hpc-knapsack/
-make
-~~~
-
-Alternatively the `cmake-gui` can be used for easier handling of the available options.
-Note that [OpenMP](http://openmp.org/wp/) has to be installed. CMake tries to find it. In case it is not installed `cmake` will not finish.
-
-To run the tests after building, simply run `make test` or `ctest` in the build directory.
 
 # List of References
 
