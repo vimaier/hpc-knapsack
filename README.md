@@ -422,7 +422,7 @@ By looking at the introduced parallel implementation one can see that the `#prag
 
 **Implementation:**
 
-See class DynamicProgrammingParallelSolver
+See class DynamicProgrammingParallelSolver.
 
 The implementation was done by inserting a `#pragma omp parallel`-block in front of the outer loop. Accordingly the pragma of the inner loop has been changed to `#pragma omp for` (without the parallel keyword). However, there is a disadvantage that comes with this solution. Everything within the parallel-block is now being executed multiple times (once per core). Many different approaches have been tried to achieve single execution of the outer loop while the parallel-block is preceding. All approaches, e.g. `#pragma omp single`, `#pragma omp critical`, explicitly setting the number of threads, etc. resulted either in single execution of both loops or in having multiple parallel-blocks which caused a significant performance loss. Accordingly it remained to the multi-execution of the outer loop. Admittedly this does not change anything at the algorithm's result, but now it has to be examined how this affects the runtime.
 
@@ -458,7 +458,7 @@ Theoretically, the matrix can consist of only a single row by calculating its co
 
 **Implementation:**
 
-See class DynamicProgrammingLowMemorySolver
+See class DynamicProgrammingLowMemorySolver.
 
 As described in the idea section, instead of using the complete result table now only one row is being used. This is possible because the row gets filled from back to front and the values of the previous iteration are used for calculation:
 
