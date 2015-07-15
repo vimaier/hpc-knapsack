@@ -1,6 +1,6 @@
 [TOC]
 
-This is the result of the project of the course 'High Performance Computing' in the semester SS2015 at the University of Applied Sciences Kaiserslautern. The aim of the project was to implement an algorithm that solves the knapsack problem and further implement a faster and parallelized version of the algorithm. The project was performed by
+This is the result of the project in the course 'High Performance Computing' at the University of Applied Sciences Kaiserslautern in the semester SS2015 . The aim of the project was to implement an algorithm that solves the knapsack problem and improve this algorithm to a faster and parallelized version. The project was performed by
 
 * Kevin Keßler (keke0002@stud.hs-kl.de) and
 * Viktor Maier (vima0001@stud.hs-kl.de).
@@ -25,7 +25,7 @@ To run the tests after building, simply run *make test* or *ctest* in the build 
 You have a knapsack with a limited capacity and a pool of items from which you can choose to put into the knapsack. All items have the properties weight and worth/profit. The problem is that you have to pack the knapsack in such a way that the sum of the item weights does not exceed the capacity of the knapsack. Furthermore sum of the profit of all items needs to be maximized. This problem is known to be in the set of NP-complete problems. This means effort to solve such a problem increases exponentially with the input size, in our case list of items (and capacity of the knapsack).
 
 # Framework
-A small execution framework has been developed. This section describes the package / direcotry structure of the project and the framework.
+A small execution framework has been developed. This section describes the package (directory) structure of the project and the framework.
 
 ## Packages
 **main**
@@ -69,7 +69,7 @@ To avoid duplication of common tasks in the solving of a knapsack problem, we us
 
 * Reading input files (supported by KnapSackReader)
 * Writing solutions (supported by KnapSackWriter)
-* Executing algorithms and measuring time  (supported by GetWalltime)
+* Executing algorithms and measuring time  (supported by GetWalltime.h)
 * Collect and write statistics for benchmarks  (supported by StatisticsWriter)
 
 An knapsack solving algorithm has to extend the class KnapSackSolver and implement the function *solve()*. Thus one can concentrate on the implementation and cut out the management details. Additionally the functions *setUp()* and *tearDown()*. The first function can be used to prepare data in front of each run. The latter can be used to make some finishing operations. The two functions will not be included in the time measurement. The idea behind is that we have a strict input format represented by the class KnapSack, but some algorithms need a different structure and may use the structure directly without conversion. Thus, we exclude the input conversion from time measurement. Additionally, the time spent executing those functions is negligible.
@@ -110,7 +110,7 @@ The following table shows the used computers and their benchmark data:
 | Name          | CPU                                                               | Main Memory | OS                                    | Compiler                                |
 |---------------|-------------------------------------------------------------------|-------------|---------------------------------------|-----------------------------------------|
 | hal           | 4x Xeon E5-4620 (2,2GHz 8 cores) == 64 cores with Hyper-Threading | 128 GB      | Scientific Linux release 6.6 (Carbon) | icpc (ICC) 15.0.1 20141023 (Intel)      |
-| Viktors Tower | Intel(R) Core(TM) i5-3470 (3.20GHz 4 cores)                       | 8 GB        | Ubuntu 14.04.2 LTS                    | gcc (Ubuntu 4.8.4-2ubuntu1~14.04) 4.8.4 |
+| Viktors Tower | Intel(R) Core(TM) i5-3470 (3.20GHz 4 cores)                       | 8 GB        | Ubuntu 14.04.2 LTS                    | gcc 4.8.4 |
 
 ## Brute Force
 The most naive approach for solving the knapsack problem is the so called *Brute Force* approach. Brute Force is a trial and error method which finds the best solution through exhaustive effort by trying every possible combination. Accordingly, its running time increases exponentially with the complexity of the problem. Thus this algorithm belongs to the complexity class O(2^n) where n is the number of available items.
