@@ -22,7 +22,7 @@ static const char* FIFTH_KNAPSACK_INPUT_FILE = "res/fifthFileExample.txt";
 static const char* SIXTH_KNAPSACK_INPUT_FILE = "res/sixthFileExample.txt";
 static const char* SEVENTH_KNAPSACK_INPUT_FILE = "res/seventhFileExample.txt";
 static const char* DP_INPUT_FILE = "res/dynamicProgrammingExample.txt";
-static const char* SECOND_DP_INPUT_FILE = "res/secondDynamicProgrammingExample.txt";
+static const char* SECOND_DP_INPUT_FILE = "res/dpExample.txt";
 static const char* KNAPSACK_OUTPUT_FILE = "knapSackOut.txt";
 
 /**
