@@ -225,7 +225,7 @@ for (int j=0; j < cL_i ;j++) {
 }
 ~~~
 
-First time measurements showed that the execution time improved from 20 to 2 seconds (more accurate time comparisons are below) on *hal*, see table above. The parallel algorithm was analyzed with the analysis tool Intel VTune Amplifier [5,6]. The following screen shows overview of the *OpenMP Analysis*.
+First time measurements showed that the execution time improved from 20 to 2 seconds (more accurate time comparisons are below) on *hal*, see [table above](#computers_table). The parallel algorithm was analyzed with the analysis tool Intel VTune Amplifier [5,6]. The following screen shows overview of the *OpenMP Analysis*.
 
 ![VTune OpenMP Overview](docs/images/vtune_omp_overview.png)
 
@@ -524,11 +524,26 @@ RMS Error;0.0604
 5;2.2469
 ~~~
 
+###Conclusion###
 
-# Conclusion
+The following table gives an overview over the measurements of the different dynamic programming approaches and can be used to compare them. The measured data is the result of solving the problem [*dpExample.txt*](#input_files_table) five times on [*Laptop*](#computers_table) for each approach.
+
+|  # | Approach          | Average Duration | SU to #1 | SU to #2 | SU to #3 | SU to #4 | SU to #5 |
+|:--:|-------------------|:----------------:|:--------:|:--------:|:--------:|:--------:|:--------:|
+|  1 | Default           |      1.8431s     |     1    |   0.62   |   0.38   |   1.59   |   1.20   |
+|  2 | Parallel (1)      |      1.1500s     |   1.60   |     1    |   0.61   |   2.56   |   1.93   |
+|  3 | Parallel (2)      |      0.6989s     |   2.64   |   1.65   |     1    |   4.19   |   3.17   |
+|  4 | Low Memory (Seq.) |      2.9278s     |   0.63   |   0.39   |   0.24   |     1    |   0.76   |
+|  5 | Low Memory (Par.) |      2.2157s     |   0.83   |   0.52   |   0.32   |   1.32   |     1    |
+
+As one can see, the second parallel version of the default dynamic programming algorithm is the fastest. Compared to the sequential version of the low memory algorithm it is even more than four times faster. However, it's underlying result table structure restricts the algorithm to solve very complex problems. Of course, this is depending on the underlying system and on available memory. On *Laptop* the sixthFileExample ([see input files table](#input_files_table)), with a capacity of 150000 and an item pool of 25000 items, could not be solved by the algorithm because it exceeded the available memory. In contrary, both low memory algorithms had no problems with solving even more complex problems than sixthFileExample. This shows that, if enough memory is available, the second parallel version should be used. Otherwise, the parallel low memory version is the way to go.
+
+# Conclusion and Future Work
 TODO: hier alle Algorithmen vergleichen.
 
-Time table
+TODO: Future work for DP: weitere parallelisierung der low memory variante. bereits in dem entsprechenden abschnitt erwähnt
+
+TODO: Time table
 
 # List of References
 <a name="references"></a>
