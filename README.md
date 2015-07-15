@@ -5,9 +5,9 @@ This is the result of the project in the course 'High Performance Computing' at 
 * Kevin Keßler (keke0002@stud.hs-kl.de) and
 * Viktor Maier (vima0001@stud.hs-kl.de).
 
-
+<a name="section_build"></a>
 # Build and Tests #
-We use [CMake](http://www.cmake.org/) to build the project. On a Linux distribution the build can be easily done by executing the following commands:
+We use CMake [[9]](#references) to build the project. On a Linux distribution the build can be easily done by executing the following commands:
 
 ~~~{.sh}
 mkdir build
@@ -17,24 +17,28 @@ make
 ~~~
 
 This will generate Unix Makefiles. Alternatively the *cmake-gui* can be used for easier handling of the available options.
-Note that [OpenMP](http://openmp.org/wp/) has to be installed. CMake tries to find it. In case it is not installed *cmake* will not continue generating.
+Note that OpenMP [[4]](#references) has to be installed. CMake tries to find it. In case it is not installed *cmake* will not continue generating.
 
 To run the tests after building, simply run *make test* or *ctest* in the build directory.
 
 # The Knapsack Problem
-You have a knapsack with a limited capacity and a pool of items from which you can choose to put into the knapsack. All items have the properties weight and worth/profit. The problem is that you have to pack the knapsack in such a way that the sum of the item weights does not exceed the capacity of the knapsack. Furthermore sum of the profit of all items needs to be maximized. This problem is known to be in the set of NP-complete problems. This means effort to solve such a problem increases exponentially with the input size, in our case list of items (and capacity of the knapsack).
+You have a knapsack with a limited capacity and a pool of items from which you can choose to put into the knapsack. All items have the properties weight and worth/profit. The problem is that you have to pack the knapsack in such a way that the sum of the item weights does not exceed the capacity of the knapsack. Furthermore the sum of the profit of all items needs to be maximized. This problem is known to be in the set of NP-complete problems. This means effort to solve such a problem increases exponentially with the input size, in our case list of items (and capacity of the knapsack).
 
 # Framework
-A small execution framework has been developed. This section describes the package (directory) structure of the project and the framework.
+A small execution framework has been developed. This section describes the package / directory structure of the project and the framework.
 
 ## Packages
 **main**
 
-This package contains the most important part of the project. The file *Main.cpp* contains the starter function `int main(int argc, char* argv[])`. The created binary *knapsackStarter* (see section *Build and Tests*) executes this main function. The classes KnapSack and KnapSackSolver and the package *algorithms* are also contained here.
+This package contains the most important part of the project. The file *Main.cpp* contains the application's entry point `int main(int argc, char* argv[])`. The created binary *knapsackStarter* (see section [*Build and Tests*](#section_build)) executes this main function.
+
+//TODO: optionale parameter zu knapsackStarter
+
+The classes KnapSack and KnapSackSolver and the package *algorithms* are also contained here.
 
 **res**
 
-This directory contains the input files for the knapsack problem. During the CMake project generation this directory will be copied to the build directory. The syntax explains itself best with an example:
+This directory contains the input files for the knapsack problem. During the CMake project generation this directory will be copied to the build directory. The syntax explains itself best by an example:
 ~~~
 15.0 4 5
 XXL blue 0x                  2.0 2.0
@@ -44,8 +48,7 @@ yellow daisy                   4.0 10.0
 salmon mousse                 1.0 1.0
 ~~~
 
-There is also the script *run_and_collect_statistics.sh* which was used with *cron* to collect some data.
-The first line contains information about the knapsack and the following items. *15.0* is the capacity of the knapsack. *4* represents the number of exemplars of each item. *5* is the number of distinct items and also the number of the following lines. Each of the following lines represents an item. The line consists of a name with a maximum of 13 characters, followed by the weight and the profit/worth. For example the item with the name *gray mouse* has a weight of *1.0* and a worth of *2.0*. The following table shows the capacity and the number of input items of the files:
+The first line contains information about the knapsack and the following items. *15.0* is the capacity of the knapsack. *4* represents the number of exemplars of each item. *5* is the number of distinct items and also the number of the following lines. Each of the following lines represents an item. The line consists of a name with a maximum of 13 characters, followed by the item's weight and profit/worth. For example the item with the name *gray mouse* has a weight of *1.0* and a worth of *2.0*. The following table shows the capacity and the number of items of the files/problems and thus gives an overview over the complexity of the different problems:
 
 <a name="input_files_table"></a>
 
@@ -59,23 +62,25 @@ The first line contains information about the knapsack and the following items. 
 | sixthFileExample.txt  | 150000               | 25000                              |
 | dpExample.txt         | 45000                | 10000                              |
 
+The script *run_and_collect_statistics.sh* within the package is used with *cron* to collect algorithm statistics over night.
+
 **test**
 
-This package stores our unit tests. We use CMake to create and execute the tests. These tests are executables. In case they terminate with the result code 0, the test will be treated as passed. Is the return code not equal to 0, the test failed. [ctest](http://www.cmake.org/Wiki/CMake/Testing_With_CTest) can be used to execute the tests (see section *Build and Tests*). The header file *TestData.h* contains the commonly used test data, for example paths to test files. There is a test for each implemented algorithm and further tests for testing input and output operations.
+This package stores our unit tests. We use CMake to create and execute the tests. These tests are executables. In case they terminate with the result code 0, the test will be treated as passed. If the return code is not equal to 0, the test failed. [ctest](http://www.cmake.org/Wiki/CMake/Testing_With_CTest) can be used to execute the tests (see section [*Build and Tests*](#section_build)). The header file *TestData.h* contains the commonly used test data, for example paths to test files or assumed solutions. There is a test for each implemented algorithm and further tests for testing input and output operations. Accordingly, during development it was easy to track if changes to the code affected our previous implementations in an undesired way.
 
 **util**
 
-This package stores helper classes. Here are helpful functions for string and IO operations.
+This package stores helper classes. They provide helpful functions for string and IO operations like writing solutions or statistics to file.
 
 ## Algorithm Execution Framework
-To avoid duplication of common tasks in the solving of a knapsack problem, we use a small algorithm execution framework, represented by the abstract class KnapSackSolver. This class is responsible for the following tasks:
+To avoid duplication of code for common tasks, we use a small algorithm execution framework, represented by the abstract class KnapSackSolver. This class is responsible for the following tasks:
 
 * Reading input files (supported by KnapSackReader)
 * Writing solutions (supported by KnapSackWriter)
 * Executing algorithms and measuring time  (supported by GetWalltime.h)
 * Collect and write statistics for benchmarks  (supported by StatisticsWriter)
 
-An knapsack solving algorithm has to extend the class KnapSackSolver and implement the function *solve()*. Thus one can concentrate on the implementation and cut out the management details. Additionally the functions *setUp()* and *tearDown()*. The first function can be used to prepare data in front of each run. The latter can be used to make some finishing operations. The two functions will not be included in the time measurement. The idea behind is that we have a strict input format represented by the class KnapSack, but some algorithms need a different structure and may use the structure directly without conversion. Thus, we exclude the input conversion from time measurement. Additionally, the time spent executing those functions is negligible.
+A knapsack solving algorithm has to extend the class KnapSackSolver and implements the function *solve()*. Thus one can concentrate on the implementation while blinding out the management details. Additionally the class provides the functions *KnapSackSolver::setUp()* and *KnapSackSolver::tearDown()*. The first function can be used to prepare data in front of each run. The latter can be used to make some finishing operations. The two functions will not be included in the time measurement. The idea behind is that we have a strict input format represented by the class KnapSack, but some algorithms need a different structure and may use the structure directly without conversion. Thus, we exclude the input conversion from time measurement. Additionally, the time spent executing those functions is negligible.
 
 The following snippet provides a minimal implementation of an algorithm (taken from test class KnapSackSolverTest):
 
@@ -97,18 +102,25 @@ public:
 };
 ~~~
 
-The algorithm can be executed with the following lines:
+Internally the algorithm can be executed with the following lines:
 ~~~{.cpp}
 KnapSackSolver* solver = new SolverImpl(KNAPSACK_INPUT_FILE, TEST_OUTPUT_FILE);
 solver->start();
 delete solver;
 ~~~
 
-This will solve the problem given by *KNAPSACK_INPUT_FILE* and write the solution to *TEST_OUTPUT_FILE*. It will also write a statistic file with the mean and the rms error for the execution durations.
+This will solve the problem given by *KNAPSACK_INPUT_FILE* and write the solution to *TEST_OUTPUT_FILE*. It will also write a statistic file containing the mean and the root mean square error of the execution durations.
 
 # Algorithms
-This section documents the implementation of the different algorithms. Three basic algorithms were implemented. A brute force algorithm was implemented to show how inefficient an exhaustive search is for NP problems. The next implemented algorithm of Nemhauser and Ullmann shows a more clever approach to solve the knapsack problem. The last algorithm is called Dynamic Programming. The last two algorithms exist in various improved and parallelized versions.<br/>
-The following table shows the used computers and their benchmark data:
+This section documents the development process. It describes the different approaches that have been attempted and explains the implementation of the different algorithms. Three basic algorithms have been implemented:
+
+* A naive brute force algorithm
+* The algorithm of Nemhauser and Ullmann, which shows a more clever approach to solve the knapsack problem
+* A more famous algorithm based on a Dynamic Programming approach
+
+The last two algorithms exist in various improved and parallelized versions.<br/>
+
+The following table shows the computers and their benchmark data, which were used during development to implement and test the different approaches:
 
 <a name="computers_table"></a>
 
@@ -118,8 +130,6 @@ The following table shows the used computers and their benchmark data:
 | Tower | Intel(R) Core(TM) i5-3470 (3.20GHz 4 cores)                       | 8 GB        | Ubuntu 14.04.2 LTS                    | gcc 4.8.4 |
 | Laptop | 1x Intel(R) Core(TM) i7-4710MQ (2.50GHz 4 cores) == 8 cores with Hyper-Threading                      | 16 GB        | Windows 8.1 Pro 64-Bit                   | mingw-gcc 4.8.4 |
 
-
-
 ## Brute Force
 The most naive approach for solving the knapsack problem is the so called *Brute Force* approach. Brute Force is a trial and error method which finds the best solution through exhaustive effort by trying every possible combination. Accordingly, its running time increases exponentially with the complexity of the problem. Thus this algorithm belongs to the complexity class O(2^n) where n is the number of available items.
 
@@ -127,11 +137,11 @@ The most naive approach for solving the knapsack problem is the so called *Brute
 
 See class BruteForceSolver.
 
-It was the first approach implemented during the project and was used to get a proper feeling and understanding of the knapsack problem itself. The algorithm provides correct solutions and is sufficiently fast for very small problems. As soon as the complexity of problems increases, however, the algorithm can not deliver the solutions in suitable time.
+It was the first approach implemented during the project and was used to get a proper feeling and understanding of the knapsack problem itself on the one hand and to show how inefficient an exhaustive search for NP problems is on the other hand. The algorithm provides correct solutions and is sufficiently fast for very small problems. As soon as the complexity of problems increases, however, the algorithm can not deliver the solutions in suitable time.
 
 **Measurement:**
 
-The measurement for this algorithm has been performed on *Laptop* (see [computers table](#computers_table). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm had to try 2^20 combinations to find the best solution.
+The measurement for this algorithm has been performed on *Laptop* (see [computers table](#computers_table)). At first it was used multiple times to solve the very simple problem firstFileExample.txt, which contains 20 items (see [input files table](#input_files_table)). Accordingly, the algorithm had to try 2^20 combinations to find the best solution.
 
 ~~~
 Alogrithm;Brute Force (Sequential)
@@ -145,7 +155,7 @@ RMS Error;0.0083
 5;0.2772
 ~~~
 
-As one can see, the algorithm delivered the solution in suitable 0.2821 seconds, but this is only because there were only 2^20 combinations to try. For a more complex problem, for example fourthFileExample.txt, there would be 2^56 combinations to try, which corresponds to ~69 billion times 2^20. Accordingly it would take 69 billion times 0.2821 seconds or 614 years to solve the problem. This shows how unsuitable this algorithm becomes when solving complex problems. Even parallelization would not make it more suitable. Assuming we could fully parallelize the algorithm, so we would gain a factor of n where n is the number of available cores. In this case we would still need 614\*356\*24\*3600 cores to solve the previous problem within one second. Because of this insight, we concentrated on implementing more promising algorithms rather than wasting time on parallelizing this algorithm.
+As one can see, the algorithm delivered the solution in suitable 0.2821 seconds. This is simply because there were only 2^20 combinations to try. A more complex problem, for example fourthFileExample.txt [input files table](#input_files_table)), would require 2^56 combinations to be tried, which corresponds to ~69 billion times 2^20 combinations. Accordingly it would take 69 billion times 0.2821 seconds or 614 years to solve the problem. This shows how unsuitable this algorithm becomes when solving complex problems. Even parallelization would not make it more suitable. Assuming we could fully parallelize the algorithm, so we would gain a factor of n where n is the number of available cores. In this case we would still need 614\*356\*24\*3600 cores to be able to solve the previous problem within one second. Because of this insight, we concentrated on implementing more promising algorithms rather than wasting time on parallelizing this one.
 
 ## Algorithm of Nemhauser and Ullmann
 The idea of this algorithm is based on the plot worth vs. weight [[1]](#references). Every possible combination represents a point in the plot. For example a point could be consist of item1, item2 and item3. The point would be located at
@@ -376,7 +386,7 @@ By looking at the introduced parallel implementation one can see that the `#prag
 
 See class DynamicProgrammingParallelSolver
 
-The implementation was done by inserting a `#pragma omp parallel`-block in front of the outer loop. Accordingly the pragma of the inner loop has been changed to `#pragma omp for` (without the parallel keyword). But there is a disadvantage that comes with this solution. Everything within the parallel-block is now being executed multiple times (once per core). Many different approaches have been tried to achieve single execution of the outer loop while the parallel-block is preceding. All approaches, e.g. `#pragma omp single`, `#pragma omp critical`, explizites Setzen der Thread Anzahl, etc. resulted either in single execution of both loops or in having multiple parallel-blocks which caused a significant performance lost. Accordingly it remained to the multiple execution of the outer loop. Admittedly this does not change anything at the algorithm's result, but now it has to be examined how this affects the runtime.
+The implementation was done by inserting a `#pragma omp parallel`-block in front of the outer loop. Accordingly the pragma of the inner loop has been changed to `#pragma omp for` (without the parallel keyword). But there is a disadvantage that comes with this solution. Everything within the parallel-block is now being executed multiple times (once per core). Many different approaches have been tried to achieve single execution of the outer loop while the parallel-block is preceding. All approaches, e.g. `#pragma omp single`, `#pragma omp critical`, explizites Setzen der Thread Anzahl, etc. resulted either in single execution of both loops or in having multiple parallel-blocks which caused a significant performance loss. Accordingly it remained to the multiple execution of the outer loop. Admittedly this does not change anything at the algorithm's result, but now it has to be examined how this affects the runtime.
 
 **Measurement:**
 
@@ -549,8 +559,10 @@ TODO: kritischer rückblick - würden Sie mit dem Wissen nach dem Projekt andere
 
 TODO: arbeitszeit
 
-# List of References
+
 <a name="references"></a>
+
+# List of References
 * [1] Algorithm of Nemhauser and Ullmann http://www-i1.informatik.rwth-aachen.de/~algorithmus/algo15.php
 * [2] gprof https://sourceware.org/binutils/docs/gprof/Compiling.html#Compiling
 * [3] gprof eclispe manual https://wiki.eclipse.org/Linux_Tools_Project/GProf/User_Guide
@@ -559,3 +571,4 @@ TODO: arbeitszeit
 * [6] VTune Amplifier and OpenMP https://software.intel.com/en-us/articles/profiling-openmp-applications-with-intel-vtune-amplifier-xe
 * [7] Kellerer, H & Pferschy, U & Pisinger, D 2004, *Knapsack Problems*, Springer Verlag
 * [8] StackOverflow discussion thread http://stackoverflow.com/questions/31321071/openmp-nested-for-loop-becomes-faster-when-having-parallel-before-outer-loop/31382775
+* [9] CMake http://www.cmake.org/
