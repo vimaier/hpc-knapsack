@@ -1,6 +1,6 @@
 [TOC]
 
-This is the result of the project in the course 'High Performance Computing' at the University of Applied Sciences Kaiserslautern in the semester SS2015 . The aim of the project was to implement an algorithm that solves the knapsack problem and improve this algorithm to a faster and parallelized version. The project was performed by
+This is the result of the project in the course *High Performance Computing* at the University of Applied Sciences Kaiserslautern in the semester SS2015 . The aim of the project was to implement an algorithm that solves the knapsack problem and improve this algorithm to a faster and parallelized version. The project was performed by
 
 * Kevin Keßler (keke0002@stud.hs-kl.de) and
 * Viktor Maier (vima0001@stud.hs-kl.de).
@@ -202,7 +202,7 @@ For example if we have two Pareto-optimal points we can add another item to the 
 If we examine each two points independently then all points are Pareto-optimal (note, not all of the blue points are Pareto-optimal). However, it could be that one point from one set could have a point in the upper left quarter and thus would not be Pareto-optimal anymore. We can omit such points to have only Pareto-optimal points again. Now, another item can be added.
 
 ### Sequential implementation
-Following listing roughly shows the algorithm which is implemented in NemhauserUllmannSolver::solve():
+Following listing roughly shows the algorithm which is implemented in the function solve() of the class NemhauserUllmannSolver:
 
 ~~~
 
@@ -335,8 +335,20 @@ The following plot shows the measured times for the last three example files.
 
 ![Nemhauser Ullmann runtimes plot](docs/images/algo_nemhauser_ullmann_runtimes.png)
 
-The problems of the first three files produced no significant running times. The last files, however, are more interesting. The *sixthFileExample* (see [input file table](#input_files_table)) was omitted in this table since it took more than one hour to run the parallel version. All parallel algorithms are faster than the sequential algorithms. The difference of the speedup between the parallel and the RLP (parallel) algorithms are completely different for the fourth and fifth file example. In the first case it is 1.6486/0.2921=5.644 and in the latter one 136.253/133.1148=1.0236. This shows that the RLP version will not always accelerate the computation significantly. The RLP version should not be used if there are only items with the same weight and worth because this represents the worst case and the storage complexity would be O(2^n). The parallelized version of the algorithm boosts the calculations of big problems a lot but a significant amount of time is wasted while synchronizing the threads. This cannot be avoided since the most outer loop has dependencies and thus cannot be parallelized any further.
+The problems of the first three files produced no significant running times. The last files, however, are more interesting. The *sixthFileExample* (see [input file table](#input_files_table)) was omitted in this table since it took more than one hour to run the parallel version. All parallel algorithms are faster than the sequential algorithms. The difference of the speedup between the parallel and the RLP (parallel) algorithms are completely different for the fourth and fifth file example. In the first case it is 1.6486/0.2921=5.644 and in the latter one 136.253/133.1148=1.0236. This shows that the RLP version will not always accelerate the computation significantly.
 
+Below are the results from [Tower](#computers_table), a computer with 4 cores:
+
+| Name                                    | firstFileExample.txt   | secondFileExample.txt | thirdFileExample.txt   | fourthFileExample.txt   | fifthFileExample.txt      |
+|-----------------------------------------|------------------------|-----------------------|------------------------|-------------------------|---------------------------|
+| **NemhauserUllmann (sequential)**       | 0.0018 &plusmn; 0.0001 | 0                     | 0.4846 &plusmn; 0.0011 | 41.405 &plusmn; 0.0064  | 2591.654                  |
+| **NemhauserUllmann (parallel)**         | 0.0035 &plusmn; 0.0025 | 0                     | 0.252 &plusmn; 0.0073  | 18.3329 &plusmn; 0.0522 | 1221.427 &plusmn; 2.985   |
+| **NemhauserUllmann (RLP)**              | 0.0005 &plusmn; 0      | 0                     | 0.1805 &plusmn; 0.0005 | 14.6303 &plusmn; 0.0048 | 1943.9145 &plusmn; 0.5908 |
+| **NemhauserUllmann (RLP und parallel)** | 0.0011 &plusmn; 0.0009 | 0                     | 0.212 &plusmn; 0.0099  | 2.7437 &plusmn; 0.0825  | 1190.6925 &plusmn; 6.2025 |
+
+Here is the *fourthFileExample* interesting. The RLP version is faster than the parallelized. This indicates again that the problem of *fourthFileExample* is advantageous for the RLP algorithms. On the other side the difference between the parallel and the RLP (parallel) algorithms for the *fifthFileExample* is rather small.
+
+The RLP version should not be used if there are only items with the same weight and worth because this represents the worst case and the storage complexity would be O(2^n). The parallelized version of the algorithm boosts the calculations of big problems a lot but a significant amount of time is wasted while synchronizing the threads. This cannot be avoided since the most outer loop has dependencies and thus cannot be parallelized any further.
 
 
 ## Dynamic Programming
