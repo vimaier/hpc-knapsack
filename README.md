@@ -170,19 +170,20 @@ where p\* is an abbreviation for profit (or worth) of item\*. The following figu
 
 ![Example plot](http://www-i1.informatik.rwth-aachen.de/~algorithmus/Algorithmen/algo15/pictures/big_po.png)
 
-The optimal solution is represented by the point with the highest profit and a weight smaller than the capacity of the knapsack, the red line in the figure.
-In this plot only the most upper points are interesting. These points are colored red in the figure. They are called Pareto-optimal. This means a Pareto-optimal point has no point with lower weight but higher profit. With other words there is no point in the left upper quarter of the Pareto-optimal point.
-To solve the knapsack problem it is possible to omit all the points which are not Pareto-optimal. During the construction we can omit a lot of points to check.
+The optimal solution is represented by the point with the highest profit and a weight smaller than the capacity, which is represented by the red line in the figure.
+In this plot only the most upper points are interesting. These so called Pareto-optimal points are the red colored ones of the figure. Being a Pareto-optimal point means that there is no other point that has lower weight and higher profit at the same time. With other words there is no point in the left upper quarter of the Pareto-optimal one.
+To solve the knapsack problem it is possible to omit all the points which are not Pareto-optimal. During construction we can omit a lot of points to check.
 
-For example if we have two Pareto-optimal points we can add an item from the input to the two points. We will receive two new points which are shifted to the right by the weight of the new item and upwards by the profit of the new item. The following figure illustrates the extension of the points with a further item (figure taken from [[1]](#references)):
+For example if we have two Pareto-optimal points we can add another item to the two points. We will receive two new points which are shifted to the right by the weight of the new item and upwards by the profit of the new item. The following figure illustrates the extension of the points with a further item (figure taken from [[1]](#references)):
 
 ![Plot extension](http://www-i1.informatik.rwth-aachen.de/~algorithmus/Algorithmen/algo15/pictures/beispiel3.png)
 
-If we examine each two points independently then all points are Pareto-optimal (note, the blue points in the figure are not all Pareto-optimal). However, it could be that one point from one set could have a point in the upper left quarter and thus would not be Pareto-optimal anymore. We can omit such points and would have again only Pareto-optimal points. A next item could be added.
+If we examine each two points independently then all points are Pareto-optimal (note, not all of the blue points are Pareto-optimal). However, it could be that one point from one set could have a point in the upper left quarter and thus would not be Pareto-optimal anymore. We can omit such points to have only Pareto-optimal points again. Now, another item can be added.
 
 ### Sequential implementation
-Following is the rough algorithm which is implemented in NemhauserUllmannSolver::solve():
+Following listing roughly shows the algorithm which is implemented in NemhauserUllmannSolver::solve():
 ~~~
+
 L_0 := [(0,0)]  // A list with pareto optimal points. In the beginning only the point (0,0) is available
 foreach item x in input do:
       1. Copy new items in L'_i
@@ -191,24 +192,25 @@ foreach item x in input do:
       3. Merge both list sorted
       	L_{i+1} := sort_with_ascending_weight( L_i, L'_i )
 After adding all items the optimal solution is at the end of list L_n where n is the number of input items.
+
 ~~~
 A performance analysis with Eclipse and gprof[2,3] revealed that the algorithm spends 90 percent of his runtime in the function betterPointExists(). Here is the main line of **gmon.out**
 ~~~
 # Name (location)                               Samples   Calls         Time/Call     % Time
 betterPointExists(PlotPoint*, PlotPoint*, int)	57	       167636	   3.400us	     90.47619
 ~~~
-The implementation of this function can be found in the file NemhauserUllmannSolver. This function checks for a given point if a given list contains a point located in the left upper quarter. Basically it is a sequential search on a sorted list with stop criterium. In every 'foreach item' iteration we have to search for every point in L\_i if there is a better Point in L'\_i and vice versa. All searches of one iteration is independently of each other and can be parallelized.
+The implementation of this function can be found in the class NemhauserUllmannSolver. This function checks for a given point if a given list contains a point located in the left upper quarter. Basically it is a sequential search on a sorted list with a stop criteria. In every 'foreach item' iteration we have to check for every point in L\_i if there is a better Point in L'\_i and vice versa by searching the lists. All searches of one iteration are independent of each other and can be parallelized.
 
-The following paragraph describes the complexity of this algorithm. First we take a look at the storage complexity. The only remarkable storage is used for the three lists *list0*, *list1* and *list2* in NemhauserUllmanSolver. These lists represents L\_i, L'\_i and L\_{i+1}. One list needs in the worst case **2^n** points. We have the worst case if we have only items with equal weight and profit. Thus we will have only Pareto-optimal points and a line on the plot. In general this is not the case. It is difficult to guess the maximal number of Pareto-optimal points. We simply take here 100000 points due to observed previous runs of the algorithm with the input files from *res/*. One PlotPoint has the size of 24 bytes. The size of a list is
+The following paragraph describes the complexity of this algorithm. First we take a look at the storage complexity. The only remarkable storage is used for the three lists *list0*, *list1* and *list2* in NemhauserUllmanSolver. These lists represent L\_i, L'\_i and L\_{i+1}. In worst case, one list needs **2^n** points. The worst case occurs, if we solely have items whose weight and profit are equal. Thus all points would be Pareto-optimal, which would result in a line on the plot. In general this is not the case. It is difficult to guess the maximal number of Pareto-optimal points. We simply take 100000 points due to previously observed runs of the algorithm with the input files from *res/*. One PlotPoint has the size of 24 bytes. The size of a list is
 ~~~
 100000 * 24 bytes = 2400000 bytes = 2343.75 kb = 2.29mb
 ~~~
 We have three lists, so we need approximately 6.9mb for the lists. Space  is not the bottleneck of this algorithm. <br/>
-The time increases exponentially with the input because the size of the lists become bigger and bigger and and two searches are necessary, one in each of the lists L\_i and L'\_i.
+The time increases exponentially with the input because the size of the lists become bigger and bigger and two searches are necessary, one in each of the lists L\_i and L'\_i.
 
 ### Parallelization
 
-Since the most time of the sequential algorithm will be spent checking of better points exist. Since a search for a single point is independent it is ideally suited for parallelization. The detection for better points in the sequential algorithm is strongly coupled to the merging of the lists L\_i and L'\_i into L\_{i+1}. Before it can be parallelized it has to be decoupled from merging. This was done in commit 903ca0fb8f0ab2a94cd20cd2951933b790f6c15d. The detection was moved into the function NemhauserUllmannParallelSolver::markAllNonOptimalPoints. Afterwards OpenMP (Open Multi-Processing) [[4]](#references) was used to parallelize the for-loop. The following code snippet shows the code for detecting not Pareto-optimal points for one list:
+Since most of the sequential algorithm's running time will be spent by checking of better points exist and since a search for a single point is independent, the algorithm is ideally suited for parallelization. The detection for better points in the sequential algorithm is strongly coupled to the merging of the lists L\_i and L'\_i into L\_{i+1}. Before it can be parallelized it has to be decoupled from merging. This was done in commit 903ca0fb8f0ab2a94cd20cd2951933b790f6c15d. The detection was moved into the function NemhauserUllmannParallelSolver::markAllNonOptimalPoints. Afterwards OpenMP (Open Multi-Processing) [[4]](#references) was used to parallelize the for-loop. The following code snippet shows the code for detecting non-Pareto-optimal points for one list:
 
 ~~~{.cpp}
 #pragma omp parallel for if (ctr1 > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
@@ -218,8 +220,8 @@ for (int i=0; i < ctr1 ;++i) {
 }
 ~~~
 
-Note, if a point is not Pareto-optimal the worth of this point is set to NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS. Thus these points can be easily omitted in the process of merging. In the omp-pragme we only parallelize if the list has more items then THRESHOLD_OF_ITEMS_TO_PARALLELIZE. The reason is that if only a few points have tob e checked then it is faster to check it in the master thread than to start and synchronize the threads. The value depends also on the number of threads. For simplicity the value was determined with  several test runs with a single computer with 4 cores. The best execution time delivered the value 100 (from 1, 100, 500 and 1000). <br/>
-The copying of the points from list L\__i to L'\_i was also parallelized:
+Note, if a point is not Pareto-optimal, the worth of this point is set to NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS. Thus, these points can be easily omitted in the process of merging. In the omp-pragma we only perform parallelization, if the list has more items then THRESHOLD_OF_ITEMS_TO_PARALLELIZE. The reason is that if only a few points have to be checked, then it is faster to do it single threaded rather than to start and synchronize separate threads. The value also depends on the number of threads. For simplicity the value was determined by several test runs on *Tower* (see [computers table](#computers_table)). The best execution time delivered a value of 100 (from 1, 100, 500 and 1000). <br/>
+The copying of the points from list L\__i to L'\_i was parallelized, too:
 
 ~~~{.cpp}
 // Create L'_i: This list contains all points of L_i plus the currentItem
@@ -235,15 +237,15 @@ for (int j=0; j < cL_i ;j++) {
 }
 ~~~
 
-First time measurements showed that the execution time improved from 20 to 2 seconds (more accurate time comparisons are below) on *hal*, see [table above](#computers_table). The parallel algorithm was analyzed with the analysis tool Intel VTune Amplifier [5,6]. The following screen shows overview of the *OpenMP Analysis*.
+First time measurements showed, that the execution time improved from ~20 to ~2 seconds on *hal* (see [computers table](#computers_table). The parallel algorithm was analyzed with the analysis tool *Intel VTune Amplifier* [5,6]. The following screen shows the overview of the *OpenMP Analysis*.
 
 ![VTune OpenMP Overview](docs/images/vtune_omp_overview.png)
 
-The most remarkable part is the *Potential Gain* of 59.6% in the last line. This is basically the time wasted on waiting and synchronizing. The workload of the threads can be analyzed as well. Therefor Intel VTune Amplifier provides a visualization:
+The most remarkable part is the *Potential Gain* of 59.6% stated in the last line. This is basically the time wasted while waiting and synchronizing. The workload of the threads can be analyzed as well. Therefore, Intel VTune Amplifier provides the following visualization:
 
 ![VTune workload of threads](docs/images/vtune_spinning_threads.png)
 
-The green color indicates  that a thread is running. The brown color means that a thread is actually calculating something. The red color shows the spin and overhead time. As indicated by the *OpenMP Analysis* is a lot of spin and overhead time. This is the case if the threads are synchronizing. The function markAllNonOptimalPoints() in NemhauserUllmannParallelSolver will be called after adding an input item. Inside the function are two parallelized for-loops, one for L\_i and one for L'\_i. Let n be the number of input items then we encounter 3n parallelized for-loops, 2n in markAllNonOptimalPoints() and n in solve() copying the items. Thus the threads had to be synchronized a lot. Unfortunately there is no way to avoid it and the most of the time is still spent in the detection of not Pareto-optimal points.
+The brown areas state that a thread is actually calculating something whereas the red color shows the spin and overhead time. As indicated by the *OpenMP Analysis* there is a lot of spin and overhead time. This is mostly the case when the threads are synchronizing. The function NemhauserUllmannParallelSolver::markAllNonOptimalPoints() is being called after an input item has been added. Inside the function, there are two parallelized for-loops. One for L\_i and one for L'\_i. Let n be the number of input items, then we encounter 3n parallelized for-loops: 2n in markAllNonOptimalPoints() and n in solve() for copying the items. Thus, the threads have to be synchronized a lot. Unfortunately there is no way to avoid this and most of the time is still being spent during the detection of non-Pareto-optimal points.
 
 ### Removing Lightest Points (RLP)
 
