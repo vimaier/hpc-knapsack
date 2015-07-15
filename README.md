@@ -346,6 +346,8 @@ Below are the results from [Tower](#computers_table), a computer with 4 cores:
 | **NemhauserUllmann (RLP)**              | 0.0005 &plusmn; 0      | 0                     | 0.1805 &plusmn; 0.0005 | 14.6303 &plusmn; 0.0048 | 1943.9145 &plusmn; 0.5908 |
 | **NemhauserUllmann (RLP und parallel)** | 0.0011 &plusmn; 0.0009 | 0                     | 0.212 &plusmn; 0.0099  | 2.7437 &plusmn; 0.0825  | 1190.6925 &plusmn; 6.2025 |
 
+![Nemhauser Ullmann runtimes plot (executed on Tower)](docs/images/algo_nemhauser_ullmann_runtimes_tower.png)
+
 Here is the *fourthFileExample* interesting. The RLP version is faster than the parallelized. This indicates again that the problem of *fourthFileExample* is advantageous for the RLP algorithms. On the other side the difference between the parallel and the RLP (parallel) algorithms for the *fifthFileExample* is rather small.
 
 The RLP version should not be used if there are only items with the same weight and worth because this represents the worst case and the storage complexity would be O(2^n). The parallelized version of the algorithm boosts the calculations of big problems a lot but a significant amount of time is wasted while synchronizing the threads. This cannot be avoided since the most outer loop has dependencies and thus cannot be parallelized any further.
