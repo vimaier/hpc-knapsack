@@ -47,7 +47,9 @@ salmon mousse                 1.0 1.0
 There is also the script *run_and_collect_statistics.sh* which was used with *cron* to collect some data.
 The first line contains information about the knapsack and the following items. *15.0* is the capacity of the knapsack. *4* represents the number of exemplars of each item. *5* is the number of distinct items and also the number of the following lines. Each of the following lines represents an item. The line consists of a name with a maximum of 13 characters, followed by the weight and the profit/worth. For example the item with the name *gray mouse* has a weight of *1.0* and a worth of *2.0*. The following table shows the capacity and the number of input items of the files:
 
-| Name                  | Capacity of knapsack | # Items (=exemplars*DistinctItems) |
+<a name="input_files_table"></a>
+
+| Name                  | Capacity of knapsack | # Items (=exemplars*distinctItems) |
 |-----------------------|----------------------|------------------------------------|
 | firstFileExample.txt  | 15                   | 20                                 |
 | secondFileExample.txt | 15                   | 6                                  |
@@ -55,6 +57,7 @@ The first line contains information about the knapsack and the following items. 
 | fourthFileExample.txt | 4645                 | 56                                 |
 | fifthFileExample.txt  | 45000                | 7500                               |
 | sixthFileExample.txt  | 150000               | 25000                              |
+| dpExample.txt         | 45000                | 10000                              |
 
 **test**
 
@@ -112,8 +115,8 @@ The following table shows the used computers and their benchmark data:
 | Name          | CPU                                                               | Main Memory | OS                                    | Compiler                                |
 |---------------|-------------------------------------------------------------------|-------------|---------------------------------------|-----------------------------------------|
 | hal           | 4x Xeon E5-4620 (2,2GHz 8 cores) == 64 cores with Hyper-Threading | 128 GB      | Scientific Linux release 6.6 (Carbon) | icpc (ICC) 15.0.1 20141023 (Intel)      |
-| Viktor's Tower | Intel(R) Core(TM) i5-3470 (3.20GHz 4 cores)                       | 8 GB        | Ubuntu 14.04.2 LTS                    | gcc 4.8.4 |
-| Kevin's Laptop | 1x Intel(R) Core(TM) i7-4710MQ (2.50GHz 4 cores) == 8 cores with Hyper-Threading                      | 16 GB        | Windows 8.1 Pro 64-Bit                   | mingw-gcc 4.8.4 |
+| Tower | Intel(R) Core(TM) i5-3470 (3.20GHz 4 cores)                       | 8 GB        | Ubuntu 14.04.2 LTS                    | gcc 4.8.4 |
+| Laptop | 1x Intel(R) Core(TM) i7-4710MQ (2.50GHz 4 cores) == 8 cores with Hyper-Threading                      | 16 GB        | Windows 8.1 Pro 64-Bit                   | mingw-gcc 4.8.4 |
 
 
 
@@ -128,7 +131,7 @@ It was the first approach implemented during the project and was used to get a p
 
 **Measurement:**
 
-The measurement for this algorithm has been performed on Kevin's Laptop (see [computers table](#computers_table). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm had to try 2^20 combinations to find the best solution.
+The measurement for this algorithm has been performed on *Laptop* (see [computers table](#computers_table). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm had to try 2^20 combinations to find the best solution.
 
 ~~~
 Alogrithm;Brute Force (Sequential)
@@ -279,6 +282,8 @@ The problems of the first three files produced no significant run times. The las
 
 The Dynamic Programming Approach for solving Knapsack-Problems is based on splitting the main-problem into its sub-problems. For each of those (simpler) sub-problems the maximum profit is being calculated to be able to calculate the maximum profit of the main-problem. At that the sub-problems with a maximum capacity of zero or an item pool of zero items serve as induction basis. The maximum profit of those sub-problems automatically stays zero since you can not pick up items into a knapsack without any capacity or without any items to pack. Starting from this basis more complex problems can be calculated. Be p(i,w) the maximum profit of the sub-problem with an item pool i and a maximum capacity of w. Beginning with p(0,0) the problems can be extended bit by bit. After all capacities have been evaluated with the current pool, another item is added to create the next bigger sub-problem. With c being the maximum capacity of the main-problem and n being the number of items withing the pool the process can be described as follows: Starting from p(0,0) problems up to p(0,c) are being solved (induction basis, each is zero). Afterwards those calculated values are being used to solve problems p(1,0) to p(1,c) and those again are used to solve p(2,0) to p(2,c) and so on. After all sub-problems have been solved, the maximum profit of the main problem is represented by p(n,c).
 
+The development of the different dynamic programming algorithms took place on *Laptop* (see [computers table](#computers_table). Accordingly, all of the measurements and performance analyses of this section were performed on that machine. Furthermore, those measurements were performed while solving the same problem equally often. This setup was necessary to stick with the same environment to gain comparable measurements. The problem used was *dpExample.txt*, a problem with a capacity of 45000 and an item pool of 10000 items (see [input files table](#input_files_table)).
+
 ### Default Version ###
 
 **Based on pseudo code of:**
@@ -293,9 +298,7 @@ A result table (n x c) serves as underlying data structure of the default implem
 
 **Measurement:**
 
-In order to find out where the default algorithm can be optimized, it has been applied several times to the dynamic programming example problem (secondDynamicProgrammingExample.txt), which is a problem with an item pool of 10000 items and a maximum capacity of 45000. The average duration for solving the problem with this algorithm was 1.8431 seconds.
-
-(TODO: kevin laptop specs)
+In order to find out where the default algorithm can be optimized, it has been applied several times to the dynamic programming example problem. The average duration for solving the problem with this algorithm was 1.8431 seconds.
 
 ~~~
 Algorithm;Dynamic Programming (Sequential)
@@ -349,9 +352,7 @@ A closer look at the differences of the parallel and sequential implementation s
 
 **Measurement:**
 
-To compare the durations of this algorithm to the durations of the sequential one the example problem has been solved and measured under the same circumstances. The average duration was 1.15 seconds. On first sight the parallelization provides a reduction of the duration from 1.84 seconds to 1.15 seconds what corresponds to a speedup of ~1.6.
-
-(TODO: KEVIN LAPTOP SPECS?)
+To compare the durations of this algorithm to the durations of the sequential one, the example problem has been solved and measured under the same circumstances. The average duration was 1.15 seconds. On first sight the parallelization provides a reduction of the duration from 1.84 seconds to 1.15 seconds what corresponds to a speedup of ~1.6.
 
 ~~~
 Algorithm;Dynamic Programming (Parallel) (Version 1)
