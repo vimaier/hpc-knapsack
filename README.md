@@ -107,7 +107,7 @@ This will solve the problem given by *KNAPSACK_INPUT_FILE* and write the solutio
 This section documents the implementation of the different algorithms. Three basic algorithms were implemented. A brute force algorithm was implemented to show how inefficient an exhaustive search is for NP problems. The next implemented algorithm of Nemhauser and Ullmann shows a more clever approach to solve the knapsack problem. The last algorithm is called Dynamic Programming. The last two algorithms exist in various improved and parallelized versions.<br/>
 The following table shows the used computers and their benchmark data:
 
-<a name="computers_table">test </a>
+<a name="computers_table"></a>
 
 | Name          | CPU                                                               | Main Memory | OS                                    | Compiler                                |
 |---------------|-------------------------------------------------------------------|-------------|---------------------------------------|-----------------------------------------|
