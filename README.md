@@ -148,7 +148,7 @@ RMS Error;0.0083
 As one can see, the algorithm delivered the solution in suitable 0.2821 seconds, but this is only because there were only 2^20 combinations to try. For a more complex problem, for example fourthFileExample.txt, there would be 2^56 combinations to try, which corresponds to ~69 billion times 2^20. Accordingly it would take 69 billion times 0.2821 seconds or 614 years to solve the problem. This shows how unsuitable this algorithm becomes when solving complex problems. Even parallelization would not make it more suitable. Assuming we could fully parallelize the algorithm, so we would gain a factor of n where n is the number of available cores. In this case we would still need 614\*356\*24\*3600 cores to solve the previous problem within one second. Because of this insight, we concentrated on implementing more promising algorithms rather than wasting time on parallelizing this algorithm.
 
 ## Algorithm of Nemhauser and Ullmann
-The idea of this algorithm is based on the plot worth vs. weight [1]. Every possible combination represents a point in the plot. For example a point could be consist of item1, item2 and item3. The point would be located at
+The idea of this algorithm is based on the plot worth vs. weight [[1]](#references). Every possible combination represents a point in the plot. For example a point could be consist of item1, item2 and item3. The point would be located at
 ~~~
 x = w1 + w2 + w3,
 ~~~
@@ -156,7 +156,7 @@ where w\* is an abbreviation for weight of item\* (\* represents here a wildcard
 ~~~
 y = p1 + p2 + p3,
 ~~~
-where p\* is an abbreviation for profit (or worth) of item\*. The following figure shows an example (figure taken from [1]):
+where p\* is an abbreviation for profit (or worth) of item\*. The following figure shows an example (figure taken from [[1]](#references)):
 
 ![Example plot](http://www-i1.informatik.rwth-aachen.de/~algorithmus/Algorithmen/algo15/pictures/big_po.png)
 
@@ -164,7 +164,7 @@ The optimal solution is represented by the point with the highest profit and a w
 In this plot only the most upper points are interesting. These points are colored red in the figure. They are called Pareto-optimal. This means a Pareto-optimal point has no point with lower weight but higher profit. With other words there is no point in the left upper quarter of the Pareto-optimal point.
 To solve the knapsack problem it is possible to omit all the points which are not Pareto-optimal. During the construction we can omit a lot of points to check.
 
-For example if we have two Pareto-optimal points we can add an item from the input to the two points. We will receive two new points which are shifted to the right by the weight of the new item and upwards by the profit of the new item. The following figure illustrates the extension of the points with a further item (figure is taken fgrom [1]):
+For example if we have two Pareto-optimal points we can add an item from the input to the two points. We will receive two new points which are shifted to the right by the weight of the new item and upwards by the profit of the new item. The following figure illustrates the extension of the points with a further item (figure is taken fgrom [[1]](#references)):
 
 ![Plot extension](http://www-i1.informatik.rwth-aachen.de/~algorithmus/Algorithmen/algo15/pictures/beispiel3.png)
 
@@ -198,7 +198,7 @@ The time increases exponentially with the input because the size of the lists be
 
 ### Parallelization
 
-Since the most time of the sequential algorithm will be spent checking of better points exist. Since a search for a single point is independent it is ideally suited for parallelization. The detection for better points in the sequential algorithm is strongly coupled to the merging of the lists L\_i and L'\_i into L\_{i+1}. Before it can be parallelized it has to be decoupled from merging. This was done in commit 903ca0fb8f0ab2a94cd20cd2951933b790f6c15d. The detection was moved into the function NemhauserUllmannParallelSolver::markAllNonOptimalPoints. Afterwards OpenMP (Open Multi-Processing) [4] was used to parallelize the for-loop. The following code snippet shows the code for detecting not Pareto-optimal points for one list:
+Since the most time of the sequential algorithm will be spent checking of better points exist. Since a search for a single point is independent it is ideally suited for parallelization. The detection for better points in the sequential algorithm is strongly coupled to the merging of the lists L\_i and L'\_i into L\_{i+1}. Before it can be parallelized it has to be decoupled from merging. This was done in commit 903ca0fb8f0ab2a94cd20cd2951933b790f6c15d. The detection was moved into the function NemhauserUllmannParallelSolver::markAllNonOptimalPoints. Afterwards OpenMP (Open Multi-Processing) [[4]](#references) was used to parallelize the for-loop. The following code snippet shows the code for detecting not Pareto-optimal points for one list:
 
 ~~~{.cpp}
 #pragma omp parallel for if (ctr1 > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
@@ -288,7 +288,7 @@ The development of the different dynamic programming algorithms took place on *L
 
 **Based on pseudo code of:**
 
-[7], DP-1, p.22
+[[7]](#references), DP-1, p.22
 
 **Implementation:**
 
@@ -394,7 +394,7 @@ RMS Error;0.0136
 5;0.6875
 ~~~
 
-So the second parallel version of the algorithm is faster than the previous one. However it is not clear yet why this is the case. Assuming that the preliminary ideas are correct, one might suspect that the creation of threads in the inner loop produces more overhead than the multiple execution of the outer loop. However, this assumption would only be true if the threads actually are recreated in each iteration of the inner loop. Research in this regard revealed that most compilers implement a thread pool for OpenMP internally, so that after the first use of a `#pragma omp parallel` the threads are not being recreated and thus just being taken from the pool. Accordingly, the above explanation for the speedup is invalid. At this point, the obtained speedup feels absolutely anti-intuitive. Why should the execution become faster when the outer loop is executed more often and thread management stays the same? This question has been examined intensively and ultimately a public discussion on the collaborative question-and-answer page StackOverflow about this issue yielded a plausible answer [8]. It turned out that only the outer loop is being executed multiple times. The inner loop is, in spite of the outer parallel block, only running once (distributed among all cores). In the first approach, all separate threads must wait for the main thread to reach the inner loop during the current iteration of the outer loop. Only then they are allowed to start the calculation of their workload. Since in the second approach each of the threads controls the outer loop by itself, they do not have to wait for any other thread. Thus they can start working on their workload immediately. In addition to that, these OpenMP parallel-blocks always define a group of threads which are taken from the thread pool. It might be that the allocation of those groups takes some significant time which would also be in favor of the second approach. Now that this has been examined and explained, other aspects of the algorithm can be examined.
+So the second parallel version of the algorithm is faster than the previous one. However it is not clear yet why this is the case. Assuming that the preliminary ideas are correct, one might suspect that the creation of threads in the inner loop produces more overhead than the multiple execution of the outer loop. However, this assumption would only be true if the threads actually are recreated in each iteration of the inner loop. Research in this regard revealed that most compilers implement a thread pool for OpenMP internally, so that after the first use of a `#pragma omp parallel` the threads are not being recreated and thus just being taken from the pool. Accordingly, the above explanation for the speedup is invalid. At this point, the obtained speedup feels absolutely anti-intuitive. Why should the execution become faster when the outer loop is executed more often and thread management stays the same? This question has been examined intensively and ultimately a public discussion on the collaborative question-and-answer page StackOverflow about this issue yielded a plausible answer [[8]](#references). It turned out that only the outer loop is being executed multiple times. The inner loop is, in spite of the outer parallel block, only running once (distributed among all cores). In the first approach, all separate threads must wait for the main thread to reach the inner loop during the current iteration of the outer loop. Only then they are allowed to start the calculation of their workload. Since in the second approach each of the threads controls the outer loop by itself, they do not have to wait for any other thread. Thus they can start working on their workload immediately. In addition to that, these OpenMP parallel-blocks always define a group of threads which are taken from the thread pool. It might be that the allocation of those groups takes some significant time which would also be in favor of the second approach. Now that this has been examined and explained, other aspects of the algorithm can be examined.
 
 Now the algorithm indeed is very fast in solving knapsack problems, however, it still suffers from memory problems. Both previously implemented versions store the maximum profits of their sub-problems within a i x w matrix, where i is equal to the number of objects and w represents the maximum capacity. With increasing complexity of the problems, the matrix is getting larger and larger which, at some point, leads to memory problems. So to be able to handle very complex problems, we need an alternative data structure for storing the calculated sub-problem solutions.
 
@@ -406,7 +406,7 @@ Theoretically, the matrix can consist of only a single row by calculating its co
 
 **Based on pseudo code of**:  
 
-[7], p.23 and p.47, DP-2 and Recursive-DP
+[[7]](#references), p.23 and p.47, DP-2 and Recursive-DP
 
 **Implementation:**
 
@@ -531,7 +531,7 @@ TODO: hier alle Algorithmen vergleichen.
 Time table
 
 # List of References
-
+<a name="references"></a>
 * [1] Algorithm of Nemhauser and Ullmann http://www-i1.informatik.rwth-aachen.de/~algorithmus/algo15.php
 * [2] gprof https://sourceware.org/binutils/docs/gprof/Compiling.html#Compiling
 * [3] gprof eclispe manual https://wiki.eclipse.org/Linux_Tools_Project/GProf/User_Guide
