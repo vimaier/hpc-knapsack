@@ -541,9 +541,13 @@ As one can see, the second parallel version of the default dynamic programming a
 # Conclusion and Future Work
 TODO: hier alle Algorithmen vergleichen.
 
+TODO: Time table
+
 TODO: Future work for DP: weitere parallelisierung der low memory variante. bereits in dem entsprechenden abschnitt erwähnt
 
-TODO: Time table
+TODO: kritischer rückblick - würden Sie mit dem Wissen nach dem Projekt andere Ansätze vorziehen?
+
+TODO: arbeitszeit
 
 # List of References
 <a name="references"></a>
