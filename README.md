@@ -585,16 +585,22 @@ The following table gives an overview over the measurements of the different dyn
 As one can see, the second parallel version of the default dynamic programming algorithm is the fastest one. Compared to the sequential version of the low memory algorithm it is even more than four times faster. However, it's underlying result table structure restricts the algorithm to solve very complex problems. Of course, this is depending on the underlying system and on available memory. On *Laptop* the sixthFileExample ([see input files table](#input_files_table)), with a capacity of 150000 and an item pool of 25000 items, could not be solved by the algorithm because the table exceeded the available memory. In contrary, both of the low memory algorithms had no problems while solving even more complex problems than the sixthFileExample. This shows that if enough memory is available, the second parallel version should be used. Otherwise, the parallel low memory version is the way to go.
 
 # Conclusion and Future Work
-TODO: hier alle Algorithmen vergleichen.
 
-TODO: Time table
+Three different approaches to solve the knapsack problem were introduced. The brute force algorithm showed a naive way to solve the problem by an exhaustive search on all possible combinations. No further investigations have been taken on this algorithm. The algorithm of Neuhauser and Ullmann is a more clever approach. Although this approach is heavily sequential, multiple sections were parallelized. Further, with reducing the number of PlotPoints, we were able to reduce the run times. However, none of the previous approaches can beat the Dynamic Programming approach. The only concern was the memory storage but this was removed with a modified version.
 
-TODO: Future work for DP: weitere parallelisierung der low memory variante. bereits in dem entsprechenden abschnitt erwähnt. see sub-section [here](#future_work_dplm)
+Te following table shows a compparison between the algorithm of Neuhauser and Ullmann and Dynamic Programming:
 
-TODO: kritischer rückblick - würden Sie mit dem Wissen nach dem Projekt andere Ansätze vorziehen?
+| Algorithm                        | fourthFileExample.txt   | fifthFileExample.txt     |
+|----------------------------------|-------------------------|--------------------------|
+| **NU (RLP and parallel)**        | 6.5032 &plusmn;  0.0119 | 961.0731 &plusmn; 41.211 |
+| **DP (parallel)**                | 0.0015 &plusmn; 0       | 0.742 &plusmn; 0.0093    |
+| **DP (low memory and parallel)** | 0.0028 &plusmn; 0.0029  | 1.5305 &plusmn; 0.004    |
 
-TODO: arbeitszeit
+It is obviously that Dynamic Programming should be preferred in practical use cases. The single disadvantage of Dynammic Programming is that it cannot handle floating point numbers. However Floating point numbers could be multiplied by 10^x, where x represents the number of decimal places, and  converted to integers. This raises the complexity of the problem by 10^x but this would still be faster.
 
+Dynamic Programming is the favoured approach to solve the knapsack problem. It would be worth to investigate further in an improvement of this algorithm. One way could be parallelizing further sections as already mentioned [here](#future_work_dplm).
+
+The effort of this project was approximately 80 hours per student, so overall 160 hours.
 
 <a name="references"></a>
 
