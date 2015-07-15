@@ -23,7 +23,7 @@ public:
 	}
 };
 
-const std::string ASSUMED_CONTENT_SOLVER[] {"Kapazität;15.0", "XXL blue 0x;4", "gray mouse;4", "big green box;4", "yellow daisy;4", "salmon mousse;4", "Gesamtgewicht;80.00", "Gesamtwert;76.00"};
+const std::string ASSUMED_CONTENT_SOLVER[] {"Capacity;15.0", "XXL blue 0x;4", "gray mouse;4", "big green box;4", "yellow daisy;4", "salmon mousse;4", "Total weight;80.00", "Total worth;76.00"};
 const int ASSUMED_CONTENT_LINES_SOLVER = 8;
 
 /**

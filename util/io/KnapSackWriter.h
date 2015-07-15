@@ -15,11 +15,11 @@
  * Example output file:
  *
  * ------------------------------
-	Kapazität;400.0
+	Capacity;400.0
 	item24;5
 	item69;2
-	Gesamtgewicht;345.00
-	Gesamtwert;333.00
+	Total weight;345.00
+	Total worth;333.00
  * ------------------------------
  *
  * Meaning:
