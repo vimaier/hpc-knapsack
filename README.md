@@ -32,7 +32,7 @@ A small execution framework has been developed. This section describes the packa
 ## Packages
 **main**
 
-This package contains the most important part of the project. The file *Main.cpp* contains the application's entry point `int main(int argc, char* argv[])`. The created binary *knapsackStarter* (see section [*Build and Tests*](#section_build)) executes this main function.
+This package contains the most important part of the project. The file *Main.cpp* contains the application's entry point `int main(int argc, char* argv[])`. The created binary *knapsackStarter* (see section [Build and Tests](#section_build)) executes this main function.
 
 //TODO: optionale parameter zu knapsackStarter
 
