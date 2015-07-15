@@ -308,7 +308,7 @@ RMS Error;0.0158
 
 After solving the problem several times the algorithm was subject to a performance analysis, which yielded that the algorithm spent more than 80% of the duration within the inner for-loop (lines 63 - 68).
 
-![Unbenannt.PNG](https://bitbucket.org/repo/agqbex/images/1766757010-Unbenannt.PNG)
+![Performance Analysis of Default Version](docs/images/gprof_dp.png)
 
 ~~~{.cpp}
 63  for(int c=itemWeight; c < weightColumns; c++){
@@ -438,7 +438,7 @@ RMS Error;0.0405
 
 By using the data, which has been collected during solving, a performance analysis (Eclipse and gprof) has been performed. The analysis yielded that the algorithm spends most of the time by solving sub problems. Accordingly it stays more than 98% of running time within the DynamicProgrammingLowMemorySolver::solveProblem() method.
 
-![dplm.PNG](https://bitbucket.org/repo/agqbex/images/1898645986-dplm.PNG)
+![Performance Analysis of Low Memory Version](docs/images/gprof_dplm.png)
 
 Now it has to be examined how this time can be diminished.
 
