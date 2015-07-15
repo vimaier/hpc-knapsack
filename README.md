@@ -107,10 +107,15 @@ This will solve the problem given by *KNAPSACK_INPUT_FILE* and write the solutio
 This section documents the implementation of the different algorithms. Three basic algorithms were implemented. A brute force algorithm was implemented to show how inefficient an exhaustive search is for NP problems. The next implemented algorithm of Nemhauser and Ullmann shows a more clever approach to solve the knapsack problem. The last algorithm is called Dynamic Programming. The last two algorithms exist in various improved and parallelized versions.<br/>
 The following table shows the used computers and their benchmark data:
 
+<a name="computers_table">test </a>
+
 | Name          | CPU                                                               | Main Memory | OS                                    | Compiler                                |
 |---------------|-------------------------------------------------------------------|-------------|---------------------------------------|-----------------------------------------|
 | hal           | 4x Xeon E5-4620 (2,2GHz 8 cores) == 64 cores with Hyper-Threading | 128 GB      | Scientific Linux release 6.6 (Carbon) | icpc (ICC) 15.0.1 20141023 (Intel)      |
-| Viktors Tower | Intel(R) Core(TM) i5-3470 (3.20GHz 4 cores)                       | 8 GB        | Ubuntu 14.04.2 LTS                    | gcc 4.8.4 |
+| Viktor's Tower | Intel(R) Core(TM) i5-3470 (3.20GHz 4 cores)                       | 8 GB        | Ubuntu 14.04.2 LTS                    | gcc 4.8.4 |
+| Kevin's Laptop | 1x Intel(R) Core(TM) i7-4710MQ (2.50GHz 4 cores) == 8 cores with Hyper-Threading                      | 16 GB        | Windows 8.1 Pro 64-Bit                   | mingw-gcc 4.8.4 |
+
+
 
 ## Brute Force
 The most naive approach for solving the knapsack problem is the so called *Brute Force* approach. Brute Force is a trial and error method which finds the best solution through exhaustive effort by trying every possible combination. Accordingly, its running time increases exponentially with the complexity of the problem. Thus this algorithm belongs to the complexity class O(2^n) where n is the number of available items.
@@ -123,7 +128,7 @@ It was the first approach implemented during the project and was used to get a p
 
 **Measurement:**
 
-The measurement for this algorithm has been performed on (TODO: kevin laptop specs). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm had to try 2^20 combinations to find the best solution.
+The measurement for this algorithm has been performed on Kevin's Laptop (see [computers table](#computers_table). At first it was used multiple times to solve a very simple problem (firstFileExample.txt), which contains 20 items. Accordingly, the algorithm had to try 2^20 combinations to find the best solution.
 
 ~~~
 Alogrithm;Brute Force (Sequential)
