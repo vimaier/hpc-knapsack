@@ -254,14 +254,17 @@ The RLP algorithm is based on the sequential algorithm. It can be parallelized i
 
 
 ### Conclusion
-This section compares the executions times of the various algorithms of Nemhauser and Ullmann. The following table shows the collected time measurements. Each entry is the mean of ten execution runs. The value in the parentheses represents the [RMS error](http://statweb.stanford.edu/~susan/courses/s60/split/node60.html) which indicates the oscillation of the measured values around the mean value. The data was collected on hal and the intel compiler *icpc* was used to compile the binaries.
+This section compares the executions times of the various algorithms of Nemhauser and Ullmann. The following table shows the collected time measurements. Each entry is the mean of ten execution runs. The value after the &plusmn; sign represents the [RMS error](http://statweb.stanford.edu/~susan/courses/s60/split/node60.html) which indicates the oscillation of the measured values around the mean value. The data was collected on hal and the intel compiler *icpc* was used to compile the binaries.
 
-| Name                                    | firstFileExample.txt | secondFileExample.txt | thirdFileExample.txt | fourthFileExample.txt | fifthFileExample.txt |
-|-----------------------------------------|----------------------|-----------------------|----------------------|-----------------------|----------------------|
-| **NemhauserUllmann (sequential)**       | 0 (0)                | 0 (0)                 | 0.1923 (0.0002)      | 19.6745 (0.0759)      | 1204.752 (0.9433)    |
-| **NemhauserUllmann (parallel)**         | 0 (0)                | 0 (0)                 | 0.0169 (0.0404)      | 1.6486 (0.0781)       | 136.253 (0.9996)     |
-| **NemhauserUllmann (RLP)**              | 0 (0)                | 0 (0)                 | 0.0726 (0.0043)      | 6.5032 (0.0119)       | 961.0731 (41.211)    |
-| **NemhauserUllmann (RLP und parallel)** | 0 (0)                | 0 (0)                 | 0.0239 (0.0008)      | 0.2921 (0.0874)       | 133.1148 (0.1533)    |
+| Name                                    | firstFileExample.txt | secondFileExample.txt | thirdFileExample.txt   | fourthFileExample.txt   | fifthFileExample.txt     |
+|-----------------------------------------|----------------------|-----------------------|------------------------|-------------------------|--------------------------|
+| **NemhauserUllmann (sequential)**       | 0                    | 0                     | 0.1923 &plusmn; 0.0002 | 19.6745 &plusmn; 0.0759 | 1204.752 &plusmn; 0.9433 |
+| **NemhauserUllmann (parallel)**         | 0                    | 0                     | 0.0169 &plusmn; 0.0404 | 1.6486 &plusmn;  0.0781 | 136.253 &plusmn; 0.9996  |
+| **NemhauserUllmann (RLP)**              | 0                    | 0                     | 0.0726 &plusmn; 0.0043 | 6.5032 &plusmn;  0.0119 | 961.0731 &plusmn; 41.211 |
+| **NemhauserUllmann (RLP und parallel)** | 0                    | 0                     | 0.0239 &plusmn; 0.0008 | 0.2921 &plusmn; 0.0874  | 133.1148 &plusmn; 0.1533 |
+
+The following plot shows the measured times for last three example files.
+![Nemhauser Ullmann runtimes plot](docs/images/algo_nemhauser_ullmann_runtimes.png)
 
 The problems of the first three files produced no significant run times. The last files are more interesting. The *sixthFileExample* was omitted since it took more than one hour to run the parallel version. All parallel algorithms are faster than the sequential algorithms. The difference of the speedup between the parallel and the RLP (parallel) algorithms are completely different for the fourth and fifth file example. In the first case it is 1.6486/0.2921=5.644 and in the latter one 136.253/133.1148=1.0236. This shows that the RLP version will not always accelerate the computation significantly. The RLP version should not be used  if there are only items with the same weight and worth because this represents the worst case and the storage complexity would be O(2^n). The parallelized version of the algorithm boosts the calculations of big problems a lot but a significant amount of time is wasted on synchronizing the threads. This cannot be avoided since the most outer loop has dependencies and thus cannot be parallelized further.
 
@@ -526,6 +529,8 @@ RMS Error;0.0604
 
 # Conclusion
 TODO: hier alle Algorithmen vergleichen.
+
+Time table
 
 # List of References
 
