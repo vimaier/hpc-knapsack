@@ -588,7 +588,7 @@ As one can see, the second parallel version of the default dynamic programming a
 
 Three different approaches to solve the knapsack problem were introduced. The brute force algorithm showed a naive way to solve the problem by an exhaustive search on all possible combinations. No further investigations have been taken on this algorithm. The algorithm of Neuhauser and Ullmann is a more clever approach. Although this approach is heavily sequential, multiple sections were parallelized. Further, with reducing the number of PlotPoints, we were able to reduce the run times. However, none of the previous approaches can beat the Dynamic Programming approach. The only concern was the memory storage but this was removed with a modified version.
 
-Te following table shows a compparison between the algorithm of Neuhauser and Ullmann and Dynamic Programming:
+The following table shows a compparison between the algorithm of Neuhauser and Ullmann (NU) and Dynamic Programming (DP):
 
 | Algorithm                        | fourthFileExample.txt   | fifthFileExample.txt     |
 |----------------------------------|-------------------------|--------------------------|
