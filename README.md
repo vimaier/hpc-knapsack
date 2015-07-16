@@ -596,9 +596,9 @@ The following table shows a compparison between the algorithm of Neuhauser and U
 | **DP (parallel)**                | 0.0015 &plusmn; 0       | 0.742 &plusmn; 0.0093    |
 | **DP (low memory and parallel)** | 0.0028 &plusmn; 0.0029  | 1.5305 &plusmn; 0.004    |
 
-It is obviously that Dynamic Programming should be preferred in practical use cases. The single disadvantage of Dynammic Programming is that it cannot handle floating point numbers. However Floating point numbers could be multiplied by 10^x, where x represents the number of decimal places, and  converted to integers. This raises the complexity of the problem by 10^x but this would still be faster.
+It is obviously that Dynamic Programming should be preferred in practical use cases. The single disadvantage of Dynammic Programming is that it cannot handle floating point numbers. However Floating point numbers could be multiplied by 10^x, where x represents the number of decimal places, and  converted to integers. This raises the complexity of the problem by 10^x but this would still be faster. The introduced algorithms deliver (one possible) optimal solution. In some cases the optimal solution is not necessary. Then the *greedy* algorithm should be used.  It delivers good (but not optimal) results. We will not further describe this algorithm. The interested reader is referred to section 2.1 of [[7](#references)].
 
-Dynamic Programming is the favoured approach to solve the knapsack problem. It would be worth to investigate further in an improvement of this algorithm. One way could be parallelizing further sections as already mentioned [here](#future_work_dplm).
+Dynamic Programming is the preferred approach to solve the knapsack problem and yields an optimal solution. It would be worth to investigate further in an improvement of this algorithm. One way could be the parallelization of further sections as already mentioned [here](#future_work_dplm).
 
 The effort of this project was approximately 80 hours per student, so overall 160 hours.
 
