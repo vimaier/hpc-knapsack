@@ -83,7 +83,7 @@ To avoid duplication of code for common tasks, we use a small algorithm executio
 * Executing algorithms and measuring time  (supported by GetWalltime.h)
 * Collect and write statistics for benchmarks  (supported by StatisticsWriter)
 
-A knapsack solving algorithm has to extend the class KnapSackSolver and implements the function *solve()*. Thus one can concentrate on the implementation while blinding out the management details. Additionally the class provides the functions *KnapSackSolver::setUp()* and *KnapSackSolver::tearDown()*. The first function can be used to prepare data in front of each run. The latter can be used to make some finishing operations. The two functions will not be included in the time measurement. The idea behind is that we have a strict input format represented by the class KnapSack, but some algorithms need a different structure and may use the structure directly without conversion. Thus, we exclude the input conversion from time measurement. Additionally, the time spent executing those functions is negligible.
+A knapsack solving algorithm has to extend the class KnapSackSolver and implements the function *solve()*. Thus one can concentrate on the implementation while blinding out the management details. Additionally the class provides the functions *setUp()* and *tearDown()*. The first function can be used to prepare data in front of each run. The latter can be used to make some finishing operations. The two functions will not be included in the time measurement. The idea behind is that we have a strict input format represented by the class KnapSack, but some algorithms need a different structure and may use the structure directly without conversion. Thus, we exclude the input conversion from time measurement. Additionally, the time spent executing those functions is negligible.
 
 The following snippet provides a minimal implementation of an algorithm (taken from test class KnapSackSolverTest):
 
@@ -191,7 +191,7 @@ For example if we have two Pareto-optimal points we can add another item to the 
 If we examine each two points independently then all points are Pareto-optimal (note, not all of the blue points are Pareto-optimal). However, it could be that one point from one set could have a point in the upper left quarter and thus would not be Pareto-optimal anymore. We can omit such points to have only Pareto-optimal points again. Now, another item can be added.
 
 ### Sequential implementation
-Following listing roughly shows the algorithm which is implemented in the function solve() of the class NemhauserUllmannSolver:
+Following listing roughly shows the algorithm which is implemented in the function *solve()* of the class NemhauserUllmannSolver:
 
 ~~~
 L_0 := [(0,0)]  // A list with pareto optimal points. In the beginning only the point (0,0) is available
@@ -204,7 +204,7 @@ foreach item x in input do:
 After adding all items the optimal solution is at the end of list L_n where n is the number of input items.
 ~~~
 
-A performance analysis with Eclipse and gprof[2,3] revealed that the algorithm spends 90 percent of his runtime in the function betterPointExists(). Here is the main line of **gmon.out**
+A performance analysis with Eclipse and gprof[2,3] revealed that the algorithm spends 90 percent of his runtime in the function *betterPointExists()*. Here is the main line of **gmon.out**
 
 ~~~
 # Name (location)                               Samples   Calls         Time/Call     % Time
@@ -226,7 +226,7 @@ The time increases exponentially with the input because the size of the lists be
 
 ### Parallelization
 
-Since most of the sequential algorithm's running time will be spent by checking of better points exist and since a search for a single point is independent, the algorithm is ideally suited for parallelization. The detection for better points in the sequential algorithm is strongly coupled to the merging of the lists L\_i and L'\_i into L\_{i+1}. Before it can be parallelized it has to be decoupled from merging. This was done in commit 903ca0fb8f0ab2a94cd20cd2951933b790f6c15d. The detection was moved into the function NemhauserUllmannParallelSolver::markAllNonOptimalPoints. Afterwards OpenMP (Open Multi-Processing) [[4](#references)] was used to parallelize the for-loop. The following code snippet shows the code for detecting non-Pareto-optimal points for one list:
+Since most of the sequential algorithm's running time will be spent by checking of better points exist and since a search for a single point is independent, the algorithm is ideally suited for parallelization. The detection for better points in the sequential algorithm is strongly coupled to the merging of the lists L\_i and L'\_i into L\_{i+1}. Before it can be parallelized it has to be decoupled from merging. This was done in commit 903ca0fb8f0ab2a94cd20cd2951933b790f6c15d. The detection was moved into the function *markAllNonOptimalPoints()*. Afterwards OpenMP (Open Multi-Processing) [[4](#references)] was used to parallelize the for-loop. The following code snippet shows the code for detecting non-Pareto-optimal points for one list:
 
 ~~~{.cpp}
 #pragma omp parallel for if (ctr1 > THRESHOLD_OF_ITEMS_TO_PARALLELIZE)
@@ -236,7 +236,7 @@ for (int i=0; i < ctr1 ;++i) {
 }
 ~~~
 
-Note, if a point is not Pareto-optimal, the worth of this point is set to NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS. Thus, these points can be easily omitted in the process of merging. In the omp-pragma we only perform parallelization, if the list has more items then THRESHOLD_OF_ITEMS_TO_PARALLELIZE. The reason is that if only a few points have to be checked, then it is faster to do it single threaded rather than to start and synchronize separate threads. The value also depends on the number of threads. For simplicity the value was determined by several test runs on *Tower* (see [computers table](#computers_table)). The best execution time delivered a value of 100 (from 1, 100, 500 and 1000). Note also that the workload of the single iterations are different. The first points to check have a small weight. Thus there will be less points to check because the function betterPointExists() breaks if it encounters the first point with a greater weight. <br/>
+Note, if a point is not Pareto-optimal, the worth of this point is set to NEG_VALUE_FOR_MARKING_NOT_OPTIMAL_POINTS. Thus, these points can be easily omitted in the process of merging. In the omp-pragma we only perform parallelization, if the list has more items then THRESHOLD_OF_ITEMS_TO_PARALLELIZE. The reason is that if only a few points have to be checked, then it is faster to do it single threaded rather than to start and synchronize separate threads. The value also depends on the number of threads. For simplicity the value was determined by several test runs on *Tower* (see [computers table](#computers_table)). The best execution time delivered a value of 100 (from 1, 100, 500 and 1000). Note also that the workload of the single iterations are different. The first points to check have a small weight. Thus there will be less points to check because the function *betterPointExists()* breaks if it encounters the first point with a greater weight. <br/>
 The copying of the points from list L\__i to L'\_i was parallelized, too:
 
 ~~~{.cpp}
@@ -261,7 +261,7 @@ The most remarkable part is the *Potential Gain* of 59.6% stated in the last lin
 
 ![VTune workload of threads](docs/images/vtune_spinning_threads.png)
 
-The brown areas state that a thread is actually calculating something whereas the red color shows the spin and overhead time. As indicated by the *OpenMP Analysis* there is a lot of spin and overhead time. This is mostly the case when the threads are synchronizing. The function NemhauserUllmannParallelSolver::markAllNonOptimalPoints() is being called after an input item has been added. Inside the function, there are two parallelized for-loops. One for L\_i and one for L'\_i. Let n be the number of input items, then we encounter 3n parallelized for-loops: 2n in markAllNonOptimalPoints() and n in solve() for copying the items. Thus, the threads have to be synchronized a lot. Unfortunately there is no way to avoid this and most of the time is still being spent during the detection of non-Pareto-optimal points.
+The brown areas state that a thread is actually calculating something whereas the red color shows the spin and overhead time. As indicated by the *OpenMP Analysis* there is a lot of spin and overhead time. This is mostly the case when the threads are synchronizing. The function *markAllNonOptimalPoints()* is being called after an input item has been added. Inside the function, there are two parallelized for-loops. One for L\_i and one for L'\_i. Let n be the number of input items, then we encounter 3n parallelized for-loops: 2n in *markAllNonOptimalPoints()* and n in *solve()* for copying the items. Thus, the threads have to be synchronized a lot. Unfortunately there is no way to avoid this and most of the time is still being spent during the detection of non-Pareto-optimal points.
 
 ### Removing Lightest Points (RLP)
 
@@ -284,7 +284,7 @@ The basic idea is: if the worth of the lightest point s in list L\_i can not rea
 s + r_i < h,
 ~~~
 
-then we can omit this point. This is realized within NemhauserUllmannRLPParallelSolver::removeHopelessPoints() and done in commit bb0ae2775070a2cd1059a14c552ffb5b65c80523.
+then we can omit this point. This is realized within *removeHopelessPoints()* and done in commit bb0ae2775070a2cd1059a14c552ffb5b65c80523.
 
 A further improvement of this algorithm could be to sort the item pool by ascending worth. The idea behind this, is that we first add the items with the highest worth and thus can remove *hopeless* points earlier. Accordingly, the class NemhauserUllmannSolverRLP has a further parameter in the constructor. However, some test runs revealed the opposite: the running time increased when sorting the item pool. Thus the idea was discarded.
 
@@ -470,7 +470,7 @@ As described in the idea section, instead of using the complete result table now
 58 }
 ~~~
 
-In contrast to both of the previous approaches, this one causes the backtracking to become considerably complicated. During the backtracking, the item list gets divided into two sub lists of which each is used to apply the solution algorithm again. By using the new solutions you can determine the capacities which belong to the sub lists and thus repeat the procedure. Indeed the procedure is being repeated recursively until the lists consist of only one remaining element. This element is part of the solution list. To be able to call the solution algorithm multiple times, its logic has been transferred to a method called solveProblem(). The framework's solve() Method calls this method in order to calculate the maximum profit of the main problem and then starts the recursive backtracking by calling determineItemsOfSolutionRecursively().
+In contrast to both of the previous approaches, this one causes the backtracking to become considerably complicated. During the backtracking, the item list gets divided into two sub lists of which each is used to apply the solution algorithm again. By using the new solutions you can determine the capacities which belong to the sub lists and thus repeat the procedure. Indeed the procedure is being repeated recursively until the lists consist of only one remaining element. This element is part of the solution list. To be able to call the solution algorithm multiple times, its logic has been transferred to a method called *solveProblem()*. The framework's *solve()* Method calls this method in order to calculate the maximum profit of the main problem and then starts the recursive backtracking by calling *determineItemsOfSolutionRecursively()*.
 
 **Measurement:**
 
@@ -490,7 +490,7 @@ RMS Error;0.0405
 
 **Performance Analysis:**
 
-By using the data, which has been collected during solving, a performance analysis has been performed by using Eclipse and gprof. The analysis yielded that the algorithm spends most of the time by solving sub problems. Accordingly it stays more than 98% of running time within the solveProblem() method.
+By using the data, which has been collected during solving, a performance analysis has been performed by using Eclipse and gprof. The analysis yielded that the algorithm spends most of the time by solving sub problems. Accordingly it stays more than 98% of running time within the *solveProblem()* method.
 
 ![Performance Analysis of Low Memory Version](docs/images/gprof_dplm.png)
 
@@ -500,9 +500,9 @@ Now it has to be examined how this time can be diminished.
 
 **Idea:**
 
-A closer look at the solveProblem() method yields that only the initialization of the solution row can be parallelized. Opposing to the other sequential algorithm, the calculation of each of the row's columns can not be parallelized. This is because, due to the new structure, they are depending on each other.
+A closer look at the *solveProblem()* method yields that only the initialization of the solution row can be parallelized. Opposing to the other sequential algorithm, the calculation of each of the row's columns can not be parallelized. This is because, due to the new structure, they are depending on each other.
 
-However we can have a closer look at the backtracking (determineItemsOfSolutionRecursively()). There, the original item list is divided into two approximately equals parts. To each of those parts, the solution algorithm (solveProblem()) is being applied. This means for every recursive call of determineItemsOfSolutionRecursively() the solveProblem() method is called twice:
+However we can have a closer look at the backtracking (*determineItemsOfSolutionRecursively()*). There, the original item list is divided into two approximately equals parts. To each of those parts, the solution algorithm (*solveProblem()*) is being applied. This means for every recursive call of *determineItemsOfSolutionRecursively()* the *solveProblem()* method is called twice:
 
 ~~~{.cpp}
 97  int* subSolutionRow1 = new int[rowLength];
@@ -511,7 +511,7 @@ However we can have a closer look at the backtracking (determineItemsOfSolutionR
 100 subSolutionRow2 = solveProblem(items2, numOfItems2, subSolutionRow2, rowLength, capacity);
 ~~~
 
-Those calls are completely independent from each other and can thus be delegated to two separate threads, while the main thread waits for them to finish. By this, a significant reduction of the running time should be achieved. Furthermore the backtracking algorithm is called recursively. For each call it will again be called twice recursively (once for each part of the item list). The recursion ends when the item list to divide has reached the size of one, which then represents the item that has been packed. The following listing shows the recursion within determineItemsOfSolutionRecursively().
+Those calls are completely independent from each other and can thus be delegated to two separate threads, while the main thread waits for them to finish. By this, a significant reduction of the running time should be achieved. Furthermore the backtracking algorithm is called recursively. For each call it will again be called twice recursively (once for each part of the item list). The recursion ends when the item list to divide has reached the size of one, which then represents the item that has been packed. The following listing shows the recursion within *determineItemsOfSolutionRecursively()*.
 
 ~~~{.cpp}
 117	if(numOfItems1 == 1 && subSolution1 > 0)
@@ -548,11 +548,11 @@ The two calls of the solving algorithm have been parallelized by using OpenMP se
 118	}
 ~~~
 
-Each of the sections within the `#pragma omp parallel sections`-block gets an own thread assigned, which causes the two solveProblem() calls to run in parallel. In line 118 the main thread waits for the calls to finish before it executes the code below.
+Each of the sections within the `#pragma omp parallel sections`-block gets an own thread assigned, which causes the two *solveProblem()* calls to run in parallel. In line 118 the main thread waits for the calls to finish before it executes the code below.
 
 <a name="future_work_dplm"></a>
 
-Similarly to this, it has been tried to parallelize the two recursive calls. This approach, however, has been discarded because the recursion caused to start more and more threads, which could not come to an end before the lists reached the size of one. Thus, for complex problems, a giant number of threads would be instantiated, which would cause the program to freeze or to run extremely slow. In future work one could try to use a helper variable to monitor the number of instantiated threads which could be used to only allow new threads if this number is below the number of available cores. However, this is pretty difficult to implement in combination with the above presented parallel sections. Each recursive thread would require two additional threads to perform the solveProblem() calls in parallel which would end in a pretty complex implementation. For time reasons, this approach has not been investigated any further.
+Similarly to this, it has been tried to parallelize the two recursive calls. This approach, however, has been discarded because the recursion caused to start more and more threads, which could not come to an end before the lists reached the size of one. Thus, for complex problems, a giant number of threads would be instantiated, which would cause the program to freeze or to run extremely slow. In future work one could try to use a helper variable to monitor the number of instantiated threads which could be used to only allow new threads if this number is below the number of available cores. However, this is pretty difficult to implement in combination with the above presented parallel sections. Each recursive thread would require two additional threads to perform the *solveProblem()* calls in parallel which would end in a pretty complex implementation. For time reasons, this approach has not been investigated any further.
 
 **Measurement:**
 
@@ -588,7 +588,7 @@ As one can see, the second parallel version of the default dynamic programming a
 
 Three different approaches to solve the knapsack problem were introduced. The brute force algorithm showed a naive way to solve the problem by an exhaustive search on all possible combinations. No further investigations have been taken on this algorithm. The algorithm of Neuhauser and Ullmann is a more clever approach. Although this approach is heavily sequential, multiple sections were parallelized. Further, with reducing the number of PlotPoints, we were able to reduce the run times. However, none of the previous approaches can beat the Dynamic Programming approach. The only concern was the memory storage but this was removed with a modified version.
 
-The following table shows a compparison between the algorithm of Neuhauser and Ullmann (NU) and Dynamic Programming (DP):
+Te following table shows a compparison between the algorithm of Neuhauser and Ullmann and Dynamic Programming:
 
 | Algorithm                        | fourthFileExample.txt   | fifthFileExample.txt     |
 |----------------------------------|-------------------------|--------------------------|
