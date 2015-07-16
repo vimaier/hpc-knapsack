@@ -134,6 +134,8 @@ The following table shows the computers and their benchmark data, which were use
 | Tower | Intel(R) Core(TM) i5-3470 (3.20GHz 4 cores)                       | 8 GB        | Ubuntu 14.04.2 LTS                    | gcc 4.8.4 |
 | Laptop | 1x Intel(R) Core(TM) i7-4710MQ (2.50GHz 4 cores) == 8 cores with Hyper-Threading                      | 16 GB        | Windows 8.1 Pro 64-Bit                   | mingw-gcc 4.8.4 |
 
+<a name="section_brute_force"></a>
+
 ## Brute Force
 The most naive approach for solving the knapsack problem is the so called *Brute Force* approach. Brute Force is a trial and error method which finds the best solution through exhaustive effort by trying every possible combination. Accordingly, its running time increases exponentially with the complexity of the problem. Thus this algorithm belongs to the complexity class O(2^n) where n is the number of available items.
 
@@ -586,9 +588,9 @@ As one can see, the second parallel version of the default dynamic programming a
 
 # Conclusion and Future Work
 
-Three different approaches to solve the knapsack problem were introduced. The brute force algorithm showed a naive way to solve the problem by an exhaustive search on all possible combinations. No further investigations have been taken on this algorithm. The algorithm of Neuhauser and Ullmann is a more clever approach. Although this approach is heavily sequential, multiple sections were parallelized. Further, with reducing the number of PlotPoints, we were able to reduce the run times. However, none of the previous approaches can beat the Dynamic Programming approach. The only concern was the memory storage but this was removed with a modified version.
+Three different approaches for solving the knapsack problem have been introduced and examined. The brute force algorithm showed a naive way to solve the problem by an exhaustive search over all possible combinations. As stated in section [Brute Force](#section_brute_force), no further investigations have been taken on this algorithm. The algorithm of Nemhauser and Ullmann has been introduced as a more clever approach. Although it is heavily sequential, multiple sections were parallelized and a significant performance boost was achieved. By reducing the number of PlotPoints, we were able to reduce the running times even further. However, none of the previous approaches can beat the Dynamic Programming approach in terms of running time. Only the huge amount of required memory could leave the default implementation behind. However, this problem was solved by introducing a modified version.
 
-Te following table shows a compparison between the algorithm of Neuhauser and Ullmann and Dynamic Programming:
+The following table shows a comparison between the algorithm of Nemhauser and Ullmann (NU) and Dynamic Programming (DP):
 
 | Algorithm                        | fourthFileExample.txt   | fifthFileExample.txt     |
 |----------------------------------|-------------------------|--------------------------|
@@ -596,11 +598,11 @@ Te following table shows a compparison between the algorithm of Neuhauser and Ul
 | **DP (parallel)**                | 0.0015 &plusmn; 0       | 0.742 &plusmn; 0.0093    |
 | **DP (low memory and parallel)** | 0.0028 &plusmn; 0.0029  | 1.5305 &plusmn; 0.004    |
 
-It is obviously that Dynamic Programming should be preferred in practical use cases. The single disadvantage of Dynammic Programming is that it cannot handle floating point numbers. However Floating point numbers could be multiplied by 10^x, where x represents the number of decimal places, and  converted to integers. This raises the complexity of the problem by 10^x but this would still be faster. The introduced algorithms deliver (one possible) optimal solution. In some cases the optimal solution is not necessary. Then the *greedy* algorithm should be used.  It delivers good (but not optimal) results. We will not further describe this algorithm. The interested reader is referred to section 2.1 of [[7](#references)].
+Obviously, Dynamic Programming should be preferred in practical use cases. The only disadvantage of Dynammic Programming is that it can not handle floating point numbers. However Floating point numbers could be converted to integers by multiplying them by 10^x, where x represents the number of decimal places. Of couse, this would raise the complexity of the problem by 10^x but, in most cases, the algorithm would still be faster than the one of Nemhauser and Ullman. All of the introduced algorithms deliver one of the possible, optimal solutions. In cases where a good but not necessarily the best solution is required, an algorithm called *greedy* should be used. It delivers good (but not always optimal) results in shorter running times than Dynamic Programming. For further information about the greedy algorithm, the interested reader is referred to section 2.1 of [[7](#references)].
 
-Dynamic Programming is the preferred approach to solve the knapsack problem and yields an optimal solution. It would be worth to investigate further in an improvement of this algorithm. One way could be the parallelization of further sections as already mentioned [here](#future_work_dplm).
+Finally it can be said, that the Dynamic Programming approach is the preferred one to solve the knapsack problem where an optimal solution is required. Thus, in future work, it would be worth to investigate for further improvements of this algorithm. One possibility could be the parallelization of further sections as already mentioned in the section [Parallel Memory Optimized Version](#future_work_dplm).
 
-The effort of this project was approximately 80 hours per student, so overall 160 hours.
+The estimated effort of this project was about 80 hours per student, resulting in an overall effort of 160 hours.
 
 <a name="references"></a>
 
