@@ -1,9 +1,39 @@
-[TOC]
 
 This is the result of the project in the course *High Performance Computing* at the University of Applied Sciences Kaiserslautern in the semester SS2015 . The aim of the project was to implement an algorithm that solves the knapsack problem and improve this algorithm to a faster and parallelized version. The project was performed by
 
 * Kevin Keßler (keke0002@stud.hs-kl.de) and
 * Viktor Maier (vima0001@stud.hs-kl.de).
+
+<br/>
+<br/>
+
+Contents
+
+- [Build and Tests](#build-and-tests-)
+- [The Knapsack Problem](#the-knapsack-problem)
+- [Framework](#framework)
+	- [Packages](#packages)
+	- [Algorithm Execution Framework](#algorithm-execution-framework)
+- [Algorithms](#algorithms)
+	- [Brute Force](#brute-force)
+	- [Algorithm of Nemhauser and Ullmann](#algorithm-of-nemhauser-and-ullmann)
+		- [Sequential implementation](#sequential-implementation)
+		- [Parallelization](#parallelization)
+		- [Removing Lightest Points (RLP)](#removing-lightest-points-rlp)
+		- [Parallelization of RLP](#parallelization-of-rlp)
+		- [Conclusion](#conclusion)
+	- [Dynamic Programming](#dynamic-programming)
+		- [Default Version](#default-version-)
+		- [Parallelized Version](#parallelized-version-)
+		- [Further Parallelization](#further-parallelization-)
+		- [Sequential Memory Optimized Version](#sequential-memory-optimized-version-)
+		- [Parallel Memory Optimized Version](#parallel-memory-optimized-version-)
+		- [Conclusion](#conclusion)
+- [Conclusion and Future Work](#conclusion-and-future-work)
+- [List of References](#list-of-references)
+
+
+<br/>
 
 <a name="section_build"></a>
 # Build and Tests #
